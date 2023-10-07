@@ -138,7 +138,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
  * @brief This function locates the first occurrence of the
  * null-terminated string s2 in the string s1,
  * where not more than len characters are searched.
- * Characters that appear after a ‘\0’ character are not searched.
+ * Characters that appear after a '\0' character are not searched.
  * @param s1 original string
  * @param s2 substring to find
  * @param n number of the first characters inside `s1` to check
