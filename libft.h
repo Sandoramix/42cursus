@@ -230,6 +230,15 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
 /* other */
+/**
+ * @brief Allocates (with malloc(3)) and returns a string
+ * representing the integer received as an argument.
+ * Negative numbers must be handled.
+ *
+ * @param n the integer to convert.
+ * @return The string representing the integer.
+ * NULL if the allocation fails.
+ */
 char	*ft_itoa(int n);
 
 //-------------------------------------------------------------
