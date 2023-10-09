@@ -12,9 +12,10 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# include <unistd.h>
 # include <stddef.h>
 # include <stdlib.h>
-
+# include <stdio.h>
 //! LIBC FUNCTIONS
 /* malloc */
 
@@ -225,11 +226,18 @@ char	**ft_split(char const *s, char c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_putchar_fd(char c, int fd);
+/**
+ * @brief Outputs the string ’s’ to the given file
+ * descriptor.
+ * @param s The string to output.
+ * @param fd The file descriptor on which to write.
+ */
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
 /* other */
+
 /**
  * @brief Allocates (with malloc(3)) and returns a string
  * representing the integer received as an argument.
