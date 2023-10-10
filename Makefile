@@ -1,6 +1,7 @@
 NAME = libft.a
+HNAME = libft.h
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+#CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
 RANLIB = ranlib $(NAME)
@@ -13,12 +14,12 @@ OBJ_BONUS = ${SRC_BONUS:.c=.o}
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJ) $(HNAME)
 	@$(COMPILE) $(SRC)
 	@$(ARCHIVE) $(OBJ)
 	@$(RANLIB)
 
-bonus:
+bonus: $(OBJ_BONUS) $(HNAME)
 	@$(COMPILE) $(SRC_BONUS)
 	@$(ARCHIVE) $(OBJ_BONUS)
 	@$(RANLIB)
@@ -27,15 +28,9 @@ bonus:
 RM = rm -f
 clean:
 	@$(RM) $(OBJ)
-fclean:
+fclean: clean
 	@$(RM) $(NAME)
-cls: fclean clean
-
 
 re: fclean all
 
-so:
-	$(CC) -fPIC -c $(SRC)
-	$(CC) -shared -Wl,-soname,libft.so -o libft.so *.o
-
-.PHONY: all clean fclean aclean re
+.PHONY: all clean fclean re
