@@ -22,6 +22,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (s_len < end)
 		end = s_len;
 	res = ft_calloc((end - start) + 1, sizeof(char *));
-	ft_memcpy(res, &s[start],end - start);
+	if (!res)
+		return (NULL);
+	ft_memcpy(res, &s[start], end - start);
 	return (res);
 }
