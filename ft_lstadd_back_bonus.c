@@ -9,8 +9,6 @@
 /*   Updated: 2023/10/10 17:51:28 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 #include "libft.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)

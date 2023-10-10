@@ -9,8 +9,6 @@
 /*   Updated: 2023/10/10 17:51:28 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 #include "libft.h"
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
