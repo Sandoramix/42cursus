@@ -216,6 +216,18 @@ int		ft_atoi(const char *nptr);
 //-------------------------------------------------------------
 //! EXTRA/CUSTOM FUNCTIONS
 
+/**
+ * @brief Allocates and returns a substring
+ * from the string 's'.
+ * The substring begins at index 'start' and is of
+ * maximum size 'len'.
+ *
+ * @param s The string from which to create the substring.
+ * @param start The start index of the substring in the string 's'.
+ * @param len The maximum length of the substring.
+ * @return The substring.
+ * NULL if the allocation fails.
+ */
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
