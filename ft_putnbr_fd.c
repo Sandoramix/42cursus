@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: odudniak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/07 17:40:46 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/07 17:40:46 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/10 17:51:25 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/10 17:51:28 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "libft.h"
 #include <unistd.h>

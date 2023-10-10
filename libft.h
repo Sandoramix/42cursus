@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/07 17:45:35 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/07 17:45:35 by odudniak         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -17,7 +6,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 //! LIBC FUNCTIONS
-/* malloc */
 
 /**
  * @brief This function allocates memory for an array of `nmemb` elements
@@ -212,13 +200,11 @@ void	*ft_memchr(const void *s, int c, size_t n);
  */
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
-/* other */
 int		ft_atoi(const char *nptr);
 
 //-------------------------------------------------------------
 //! EXTRA/CUSTOM FUNCTIONS
 
-/* string utils */
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
@@ -236,7 +222,6 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
-/* other */
 
 /**
  * @brief Allocates (with malloc(3)) and returns a string
@@ -252,7 +237,6 @@ char	*ft_itoa(int n);
 //-------------------------------------------------------------
 //! BONUS
 
-/* lists */
 typedef struct s_list
 {
 	void			*content;
