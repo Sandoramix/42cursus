@@ -13,11 +13,12 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	int	i;
+	char	*s_p;
+	int		i;
 
 	i = -1;
-	while (s[++i])
-		if (s[i] == c)
-			return (&s[i]);
+	while (s_p[++i])
+		if (s_p[i] == c)
+			return (&s_p[i]);
 	return (NULL);
 }
