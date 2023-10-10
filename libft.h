@@ -142,7 +142,9 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
  * @param s1 original string
  * @param s2 substring to find
  * @param n number of the first characters inside `s1` to check
- * @return
+ * @return If `s2` is an empty string, `s1` is returned; if `s2` occurs nowhere
+ * in big, NULL is returned; otherwise a pointer to the first character of
+ * the first occurrence of `s2` is returned.
  */
 char	*ft_strnstr(const char *s1, const char *s2, size_t n);
 
