@@ -20,7 +20,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t sz)
 		ft_memcpy(dst, src, src_len + 1);
 	else if (sz != 0)
 	{
-		ft_memcpy(dst, src, zs -1);
+		ft_memcpy(dst, src, sz -1);
 		dst[sz - 1] = '\0';
 	}
 	return (src_len);
