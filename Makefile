@@ -1,6 +1,6 @@
 NAME = libft.a
 HNAME = libft.h
-CC = gcc
+CC = cc
 #CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
