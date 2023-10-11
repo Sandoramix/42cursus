@@ -17,12 +17,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	end;
 
 	start = 0;
-	printf("end = %d", 1);
-	end = ft_strlen(s1);
+	end = ft_strlen(s1) - 1;
 	while (ft_strchr(set, s1[start]))
 		start++;
 	while (end > start && ft_strrchr(set, s1[end]))
 		end--;
-	return (ft_substr(s1, start, end - start));
-
+	return (ft_substr(s1, start, end - start + 1));
 }
