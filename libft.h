@@ -24,7 +24,7 @@
  * The memory is set to `zero`.
  * @param nmemb number of elements to create
  * @param size size of each element
- * @return pointer to the created array
+ * @return pointer to the created array. NULL if the allocation failed
  */
 void	*ft_calloc(size_t nmemb, size_t size);
 
