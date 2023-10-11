@@ -231,6 +231,15 @@ int		ft_atoi(const char *nptr);
  * NULL if the allocation fails.
  */
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+/**
+ * @brief Allocates (with malloc(3)) and returns a new
+ * string, which is the result of the concatenation
+ * of ’s1’ and ’s2’.
+ * @param s1 The prefix string.
+ * @param s2 The suffix string.
+ * @return The new string.
+ * NULL if the allocation fails.
+ */
 char	*ft_strjoin(char const *s1, char const *s2);
 /**
  * @brief Allocates and returns a copy of
@@ -243,6 +252,17 @@ char	*ft_strjoin(char const *s1, char const *s2);
  */
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
+/**
+ * @brief Applies the function ’f’ to each character of the
+ * string ’s’, and passing its index as first argument
+ * to create a new string resulting
+ * from successive applications of ’f’.
+ *
+ * @param s The string on which to iterate.
+ * @param f The function to apply to each character.
+ * @return The string created from the successive applications of ’f’.
+ * Returns NULL if the allocation fails.
+ */
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_putchar_fd(char c, int fd);

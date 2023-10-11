@@ -47,7 +47,7 @@ ft_putchar_fd|✅
 ft_putstr_fd|✅
 ft_putendl_fd|✅
 ft_putnbr_fd|✅
-ft_itoa|
+ft_itoa|✅
 
 ## Part 3: Bonus
 
