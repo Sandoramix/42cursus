@@ -20,6 +20,8 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 
 	s1_p = (char *)s1;
 	s2_len = ft_strlen(s2);
+	if (n == 0)
+		return (NULL);
 	if (s2_len == 0)
 		return (&s1_p[0]);
 	i = 0;

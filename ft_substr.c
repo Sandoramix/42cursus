@@ -15,15 +15,18 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*res;
 	int		s_len;
-	int		end;
 
 	s_len = ft_strlen(s);
-	end = start + len;
-	if (s_len < end)
-		end = s_len;
-	res = ft_calloc((end - start) + 1, sizeof(char *));
+	if (len > s_len)
+		len = s_len;
+	if (start > s_len)
+	{
+		len = 0;
+		start = s_len;
+	}
+	res = ft_calloc(len + 1, sizeof(char *));
 	if (!res)
 		return (NULL);
-	ft_memcpy(res, &s[start], end - start);
+	ft_memcpy(res, &s[start], len);
 	return (res);
 }

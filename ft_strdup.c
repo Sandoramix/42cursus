@@ -19,7 +19,6 @@ char	*ft_strdup(const char *s)
 
 	s_len = ft_strlen(s);
 	res = calloc(s_len + 1, sizeof(char));
-	ft_memcpy(res, s, s_len);
-	res[s_len] = 0;
+	ft_strlcpy(res, s, s_len + 1);
 	return (res);
 }
