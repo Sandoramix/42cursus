@@ -37,7 +37,7 @@ char	*ft_itoa(int n)
 
 	nl = n;
 	size = ft_get_n_size(nl);
-	res = malloc(sizeof(char *) * (size + 1));
+	res = calloc((size + 1), sizeof(char));
 	res[size] = '\0';
 	if (nl < 0)
 	{
@@ -46,8 +46,7 @@ char	*ft_itoa(int n)
 	}
 	while (nl != 0)
 	{
-		res[size - 1] = (nl % 10) + '0';
-		size--;
+		res[--size] = (nl % 10) + '0';
 		nl /= 10;
 	}
 	return (res);
