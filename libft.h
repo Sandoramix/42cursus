@@ -28,6 +28,7 @@
  */
 void	*ft_calloc(size_t nmemb, size_t size);
 
+char	*ft_strdup(const char *s);
 //! Char utils
 
 /**

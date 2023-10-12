@@ -23,7 +23,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	i = -1;
 	while (++i < n)
 		((unsigned char *)dest)[i] = res[i];
-
 	free(res);
 	return (dest);
 }

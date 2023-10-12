@@ -16,8 +16,11 @@ char	*ft_strchr(const char *s, int c)
 	char	*s_p;
 	int		i;
 
-	i = -1;
+
 	s_p = (char *) s;
+	if (c == 0)
+		return (&s_p[ft_strlen(s)]);
+	i = -1;
 	while (s_p[++i])
 		if (s_p[i] == c)
 			return (&s_p[i]);
