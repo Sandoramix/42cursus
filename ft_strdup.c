@@ -1,0 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: odudniak <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/12 14:23:32 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/12 14:23:34 by odudniak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strdup(const char *s)
+{
+	char	*res;
+	size_t	s_len;
+
+	s_len = ft_strlen(s);
+	res = calloc(s_len + 1, sizeof(char));
+	ft_memcpy(res, s, s_len);
+	res[s_len] = 0;
+	return (res);
+}
