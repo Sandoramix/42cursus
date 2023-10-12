@@ -12,19 +12,19 @@
 #include "libft.h"
 #include <stdio.h>
 
-static size_t	ft_get_n_size(int n)
+static int	ft_get_n_size(int n)
 {
-	size_t	size;
+	int	size;
 
+	size = 0;
 	if (n == 0)
 		return (1);
-	size = 0;
 	if (n < 0)
 		size++;
 	while (n != 0)
 	{
-		n = n / 10;
 		size++;
+		n /= 10;
 	}
 	return (size);
 }
@@ -32,21 +32,23 @@ static size_t	ft_get_n_size(int n)
 char	*ft_itoa(int n)
 {
 	long	nl;
-	size_t	size;
+	int		size;
 	char	*res;
 
 	nl = n;
 	size = ft_get_n_size(nl);
-	res = calloc((size + 1), sizeof(char));
-	res[size] = '\0';
+	res = ft_calloc((size + 1), sizeof(char));
+	size--;
+	if (!res)
+		return (NULL);
 	if (nl < 0)
 	{
 		res[0] = '-';
 		nl = -nl;
 	}
-	while (nl != 0)
+	while (size >= 0 + (n < 0))
 	{
-		res[--size] = (nl % 10) + '0';
+		res[size--] = (nl % 10) + '0';
 		nl /= 10;
 	}
 	return (res);
