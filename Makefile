@@ -24,7 +24,6 @@ bonus: $(OBJ_BONUS) $(HNAME)
 	@$(ARCHIVE) $(OBJ_BONUS)
 	@$(RANLIB)
 
-
 RM = rm -f
 clean:
 	@$(RM) $(OBJ)
