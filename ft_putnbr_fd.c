@@ -23,6 +23,6 @@ void	ft_putnbr_fd(int n, int fd)
 		nl = -nl;
 	}
 	if (nl >= 10)
-		ft_putnbr_fd(n / 10, fd);
-	ft_putchar_fd((n % 10) + '0', fd);
+		ft_putnbr_fd(nl / 10, fd);
+	ft_putchar_fd((nl % 10) + '0', fd);
 }
