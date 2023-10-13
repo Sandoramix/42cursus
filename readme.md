@@ -19,8 +19,8 @@ ft_memset|✅
 ft_bzero|✅
 ft_memcpy|✅
 ft_memmove|✅
-ft_strlcpy|
-ft_strlcat|
+ft_strlcpy|✅
+ft_strlcat|✅
 ft_toupper|✅
 ft_tolower|✅
 ft_strchr|✅
@@ -38,9 +38,9 @@ ft_atoi|✅
 Function | Status
 :------------ | :-------------|
 ft_substr|✅
-ft_strjoin|
+ft_strjoin|✅
 ft_strtrim|✅
-ft_split|
+ft_split|✅
 ft_strmapi|
 ft_striteri|
 ft_putchar_fd|✅
@@ -53,4 +53,12 @@ ft_itoa|✅
 
 Function | Status
 :------------ | :-------------|
-to add...
+ft_lstnew|
+ft_lstadd_front|
+ft_lstsize|
+ft_lstlast|
+ft_lstadd_back|
+ft_lstdelone|
+ft_lstclear|
+ft_lstiter|
+ft_lstmap|
