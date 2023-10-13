@@ -20,7 +20,10 @@ char	*ft_strdup(const char *s)
 	s_len = ft_strlen(s);
 	res = ft_calloc(s_len + 1, sizeof(char));
 	if (!res)
+	{
+		errno = ENOMEM;
 		return (NULL);
+	}
 	ft_strlcpy(res, s, s_len + 1);
 	return (res);
 }
