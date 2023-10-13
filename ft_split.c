@@ -52,7 +52,7 @@ char	**ft_split(char const *s, char c)
 		if (is_delim(s[i], c) && !is_delim(s[i + 1], c))
 			start = i + 1;
 		if (!is_delim(s[i], c) && is_delim(s[i + 1], c))
-			res[idx++] = ft_substr(s, start, i - start + 1);
+			res[idx++] = ft_substr(s, start, i + 1 - start);
 		i++;
 	}
 	return (res);
