@@ -20,17 +20,18 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 
 	s1_p = (char *)s1;
 	s2_len = ft_strlen(s2);
-	if (n == 0)
-		return (NULL);
 	if (s2_len == 0)
 		return (&s1_p[0]);
+	if (n == 0)
+		return (NULL);
 	i = 0;
-	while (s1[i] && i < n)
+	j = 0;
+	while (s1[i])
 	{
 		j = 0;
-		while (s2[j] == s1[i + j])
+		while (s2[j] && s2[j] == s1[i + j])
 			j++;
-		if (j == s2_len)
+		if (j == s2_len && i + j <= n)
 			return (&s1_p[i]);
 		i++;
 	}
