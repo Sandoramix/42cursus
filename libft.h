@@ -16,6 +16,8 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <errno.h>
+
 //! LIBC FUNCTIONS
 
 /**
@@ -27,7 +29,13 @@
  * @return pointer to the created array. NULL if the allocation failed
  */
 void	*ft_calloc(size_t nmemb, size_t size);
-
+/**
+ * @brief Returns a pointer to a new string
+ * which is a duplicate of the string s.
+ * @param s char*
+ * @return a pointer to the duplicated string.
+ * It returns NULL if insufficient memory was available.
+ */
 char	*ft_strdup(const char *s);
 //! Char utils
 
@@ -235,7 +243,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 /**
  * @brief Allocates (with malloc(3)) and returns a new
  * string, which is the result of the concatenation
- * of ’s1’ and ’s2’.
+ * of 's1' and 's2'.
  * @param s1 The prefix string.
  * @param s2 The suffix string.
  * @return The new string.
@@ -254,18 +262,31 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 /**
- * @brief Applies the function ’f’ to each character of the
- * string ’s’, and passing its index as first argument
+ * @brief Applies the function 'f' to each character of the
+ * string 's', and passing its index as first argument
  * to create a new string resulting
- * from successive applications of ’f’.
+ * from successive applications of 'f'.
  *
  * @param s The string on which to iterate.
  * @param f The function to apply to each character.
- * @return The string created from the successive applications of ’f’.
+ * @return The string created from the successive applications of 'f'.
  * Returns NULL if the allocation fails.
  */
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+/**
+ * @brief Applies the function 'f' on each character of the string
+ * passed as argument, passing its index as first argument.
+ * Each character is passed by address to 'f' to be modified if necessary
+ * @param s The string on which to iterate.
+ * @param f The function to apply to each character.
+ */
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+/**
+ * @brief Outputs the character 'c' to the given file descriptor.
+ *
+ * @param c The character to output.
+ * @param fd The file descriptor on which to write.
+ */
 void	ft_putchar_fd(char c, int fd);
 /**
  * @brief Outputs the string 's' to the given file
@@ -274,7 +295,19 @@ void	ft_putchar_fd(char c, int fd);
  * @param fd The file descriptor on which to write.
  */
 void	ft_putstr_fd(char *s, int fd);
+/**
+ * @brief Outputs the string 's' to the given file descriptor
+ * followed by a newline.
+ * @param s The string to output.
+ * @param fd The file descriptor on which to write.
+ */
 void	ft_putendl_fd(char *s, int fd);
+/**
+ * @brief Outputs the integer 'n' to the given file descriptor.
+ *
+ * @param n The integer to output.
+ * @param fd The file descriptor on which to write.
+ */
 void	ft_putnbr_fd(int n, int fd);
 
 /**
@@ -297,11 +330,48 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+/**
+ * @brief Allocates (with malloc(3)) and returns a new node.
+ * The member variable 'content' is initialized with
+ * the value of the parameter 'content'. The variable
+ * 'next' is initialized to NULL.
+ * @param content The content to create the node with.
+ * @return The new node
+ */
 t_list	*ft_lstnew(void *content);
+/**
+ * @brief Adds the node 'new' at the beginning of the list.
+ *
+ * @param lst The address of a pointer to the first link of a list.
+ * @param new The address of a pointer to the node to be added to the list.
+ */
 void	ft_lstadd_front(t_list **lst, t_list *new);
+/**
+ * @brief Counts the number of nodes in a list.
+ * @param lst The beginning of the list.
+ * @return The length of the list
+ */
 int		ft_lstsize(t_list *lst);
+/**
+ * @brief Returns the last node of the list.
+ * @param lst The beginning of the list.
+ * @return Last node of the list
+ */
 t_list	*ft_lstlast(t_list *lst);
+/**
+ * @brief Adds the node 'new' at the end of the list.
+ * @param lst The address of a pointer to the first link of a list.
+ * @param The address of a pointer to the node to be added to the list.
+ */
 void	ft_lstadd_back(t_list **lst, t_list *new);
+/**
+ * @brief Takes as a parameter a node and frees the memory of
+ * the node's content using the function 'del' given
+ * as a parameter and free the node. The memory of
+ * 'next' must not be freed.
+ * @param lst The node to free.
+ * @param del The address of the function used to delete the content.
+ */
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
