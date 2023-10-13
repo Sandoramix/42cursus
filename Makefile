@@ -1,7 +1,7 @@
 NAME = libft.a
 HNAME = libft.h
 CC = cc
-#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
 RANLIB = ranlib $(NAME)
