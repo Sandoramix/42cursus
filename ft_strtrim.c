@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 17:51:25 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/10 17:51:28 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/14 00:16:48 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/14 00:16:57 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strtrim(char const *s1, char const *set)
