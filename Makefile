@@ -6,7 +6,7 @@ COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
 RANLIB = ranlib $(NAME)
 
-SRC = $(shell find . -name "*.c" ! -name "*_bonus.c")
+SRC = $(shell find . -name "ft_*.c" ! -name "ft_*_bonus.c")
 SRC_BONUS = $(shell find . -name "*_bonus.c")
 
 OBJ = ${SRC:.c=.o}
