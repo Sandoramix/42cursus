@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 17:59:04 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/10 17:59:06 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/14 00:16:49 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/14 00:16:57 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,17 @@ char	*ft_strjoin(char const *s1, char const *s2);
  * NULL if the allocation fails.
  */
 char	*ft_strtrim(char const *s1, char const *set);
+/**
+ * @brief Allocates (with malloc(3)) and returns an array
+ * of strings obtained by splitting 's' using the
+ * character 'c' as a delimiter. The array must end
+ * with a NULL pointer.
+ *
+ * @param s The string to be split.
+ * @param c The delimiter character.
+ * @return The array of new strings resulting from the split.
+ * NULL if the allocation fails.
+ */
 char	**ft_split(char const *s, char c);
 /**
  * @brief Applies the function 'f' to each character of the
@@ -324,6 +335,11 @@ char	*ft_itoa(int n);
 //-------------------------------------------------------------
 //! BONUS
 
+/**
+ * @brief `List` data structure
+ * @param content `void *`
+ * @param next `s_list *`
+ */
 typedef struct s_list
 {
 	void			*content;
@@ -367,14 +383,39 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 /**
  * @brief Takes as a parameter a node and frees the memory of
  * the node's content using the function 'del' given
- * as a parameter and free the node. The memory of
- * 'next' must not be freed.
+ * as a parameter and free the node. The memory of 'next' must not be freed.
  * @param lst The node to free.
  * @param del The address of the function used to delete the content.
  */
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
+/**
+ * @brief Deletes and frees the given node and every successor of that node,
+ * using the function ’del’ and free(3).
+ * Finally, the pointer to the list must be set to NULL.
+ * @param lst The address of a pointer to a node.
+ * @param del The address of the function used to delete
+ * the content of the node.
+ */
 void	ft_lstclear(t_list **lst, void (*del)(void *));
+/**
+ * @brief Iterates the list ’lst’ and applies the function
+ * ’f’ on the content of each node.
+ * @param lst The address of a pointer to a node.
+ * @param f  The address of the function used to iterate on the list.
+ */
 void	ft_lstiter(t_list *lst, void (*f)(void *));
+/**
+ * @brief Iterates the list ’lst’ and applies the function
+ * ’f’ on the content of each node. Creates a new
+ * list resulting of the successive applications of
+ * the function ’f’. The ’del’ function is used to
+ * delete the content of a node if needed.
+ * @param lst The address of a pointer to a node.
+ * @param f The address of the function used to iterate on the list.
+ * @param del The address of the function used to delete
+ * the content of a node if needed.
+ * @return The new list. NULL if the allocation fails.
+ */
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 #endif
