@@ -3,8 +3,7 @@ HNAME = libft.h
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS) -c
-ARCHIVE = ar rc $(NAME)
-RANLIB = ranlib $(NAME)
+ARCHIVE = ar rcs $(NAME)
 
 SRC = ./ft_toupper.c \
 	./ft_tolower.c \
@@ -57,21 +56,21 @@ OBJ_BONUS = ${SRC_BONUS:.c=.o}
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(HNAME)
-	@$(COMPILE) $(SRC)
-	@$(ARCHIVE) $(OBJ)
-	@$(RANLIB)
+%.o: %.c
+	$(COMPILE) $< -o $@
 
-bonus: $(OBJ_BONUS) $(HNAME)
-	@$(COMPILE) $(SRC_BONUS)
-	@$(ARCHIVE) $(OBJ_BONUS)
-	@$(RANLIB)
+$(NAME): $(OBJ)
+	$(ARCHIVE) $(OBJ)
+
+bonus: $(NAME) $(OBJ_BONUS)
+	$(ARCHIVE) $(OBJ_BONUS)
 
 RM = rm -f
 clean:
-	@$(RM) $(OBJ)
+	$(RM) $(OBJ) $(OBJ_BONUS)
+
 fclean: clean
-	@$(RM) $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 
