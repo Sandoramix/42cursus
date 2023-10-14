@@ -62,7 +62,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(ARCHIVE) $(OBJ)
 
-bonus: $(NAME) $(OBJ_BONUS)
+bonus: $(OBJ_BONUS)
 	$(ARCHIVE) $(OBJ_BONUS)
 
 RM = rm -f
@@ -74,4 +74,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re
