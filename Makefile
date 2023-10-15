@@ -1,9 +1,9 @@
 NAME = libft.a
-HNAME = libft.h
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS) -c
-ARCHIVE = ar rcs $(NAME)
+ARCHIVE = ar rc $(NAME)
+RANLIB = ranlib $(NAME)
 
 SRC = ./ft_toupper.c \
 	./ft_tolower.c \
@@ -57,21 +57,24 @@ OBJ_BONUS = ${SRC_BONUS:.c=.o}
 all: $(NAME)
 
 %.o: %.c
-	$(COMPILE) $< -o $@
+	@$(COMPILE) $< -o $@
 
 $(NAME): $(OBJ)
-	$(ARCHIVE) $(OBJ)
+	@$(ARCHIVE) $(OBJ)
+	@echo "Compiled mandatory sources!"
 
-bonus: $(OBJ_BONUS)
-	$(ARCHIVE) $(OBJ_BONUS)
+bonus: $(OBJ_BONUS) $(NAME)
+	@$(ARCHIVE) $(OBJ_BONUS)
+	@echo "Compiled bonus sources!"
 
 RM = rm -f
 clean:
-	$(RM) $(OBJ) $(OBJ_BONUS)
+	@$(RM) $(OBJ) $(OBJ_BONUS)
+	@echo "Cleaned!"
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re
