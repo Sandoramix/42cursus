@@ -6,20 +6,25 @@ CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
 
+SRC = ft_printf.c
+
+OBJ = $(SRC:.c=.o)
+
 all: $(NAME)
 
 %.o: %.c
-	@$(COMPILE) $< -o $@
+	@$(COMPILE) $< -o $@ -Ilibft
 
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C libft
+	@$(CC) $(CFLAGS) $(SRC) -Llibft -Ilibft -L. -lft
 	@$(ARCHIVE) $(OBJ)
 
 clean:
 	@$(MAKE) -C libft fclean
 	@$(RM) *.o
-	@echo "Removed printf objects!"
+	@echo "Removed Printf objects!"
 
 fclean: clean
 	@$(RM) $(NAME)

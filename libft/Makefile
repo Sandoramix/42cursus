@@ -64,7 +64,7 @@ $(NAME): $(OBJ)
 
 bonus: $(OBJ_BONUS) $(NAME)
 	@$(ARCHIVE) $(OBJ_BONUS)
-	@echo "Compiled libft!"
+	@echo "Compiled Libft!"
 
 RM = rm -f
 clean:
