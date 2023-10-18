@@ -110,11 +110,9 @@ char	*ft_itoa_base(int n, const char *base)
 void	ft_printaddr(void *p)
 {
 	const uintptr_t	p_addr = (uintptr_t) p;
-
 	ft_putstr_fd("0x", 1);
 	ft_putstr_fd(ft_itoa_base(p_addr, BASE16), 1);
 }
-
 
 int	main(int ac, char **av)
 {
