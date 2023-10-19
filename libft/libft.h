@@ -510,5 +510,11 @@ char	*ft_strpad(char *s, char c, size_t n);
  * @return the converted string.
  */
 char	*ft_strtoupper(char *s);
+/**
+ * @brief Convert an `unsigned int` into a string
+ * @param n unsigned int
+ * @return The number as a string
+ */
+char	*ft_uitoa(unsigned int n);
 
 #endif
