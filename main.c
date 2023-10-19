@@ -18,19 +18,21 @@ int main(int ac, char **av)
 	int		val;
 	char	*test;
 
-
 	test = "abcsd";
 	if (ac < 2)
 		return (1);
 	val = ft_atoi(av[1]);
-	printf("base10:\t\toriginal\t=\t%d\tmine = %s\n", val,
+	printf("%%d:\n\toriginal = %d\n\tmine = %s\n", val,
 		ft_itoa_base(val, BASE10));
-	printf("neg base16:\toriginal\t=\t%x\tmine = %s\n", -val,
+	printf("neg %%x:\n\toriginal = %x\n\tmine = %s\n", -val,
 		ft_itohex(-val));
-	printf("base16:\t\toriginal\t=\t%x\tmine = %s\n", val,
+	printf("%%x:\n\toriginal = %x\n\tmine = %s\n", val,
 		ft_itohex(val));
-	printf("p_addr:\t\toriginal\t=\t%p\tmine = %s\n", test,
+	printf("%%p:\n\toriginal = %p\n\tmine = %s\n", test,
 		ft_getaddr(test));
+	// TODO WATCHOUT FOR ATOL
+	printf("%%u:\n\toriginal = %u\n\tmine = %s\n", (unsigned int)atol(av[1]),
+		ft_uitoa((unsigned int)atol(av[1])));
 	return (0);
 
 }
