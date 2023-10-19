@@ -11,13 +11,6 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-/**
- * @brief Get the total count of the number in specific base.
- * The minus (`-`) is included
- * @param n number to check
- * @param base_len len of the base (10, 16, etc.)
- * @return count of the final digits
- */
 int	ft_nbr_len(long long int n, int base_len)
 {
 	int	res;

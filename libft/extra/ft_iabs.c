@@ -11,12 +11,6 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-/**
- * @brief Get the absolute value of a `int` number
- *
- * @param n integer to convert
- * @return positive number
- */
 unsigned int	ft_iabs(int n)
 {
 	if (n < 0)

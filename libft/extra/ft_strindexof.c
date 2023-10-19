@@ -11,13 +11,6 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-/**
- * @brief Find the index of first char `c` inside the string `s`
- *
- * @param s string
- * @param c char to find
- * @return Index of the first occurence of `c`, or `-1` if it's not present
- */
 int	ft_strindexof(const char *s, char c)
 {
 	int	i;

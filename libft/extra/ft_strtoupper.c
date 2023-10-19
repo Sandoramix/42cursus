@@ -11,14 +11,6 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-/**
- * @brief Get the string but in uppercase
- * It uses malloc.
- * The original string wont be modified
- *
- * @param s string to return
- * @return the converted string.
- */
 char	*ft_strtoupper(char *s)
 {
 	char	*res;

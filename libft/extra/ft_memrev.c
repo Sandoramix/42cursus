@@ -11,13 +11,6 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-/**
- * @brief Reverse the memory area of n elements.
- * `mem` is mutated.
- * @param mem memory area
- * @param len length of the area
- * @return pointer to `mem`
- */
 void	*ft_memrev(void *mem, size_t len)
 {
 	size_t			i;

@@ -11,13 +11,6 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-/**
- * @brief print the number in given base
- *
- * @param n number to print
- * @param base the base in which to convert the number.
- * @return The converted number in specified base
- */
 char	*ft_itoa_base(int n, const char *base)
 {
 	size_t	is_negative;

@@ -11,12 +11,6 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-/**
- * @brief Get the length of the string
- *
- * @param s string
- * @return Length of the string as integer
- */
 int	ft_istrlen(const char *s)
 {
 	int	i;

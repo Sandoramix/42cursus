@@ -11,14 +11,6 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-/**
- * @brief power of the `int` number
- *
- * @param nb `int` number
- * @param power Power.
- * @return Returns the final value.
- * Returns `0` if `power` is negative
- */
 int	ft_ipow(int nb, int power)
 {
 	if (power < 0)
