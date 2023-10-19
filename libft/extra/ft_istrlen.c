@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_istrlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/17 17:04:20 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/19 14:52:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <unistd.h>
-# include <stdlib.h>
-# include "libft.h"
+#include "libft.h"
 
 /**
- * @brief Like the original one
+ * @brief Get the length of the string
  *
- * @param str
- * @param ...
- * @return int
+ * @param s string
+ * @return Length of the string as integer
  */
-int	ft_printf(const char *str, ...);
+int	ft_istrlen(const char *s)
+{
+	int	i;
 
-#endif
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}

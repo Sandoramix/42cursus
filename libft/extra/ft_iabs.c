@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_iabs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/17 17:04:20 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/19 14:52:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <unistd.h>
-# include <stdlib.h>
-# include "libft.h"
+#include "libft.h"
 
 /**
- * @brief Like the original one
+ * @brief Get the absolute value of a `int` number
  *
- * @param str
- * @param ...
- * @return int
+ * @param n integer to convert
+ * @return positive number
  */
-int	ft_printf(const char *str, ...);
-
-#endif
+unsigned int	ft_iabs(int n)
+{
+	if (n < 0)
+		return (-n);
+	return (n);
+}

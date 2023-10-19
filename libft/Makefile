@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
-RANLIB = ranlib $(NAME)
+RM = rm -f
 
 SRC = ./ft_toupper.c \
 	./ft_tolower.c \
@@ -38,9 +38,8 @@ SRC = ./ft_toupper.c \
 	./ft_putnbr_fd.c \
 	./ft_strtrim.c \
 	./ft_memcmp.c \
-	./ft_calloc.c
-
-SRC_BONUS = ./ft_lstnew_bonus.c \
+	./ft_calloc.c \
+	./ft_lstnew_bonus.c \
 	./ft_lstadd_front_bonus.c \
 	./ft_lstadd_back_bonus.c \
 	./ft_lstclear_bonus.c \
@@ -48,27 +47,31 @@ SRC_BONUS = ./ft_lstnew_bonus.c \
 	./ft_lstlast_bonus.c \
 	./ft_lstmap_bonus.c \
 	./ft_lstsize_bonus.c \
-	./ft_lstiter_bonus.c
-
+	./ft_lstiter_bonus.c \
+	./extra/ft_strpad.c \
+	./extra/ft_itohex.c \
+	./extra/ft_istrlen.c \
+	./extra/ft_nbr_len.c \
+	./extra/ft_memrev.c \
+	./extra/ft_strtoupper.c \
+	./extra/ft_getaddr.c \
+	./extra/ft_itoa_base.c \
+	./extra/ft_ipow.c \
+	./extra/ft_strindexof.c \
+	./extra/ft_iabs.c
 
 OBJ = ${SRC:.c=.o}
-OBJ_BONUS = ${SRC_BONUS:.c=.o}
 
 all: $(NAME)
 
 %.o: %.c
-	@$(COMPILE) $< -o $@
+	@$(COMPILE) $< -o $@ -I.
 
 $(NAME): $(OBJ)
 	@$(ARCHIVE) $(OBJ)
 
-bonus: $(OBJ_BONUS) $(NAME)
-	@$(ARCHIVE) $(OBJ_BONUS)
-	@echo "Compiled Libft!"
-
-RM = rm -f
 clean:
-	@$(RM) $(OBJ) $(OBJ_BONUS)
+	@$(RM) $(OBJ)
 	@echo Removed Libft objects!
 
 fclean: clean

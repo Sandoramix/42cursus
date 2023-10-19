@@ -15,6 +15,12 @@
 # include <unistd.h>
 # include <stddef.h>
 # include <stdlib.h>
+# include <stdint.h>
+
+# define BASE10 "0123456789"
+# define BASE16 "0123456789abcdef"
+
+typedef unsigned int	t_uint;
 
 //! LIBC FUNCTIONS
 
@@ -415,5 +421,94 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
  * @return The new list. NULL if the allocation fails.
  */
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+//-------------------------------------------------------------
+//! MY FUNCTIONS
+/**
+ * @brief Get the address of given pointer in hexadecimal letters
+ * @param p memory area
+ * @return The pointer's address in hexadecimal characters
+ */
+char	*ft_getaddr(void *p);
+/**
+ * @brief Get the absolute value of a `int` number
+ *
+ * @param n integer to convert
+ * @return positive number
+ */
+t_uint	ft_iabs(int n);
+/**
+ * @brief power of the `int` number
+ *
+ * @param nb `int` number
+ * @param power Power.
+ * @return Returns the final value.
+ * Returns `0` if `power` is negative
+ */
+int		ft_ipow(int nb, int power);
+/**
+ * @brief Get the length of the string
+ *
+ * @param s string
+ * @return Length of the string as integer
+ */
+int		ft_istrlen(const char *s);
+/**
+ * @brief print the number in given base
+ *
+ * @param n number to print
+ * @param base the base in which to convert the number.
+ * @return The converted number in specified base
+ */
+char	*ft_itoa_base(int n, const char *base);
+/**
+ * @brief Convert a number to hex
+ * @param n number `int`
+ * @return String of the hex number. (`0x`) excluded
+ */
+char	*ft_itohex(int n);
+/**
+ * @brief Reverse the memory area of n elements.
+ * `mem` is mutated.
+ * @param mem memory area
+ * @param len length of the area
+ * @return pointer to `mem`
+ */
+void	*ft_memrev(void *mem, size_t len);
+/**
+ * @brief Get the total count of the number in specific base.
+ * The minus (`-`) is included
+ * @param n number to check
+ * @param base_len len of the base (10, 16, etc.)
+ * @return count of the final digits
+ */
+int		ft_nbr_len(long long int n, int base_len);
+/**
+ * @brief Find the index of first char `c` inside the string `s`
+ *
+ * @param s string
+ * @param c char to find
+ * @return Index of the first occurence of `c`, or `-1` if it's not present
+ */
+int		ft_strindexof(const char *s, char c);
+/**
+ * @brief Add padding to the string with specified char if necessary.
+ * Original string is not altered.
+ * @param s string to modify
+ * @param c pad character
+ * @param n total len with the string should have.
+ * E.g. if `n` is 2, `c` is '0' and the s is `"4"` the result will be `"04"`
+ * @return Copy of the string plus the added padding if necessary.
+ */
+char	*ft_strpad(char *s, char c, size_t n);
+/**
+ * @brief Get the string but in uppercase
+ * It uses malloc.
+ * The original string wont be modified
+ *
+ * @param s string to return
+ * @return the converted string.
+ */
+char	*ft_strtoupper(char *s);
 
 #endif

@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_ipow.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/17 17:04:20 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/19 14:52:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <unistd.h>
-# include <stdlib.h>
-# include "libft.h"
+#include "libft.h"
 
 /**
- * @brief Like the original one
+ * @brief power of the `int` number
  *
- * @param str
- * @param ...
- * @return int
+ * @param nb `int` number
+ * @param power Power.
+ * @return Returns the final value.
+ * Returns `0` if `power` is negative
  */
-int	ft_printf(const char *str, ...);
-
-#endif
+int	ft_ipow(int nb, int power)
+{
+	if (power < 0)
+		return (0);
+	if (power == 0)
+		return (1);
+	return (nb * ft_ipow(nb, power - 1));
+}

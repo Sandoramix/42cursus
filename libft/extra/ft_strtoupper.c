@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/17 17:04:20 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/19 14:52:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <unistd.h>
-# include <stdlib.h>
-# include "libft.h"
+#include "libft.h"
 
 /**
- * @brief Like the original one
+ * @brief Get the string but in uppercase
+ * It uses malloc.
+ * The original string wont be modified
  *
- * @param str
- * @param ...
- * @return int
+ * @param s string to return
+ * @return the converted string.
  */
-int	ft_printf(const char *str, ...);
+char	*ft_strtoupper(char *s)
+{
+	char	*res;
+	int		i;
 
-#endif
+	res = ft_strdup(s);
+	i = -1;
+	while (s[++i])
+		res[i] = ft_toupper(res[i]);
+	return (res);
+}

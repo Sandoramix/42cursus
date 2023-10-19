@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_itohex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/17 17:04:20 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/19 14:52:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <unistd.h>
-# include <stdlib.h>
-# include "libft.h"
+#include "libft.h"
 
-/**
- * @brief Like the original one
- *
- * @param str
- * @param ...
- * @return int
- */
-int	ft_printf(const char *str, ...);
+char	*ft_itohex(int n)
+{
+	char	*res;
+	int		negative;
 
-#endif
+	negative = 0;
+	if (n < 0)
+	{
+		negative = 1;
+		n = n + ft_ipow(2, 16);
+	}
+	res = ft_itoa_base(n, BASE16);
+	if (negative)
+		return (ft_strpad(res, 'f', 8));
+	return (res);
+}

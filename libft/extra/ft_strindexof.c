@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_strindexof.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/17 17:04:20 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/19 14:52:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PRINTF_H
-# define PRINTF_H
-# include <unistd.h>
-# include <stdlib.h>
-# include "libft.h"
+#include "libft.h"
 
 /**
- * @brief Like the original one
+ * @brief Find the index of first char `c` inside the string `s`
  *
- * @param str
- * @param ...
- * @return int
+ * @param s string
+ * @param c char to find
+ * @return Index of the first occurence of `c`, or `-1` if it's not present
  */
-int	ft_printf(const char *str, ...);
+int	ft_strindexof(const char *s, char c)
+{
+	int	i;
 
-#endif
+	i = -1;
+	while (s[++i])
+		if (s[i] == c)
+			return (i);
+	return (-1);
+}
