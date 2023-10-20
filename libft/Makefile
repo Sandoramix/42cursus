@@ -59,7 +59,8 @@ SRC = ./ft_toupper.c \
 	./extra/ft_ipow.c \
 	./extra/ft_strindexof.c \
 	./extra/ft_iabs.c \
-	./extra/ft_uitoa.c
+	./extra/ft_uitoa.c \
+	./extra/ft_uitoa_base.c
 
 OBJ = ${SRC:.c=.o}
 

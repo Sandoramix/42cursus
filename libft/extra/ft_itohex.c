@@ -13,17 +13,5 @@
 
 char	*ft_itohex(int n)
 {
-	char	*res;
-	int		negative;
-
-	negative = 0;
-	if (n < 0)
-	{
-		negative = 1;
-		n = n + ft_ipow(2, 16);
-	}
-	res = ft_itoa_base(n, BASE16);
-	if (negative)
-		return (ft_strpad(res, 'f', 8));
-	return (res);
+	return (ft_uitoa_base(n, BASE16));
 }
