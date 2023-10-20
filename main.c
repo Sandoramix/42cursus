@@ -24,8 +24,6 @@ int main(int ac, char **av)
 	val = ft_atoi(av[1]);
 	printf("%%d:\n\toriginal = %d\n\tmine = %s\n", val,
 		ft_itoa_base(val, BASE10));
-	printf("neg %%x:\n\toriginal = %x\n\tmine = %s\n", -val,
-		ft_itohex(-val));
 	printf("%%x:\n\toriginal = %x\n\tmine = %s\n", val,
 		ft_itohex(val));
 	printf("%%p:\n\toriginal = %p\n\tmine = %s\n", test,

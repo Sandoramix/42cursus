@@ -31,7 +31,8 @@ fclean: clean
 re: fclean all
 
 # TODO REMOVE ME
-main: all
+
+main: re
 	@$(CC) $(CFLAGS) main.c -Llibft -Ilibft -L. -lft -lftprintf
 
 .PHONY: all clean fclean re bonus
