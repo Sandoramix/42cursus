@@ -14,15 +14,5 @@
 
 char	*ft_uitoa(unsigned int n)
 {
-	char	*res;
-	size_t	digits;
-
-	digits = ft_nbr_len(n, 10);
-	res = ft_calloc(digits + 1, sizeof(char));
-	while (digits-- > 0)
-	{
-		res[digits] = n % 10 + '0';
-		n /= 10;
-	}
-	return (res);
+	return (ft_uitoa_base(n, BASE10));
 }

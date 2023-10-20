@@ -13,7 +13,7 @@
 #include "printf.h"
 #include <stdio.h>
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	int		val;
 	char	*test;
@@ -23,7 +23,7 @@ int main(int ac, char **av)
 		return (1);
 	val = ft_atoi(av[1]);
 	printf("%%d:\n\toriginal = %d\n\tmine = %s\n", val,
-		ft_itoa_base(val, BASE10));
+		ft_itoa(val));
 	printf("%%x:\n\toriginal = %x\n\tmine = %s\n", val,
 		ft_itohex(val));
 	printf("%%p:\n\toriginal = %p\n\tmine = %s\n", test,
@@ -32,5 +32,4 @@ int main(int ac, char **av)
 	printf("%%u:\n\toriginal = %u\n\tmine = %s\n", (unsigned int)atol(av[1]),
 		ft_uitoa((unsigned int)atol(av[1])));
 	return (0);
-
 }

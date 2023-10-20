@@ -16,6 +16,7 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <stdint.h>
+# include <stdarg.h>
 
 # define BASE10 "0123456789"
 # define BASE16 "0123456789abcdef"

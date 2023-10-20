@@ -13,7 +13,13 @@
 # define PRINTF_H
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdarg.h>
 # include "libft.h"
+
+typedef struct s_pfarg
+{
+
+}	t_pfarg;
 
 /**
  * @brief Like the original one
