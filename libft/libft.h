@@ -516,5 +516,14 @@ char	*ft_strtoupper(char *s);
  * @return The number as a string
  */
 char	*ft_uitoa(unsigned int n);
+/**
+ * @brief Allocates (with malloc(3)) and returns a string
+ * representing the integer received as an argument.
+ *
+ * @param n the unsigned integer to convert.
+ * @return The string representing the integer.
+ * NULL if the allocation fails.
+ */
+char	*ft_uitoa_base(unsigned int n, const char *base);
 
 #endif
