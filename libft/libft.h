@@ -528,10 +528,10 @@ char	*ft_uitoa(unsigned int n);
 char	*ft_uitoa_base(unsigned int n, const char *base);
 /**
  * @brief Free the matrix!
- * @param mtx mtx
+ * @param mtx void ** -> mtx
  * @param len len
  * @return `NULL`
  */
-void	*ft_mtxfree(void *mtx, size_t len);
+void	*ft_mtxfree(void **mtx, size_t len);
 
 #endif

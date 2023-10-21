@@ -12,13 +12,15 @@
 
 #include "libft.h"
 
-void	*ft_mtxfree(void *mtx, size_t len)
+void	*ft_mtxfree(void **mtx, size_t len)
 {
-	size_t	i;
+	size_t			i;
+	unsigned char	**mtxp;
 
 	i = 0;
+	mtxp = (unsigned char **)mtx;
 	while (i < len)
-		free(mtx[i++]);
-	free(mtx);
+		free(mtxp[i++]);
+	free(mtxp);
 	return (NULL);
 }
