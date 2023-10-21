@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 00:16:49 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/14 00:16:57 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/21 16:52:19 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef unsigned int	t_uint;
  * @param nmemb number of elements to create
  * @param size size of each element
  * @return pointer to the created array. NULL if the allocation failed
+ * @attention Uses: malloc
  */
 void	*ft_calloc(size_t nmemb, size_t size);
 /**
@@ -40,6 +41,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
  * @param s char*
  * @return a pointer to the duplicated string.
  * It returns NULL if insufficient memory was available.
+ * @attention Uses: malloc
  */
 char	*ft_strdup(const char *s);
 //! Char utils
@@ -243,6 +245,7 @@ int		ft_atoi(const char *nptr);
  * @param len The maximum length of the substring.
  * @return The substring.
  * NULL if the allocation fails.
+ * @attention Uses: malloc
  */
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 /**
@@ -253,6 +256,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
  * @param s2 The suffix string.
  * @return The new string.
  * NULL if the allocation fails.
+ * @attention Uses: malloc
  */
 char	*ft_strjoin(char const *s1, char const *s2);
 /**
@@ -263,6 +267,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
  * @param set The reference set of characters to trim.
  * @return The trimmed string.
  * NULL if the allocation fails.
+ * @attention Uses: malloc
  */
 char	*ft_strtrim(char const *s1, char const *set);
 /**
@@ -275,6 +280,7 @@ char	*ft_strtrim(char const *s1, char const *set);
  * @param c The delimiter character.
  * @return The array of new strings resulting from the split.
  * NULL if the allocation fails.
+ * @attention Uses: malloc
  */
 char	**ft_split(char const *s, char c);
 /**
@@ -287,6 +293,7 @@ char	**ft_split(char const *s, char c);
  * @param f The function to apply to each character.
  * @return The string created from the successive applications of 'f'.
  * Returns NULL if the allocation fails.
+ * @attention Uses: malloc
  */
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 /**
@@ -334,6 +341,7 @@ void	ft_putnbr_fd(int n, int fd);
  * @param n the integer to convert.
  * @return The string representing the integer.
  * NULL if the allocation fails.
+ * @attention Uses: malloc
  */
 char	*ft_itoa(int n);
 
@@ -358,6 +366,7 @@ typedef struct s_list
  * 'next' is initialized to NULL.
  * @param content The content to create the node with.
  * @return The new node
+ * @attention Uses: malloc
  */
 t_list	*ft_lstnew(void *content);
 /**
@@ -391,6 +400,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
  * as a parameter and free the node. The memory of 'next' must not be freed.
  * @param lst The node to free.
  * @param del The address of the function used to delete the content.
+ * @attention Uses: free
  */
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 /**
@@ -400,6 +410,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
  * @param lst The address of a pointer to a node.
  * @param del The address of the function used to delete
  * the content of the node.
+ * @attention Uses: malloc
  */
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 /**
@@ -420,6 +431,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
  * @param del The address of the function used to delete
  * the content of a node if needed.
  * @return The new list. NULL if the allocation fails.
+ * @attention Uses: malloc
  */
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
@@ -429,6 +441,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
  * @brief Get the address of given pointer in hexadecimal letters
  * @param p memory area
  * @return The pointer's address in hexadecimal characters
+ * @attention Uses: malloc
  */
 char	*ft_getaddr(void *p);
 /**
@@ -460,12 +473,14 @@ int		ft_istrlen(const char *s);
  * @param n number to print
  * @param base the base in which to convert the number.
  * @return The converted number in specified base
+ * @attention Uses: malloc
  */
 char	*ft_itoa_base(int n, const char *base);
 /**
  * @brief Convert a number to hex
  * @param n number `int`
  * @return String of the hex number. (`0x`) excluded
+ * @attention Uses: malloc
  */
 char	*ft_itohex(int n);
 /**
@@ -500,6 +515,7 @@ int		ft_strindexof(const char *s, char c);
  * @param n total len with the string should have.
  * E.g. if `n` is 2, `c` is '0' and the s is `"4"` the result will be `"04"`
  * @return Copy of the string plus the added padding if necessary.
+ * @attention Uses: malloc
  */
 char	*ft_strpad(char *s, char c, size_t n);
 /**
@@ -509,12 +525,14 @@ char	*ft_strpad(char *s, char c, size_t n);
  *
  * @param s string to return
  * @return the converted string.
+ * @attention Uses: malloc
  */
 char	*ft_strtoupper(char *s);
 /**
  * @brief Convert an `unsigned int` into a string
  * @param n unsigned int
  * @return The number as a string
+ * @attention Uses: malloc
  */
 char	*ft_uitoa(unsigned int n);
 /**
@@ -524,6 +542,7 @@ char	*ft_uitoa(unsigned int n);
  * @param n the unsigned integer to convert.
  * @return The string representing the integer.
  * NULL if the allocation fails.
+ * @attention Uses: malloc
  */
 char	*ft_uitoa_base(unsigned int n, const char *base);
 /**
@@ -531,6 +550,7 @@ char	*ft_uitoa_base(unsigned int n, const char *base);
  * @param mtx void ** -> mtx
  * @param len len
  * @return `NULL`
+ * @attention Uses: free
  */
 void	*ft_mtxfree(void **mtx, size_t len);
 
