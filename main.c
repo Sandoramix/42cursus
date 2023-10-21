@@ -31,5 +31,7 @@ int	main(int ac, char **av)
 	// TODO WATCHOUT FOR ATOL
 	printf("%%u:\n\toriginal = %u\n\tmine = %s\n", (unsigned int)atol(av[1]),
 		ft_uitoa((unsigned int)atol(av[1])));
+
+	printf("% 3d", 3);
 	return (0);
 }

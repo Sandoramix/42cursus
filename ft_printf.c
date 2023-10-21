@@ -13,14 +13,14 @@
 #include "libft.h"
 #include "printf.h"
 
-static size_t	pf_getargc(const char *s)
-{
-	size_t	res;
+// static size_t	pf_getargc(const char *s)
+// {
+// 	size_t	res;
 
-	res = 0;
-}
+// 	res = 0;
+// }
 
-int	ft_printf(const char *str, ...)
-{
+// int	ft_printf(const char *str, ...)
+// {
 
-}
+// }

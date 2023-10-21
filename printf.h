@@ -16,9 +16,27 @@
 # include <stdarg.h>
 # include "libft.h"
 
+
+# define PF_INPUT_CHR	0
+# define PF_INPUT_STR	1
+# define PF_INPUT_INT	2
+# define PF_INPUT_UINT	3
+
+typedef int	t_pfinput;
+
+
+typedef struct s_pfarg_content
+{
+	t_pfinput	input_type;
+	char		*flag;
+	char		*result;
+	int			special_n;
+}	t_pfarg_content;
+
 typedef struct s_pfarg
 {
-
+	t_pfarg_content	*content;
+	struct s_pfarg	*next;
 }	t_pfarg;
 
 /**
