@@ -526,5 +526,12 @@ char	*ft_uitoa(unsigned int n);
  * NULL if the allocation fails.
  */
 char	*ft_uitoa_base(unsigned int n, const char *base);
+/**
+ * @brief Free the matrix!
+ * @param mtx mtx
+ * @param len len
+ * @return `NULL`
+ */
+void	*ft_mtxfree(void *mtx, size_t len);
 
 #endif
