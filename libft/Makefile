@@ -57,11 +57,15 @@ SRC = ./ft_toupper.c \
 	./extra/ft_getaddr.c \
 	./extra/ft_itoa_base.c \
 	./extra/ft_ipow.c \
-	./extra/ft_strindexof.c \
+	./extra/ft_stridxofchar.c \
+	./extra/ft_stridxofstr.c \
 	./extra/ft_iabs.c \
 	./extra/ft_uitoa.c \
 	./extra/ft_uitoa_base.c \
-	./extra/ft_mtxfree.c
+	./extra/ft_mtxfree.c \
+	./extra/ft_strreplace_first.c \
+	./extra/ft_strreplace.c \
+	./extra/ft_strcount_c.c
 
 OBJ = ${SRC:.c=.o}
 
