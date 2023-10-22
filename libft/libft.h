@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 00:16:49 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/21 16:52:19 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/22 18:11:14 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -405,7 +405,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 /**
  * @brief Deletes and frees the given node and every successor of that node,
- * using the function ’del’ and free(3).
+ * using the function 'del' and free(3).
  * Finally, the pointer to the list must be set to NULL.
  * @param lst The address of a pointer to a node.
  * @param del The address of the function used to delete
@@ -414,17 +414,17 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
  */
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 /**
- * @brief Iterates the list ’lst’ and applies the function
- * ’f’ on the content of each node.
+ * @brief Iterates the list 'lst' and applies the function
+ * 'f' on the content of each node.
  * @param lst The address of a pointer to a node.
  * @param f  The address of the function used to iterate on the list.
  */
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 /**
- * @brief Iterates the list ’lst’ and applies the function
- * ’f’ on the content of each node. Creates a new
+ * @brief Iterates the list 'lst' and applies the function
+ * 'f' on the content of each node. Creates a new
  * list resulting of the successive applications of
- * the function ’f’. The ’del’ function is used to
+ * the function 'f'. The 'del' function is used to
  * delete the content of a node if needed.
  * @param lst The address of a pointer to a node.
  * @param f The address of the function used to iterate on the list.
@@ -506,7 +506,16 @@ int		ft_nbr_len(long long int n, int base_len);
  * @param c char to find
  * @return Index of the first occurence of `c`, or `-1` if it's not present
  */
-int		ft_strindexof(const char *s, char c);
+int		ft_stridxofchar(const char *s, char c);
+/**
+ * @brief FInd the index of first occurence of substring `find` inside `str`
+ *
+ * @param str string
+ * @param find substring to find
+ * @return Index of the first occurence of `find` inside `str`,
+ * or `-1` if it's not present.
+ */
+int		ft_stridxofstr(const char *str, char *find);
 /**
  * @brief Add padding to the string with specified char if necessary.
  * Original string is not altered.
@@ -553,5 +562,32 @@ char	*ft_uitoa_base(unsigned int n, const char *base);
  * @attention Uses: free
  */
 void	*ft_mtxfree(void **mtx, size_t len);
-
+/**
+ * @brief Find and replace the `first` substring of `str` with another string.
+ * @attention Uses: malloc, free.
+ * `str` is mutated.
+ * @param str start string
+ * @param find string to find
+ * @param replace string to replace `find` with
+ * @return the pointer to final `str`
+ */
+char	*ft_strreplace_first(char *str, char *find, char *replace);
+/**
+ * @brief Find and replace the `all` substrings of `str` with another string.
+ * @attention Uses: malloc, free.
+ * `str` is mutated.
+ * @param str start string
+ * @param find string to find
+ * @param replace string to replace `find` with
+ * @return the pointer to final `str`
+ */
+char	*ft_strreplace(char *str, char *find, char *replace);
+/**
+ * @brief Count how many times does `c` appear in `s`
+ *
+ * @param s string
+ * @param c char
+ * @return size_t
+ */
+size_t	ft_strcount_c(const char *s, char c);
 #endif
