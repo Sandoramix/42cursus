@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 10:54:27 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/22 11:08:56 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/22 15:59:51 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_stridxofstr(const char *str, char *find)
 	size_t	j;
 	size_t	find_len;
 
+	if (!str || !find)
+		return (-1);
 	find_len = ft_strlen(find);
 	if (find_len == 0)
 		return (0);
