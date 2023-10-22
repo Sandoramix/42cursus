@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   printf.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/21 16:43:03 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/22 18:04:25 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PRINTF_H
 # define PRINTF_H
 # include <unistd.h>
 # include <stdlib.h>
@@ -21,6 +22,17 @@
 # define PF_INPUT_INT	2
 # define PF_INPUT_UINT	3
 
+typedef enum e_pf_argtype
+{
+	PF_UNKNOWN,
+	PF_ESCAPE,
+	PF_CHAR,
+	PF_STR,
+	PF_INT,
+	PF_UINT,
+	PF_HEX,
+	PF_POINTER
+}	t_pf_argtype;
 /**
  * @brief Defined type of input required for the argument:
  *	`0`=CHAR
@@ -39,10 +51,11 @@ typedef int	t_pfinput;
  */
 typedef struct s_pfarg_content
 {
-	t_pfinput	input_type;
-	char		*flag;
-	int			special_n;
-	char		*result;
+	t_pf_argtype	type;
+	t_pfinput		input_type;
+	char			*flag;
+	int				special_n;
+	char			*result;
 }	t_pfarg_content;
 
 /**
