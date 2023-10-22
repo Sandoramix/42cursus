@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_uitoa_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/21 10:51:13 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/22 15:36:50 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_uitoa_base(unsigned int n, const char *base)
@@ -21,6 +22,8 @@ char	*ft_uitoa_base(unsigned int n, const char *base)
 	base_len = ft_istrlen(base);
 	digit_count = ft_nbr_len(n, base_len);
 	res = ft_calloc(digit_count + 1, sizeof(char));
+	if (!res)
+		return (NULL);
 	while (digit_count-- > 0)
 	{
 		mod = n % base_len;
