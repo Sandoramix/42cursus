@@ -20,8 +20,10 @@ static t_pf_argtype	pf_whatthetype(char c)
 		return (PF_INT);
 	else if (ft_strchr("u", c))
 		return (PF_UINT);
-	else if (ft_strchr("xX", c))
+	else if (ft_strchr("x", c))
 		return (PF_HEX);
+	else if (ft_strchr("X", c))
+		return (PF_UPPERHEX);
 	else if (ft_strchr("c", c))
 		return (PF_CHAR);
 	else if (ft_strchr("s", c))
@@ -36,44 +38,45 @@ static t_pf_argtype	pf_whatthetype(char c)
 static t_pf_argtype	pf_getargtype(const char *s, int start, int *idx)
 {
 	int				i;
-	t_pf_argtype	res;
 
 	i = start;
-	res = PF_UNKNOWN;
 	if (!idx || !s)
 		return (PF_UNKNOWN);
 	while (s[++i])
 	{
-		res = pf_whatthetype(s[i]);
-		// printf("wtt = %u", res);
-		if (res != PF_UNKNOWN)
+		if (ft_isalpha(s[i]) || s[i] == '%')
 		{
 			*idx = i;
-			return (res);
+			return (pf_whatthetype(s[i]));
 		}
 	}
+	*idx = i;
 	return (PF_UNKNOWN);
 }
 
 static int	pf_parse_args(const char *s, t_pfarg *args)
 {
+	t_pfarg_content	content;
 	int				idx;
-	t_pfarg_content	tmp_c;
-	int			i;
+	int				i;
 	int				res;
 
 	res = 0;
 	i = 0;
+	idx = 0;
 	while (s[i])
 	{
-		idx = ft_stridxofchar(s + i, '%');
-		tmp_c.type = pf_getargtype(s, idx, &i);
-		if (tmp_c.type == PF_UNKNOWN)
-			return (-1);
-		res++;
-		printf("flag :) => %s\n", tmp_c.flag);
-		tmp_c.flag = ft_substr(s, idx, i - idx);
-		ft_lstadd_back((t_list **)&args, (t_list *)&tmp_c);
+
+		if (s[i] == '%')
+		{
+			idx = i;
+			content.type = pf_getargtype(s, idx, &i);
+			res++;
+			content.flag = ft_calloc(i - idx + 2, sizeof(char));
+			ft_strlcpy(content.flag, &s[idx], i - idx + 2);
+			ft_lstadd_back((t_list **)&args, (t_list *)&content);
+			printf("found idx = %d, i = %d len = %d, final flag = %s f_len = %ld\n", idx, i, (i - idx), content.flag, ft_strlen(content.flag));
+		}
 		i++;
 	}
 	return (res);
@@ -86,6 +89,9 @@ int	ft_printf(const char *str, ...)
 
 	args = NULL;
 	pf_parse_args(str, args);
+	printf("%p\n", args);
+	for (t_pfarg *l = args; l != NULL; l = l->next)
+		printf("flag = %s, type = %u", l->content->flag, l->content->type);
 	va_start(v_args, str);
 
 

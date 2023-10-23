@@ -33,6 +33,6 @@ re: fclean all
 # TODO REMOVE ME
 
 main: re
-	@$(CC) $(CFLAGS) main.c -Llibft -lft -Ilibft -L. -lftprintf libft/libft.a
+	@$(CC)  main.c -Llibft -lft -Ilibft -L. -lftprintf libft/libft.a
 
 .PHONY: all clean fclean re bonus

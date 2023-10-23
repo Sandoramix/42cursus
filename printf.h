@@ -31,6 +31,7 @@ typedef enum e_pf_argtype
 	PF_INT,
 	PF_UINT,
 	PF_HEX,
+	PF_UPPERHEX,
 	PF_POINTER
 }	t_pf_argtype;
 /**
@@ -56,6 +57,7 @@ typedef struct s_pfarg_content
 	char			*flag;
 	int				special_n;
 	char			*result;
+
 }	t_pfarg_content;
 
 /**
