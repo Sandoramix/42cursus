@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:51:11 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/22 18:28:06 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/24 20:17:41 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,87 +14,105 @@
 #include "libft.h"
 #include <stdio.h>
 
-static t_pf_argtype	pf_whatthetype(char c)
+static void	tmp_printlist(t_list *list)
 {
-	if (ft_strchr("di", c))
-		return (PF_INT);
-	else if (ft_strchr("u", c))
-		return (PF_UINT);
-	else if (ft_strchr("x", c))
-		return (PF_HEX);
-	else if (ft_strchr("X", c))
-		return (PF_UPPERHEX);
-	else if (ft_strchr("c", c))
-		return (PF_CHAR);
-	else if (ft_strchr("s", c))
-		return (PF_STR);
-	else if (ft_strchr("%", c))
-		return (PF_ESCAPE);
-	else if (ft_strchr("p", c))
-		return (PF_POINTER);
-	return (PF_UNKNOWN);
+	t_list	*l = list;
+	int i = 0;
+
+	while (l)
+	{
+		printf("[%d]: %s\n", i++, (char *)l->content);
+		l = l->next;
+	}
 }
 
-static t_pf_argtype	pf_getargtype(const char *s, int start, int *idx)
-{
-	int				i;
 
-	i = start;
-	if (!idx || !s)
-		return (PF_UNKNOWN);
+typedef enum e_funtype
+{
+	PF_FESCAPE,
+	PF_FUNKNOWN,
+	PF_FCONVERSION,
+	PF_FINT,
+	PF_UINT,
+	PF_FCHAR,
+	PF_FHEX,
+	PF_FUPPERHEX,
+	PF_FPOINTER
+}	t_funtype;
+
+
+
+static void	pf_funswitch(char *s, va_list list, t_list *args)
+{
+
+}
+static t_funtype	pf_get_argtype(char *s, va_list list, t_list arg)
+{
+	size_t	c_len;
+
+	c_len = ft_strlen(arg.content);
+	if (c_len < 2)
+		return (PF_FUNKNOWN);
+	if (arg.content[1] == '#')
+		return (PF_FCONVERSION);
+	if (ft_strchr("di", arg.content[c_len - 1]))
+		return (PF_FINT);
+	if (arg.content[c_len - 1] == 'p')
+		return (PF_FPOINTER);
+	if (arg.content[c_len - 1] == 'x')
+		return (PF_FHEX);
+	if (arg.content[c_len - 1] == 'X')
+		return (PF_FUPPERHEX);
+	if (arg.content[c_len - 1] == 'u')
+		return (PF_UINT);
+	if (arg.content[c_len - 1] == '%')
+		return (PF_FESCAPE);
+	return (PF_FUNKNOWN);
+}
+
+static void	pf_parseargs(char *s, va_list list, t_list *args)
+{
+	while (args)
+	{
+		if (ft_strlen((char *)args->content) == 2)
+			pf_funswitch(s, list, args);
+		args = args->next;
+	}
+}
+
+static t_list	*pf_findargs(char *s)
+{
+	t_list	*res;
+	int		i;
+	int		start;
+
+	i = -1;
+	res = NULL;
 	while (s[++i])
 	{
-		if (ft_isalpha(s[i]) || s[i] == '%')
-		{
-			*idx = i;
-			return (pf_whatthetype(s[i]));
-		}
-	}
-	*idx = i;
-	return (PF_UNKNOWN);
-}
-
-static int	pf_parse_args(const char *s, t_pfarg *args)
-{
-	t_pfarg_content	content;
-	int				idx;
-	int				i;
-	int				res;
-
-	res = 0;
-	i = 0;
-	idx = 0;
-	while (s[i])
-	{
-
 		if (s[i] == '%')
 		{
-			idx = i;
-			content.type = pf_getargtype(s, idx, &i);
-			res++;
-			content.flag = ft_calloc(i - idx + 2, sizeof(char));
-			ft_strlcpy(content.flag, &s[idx], i - idx + 2);
-			ft_lstadd_back((t_list **)&args, (t_list *)&content);
-			printf("found idx = %d, i = %d len = %d, final flag = %s f_len = %ld\n", idx, i, (i - idx), content.flag, ft_strlen(content.flag));
+			start = i;
+			while (ft_strchr(PF_ARGS_WHITELIST, s[++i]))
+				;
+			ft_lstadd_back(&res, ft_lstnew(ft_substr(s, start, i - start + 1)));
 		}
-		i++;
 	}
 	return (res);
 }
 
 int	ft_printf(const char *str, ...)
 {
-	va_list	v_args;
-	t_pfarg	*args;
+	char	*res;
+	va_list	list;
+	t_list	*args;
 
-	args = NULL;
-	pf_parse_args(str, args);
-	printf("%p\n", args);
-	for (t_pfarg *l = args; l != NULL; l = l->next)
-		printf("flag = %s, type = %u", l->content->flag, l->content->type);
-	va_start(v_args, str);
+	res = ft_strdup(str);
+	args = pf_findargs(res);
+	va_start(list, str);
 
-
-	va_end(v_args);
+	tmp_printlist(args);
+	va_end(list);
+	free(res);
 	return (0);
 }

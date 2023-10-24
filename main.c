@@ -41,8 +41,7 @@ int	main(int ac, char **av)
 	}
 	string = ft_strdup("ab0c0de");
 	string = ft_strreplace(string, "0", " ciao ");
-	ft_printf("%% %d %+05.4d c%c", 42, -42);
-	// printf("%s.3d\n", 42);
+	ft_printf("%% %d %+05.4d c%c %   32.0", 42, -42);
 	free(string);
 	return (0);
 }
