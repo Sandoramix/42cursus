@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 00:16:49 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/22 18:11:14 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/24 19:54:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -517,7 +517,7 @@ int		ft_stridxofchar(const char *s, char c);
  */
 int		ft_stridxofstr(const char *str, char *find);
 /**
- * @brief Add padding to the string with specified char if necessary.
+ * @brief Add left padding to the string with specified char if necessary.
  * Original string is not altered.
  * @param s string to modify
  * @param c pad character
@@ -526,7 +526,18 @@ int		ft_stridxofstr(const char *str, char *find);
  * @return Copy of the string plus the added padding if necessary.
  * @attention Uses: malloc
  */
-char	*ft_strpad(char *s, char c, size_t n);
+char	*ft_strpadstart(char *s, char c, size_t n);
+/**
+ * @brief Add right padding to the string with specified char if necessary.
+ * Original string is not altered.
+ * @param s string to modify
+ * @param c pad character
+ * @param n total len with the string should have.
+ * E.g. if `n` is 2, `c` is '0' and the s is `"4"` the result will be `"40"`
+ * @return Copy of the string plus the added padding if necessary.
+ * @attention Uses: malloc
+ */
+char	*ft_strpadend(char *s, char c, size_t n);
 /**
  * @brief Get the string but in uppercase
  * It uses malloc.

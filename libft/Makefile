@@ -48,7 +48,8 @@ SRC = ./ft_toupper.c \
 	./ft_lstmap_bonus.c \
 	./ft_lstsize_bonus.c \
 	./ft_lstiter_bonus.c \
-	./extra/ft_strpad.c \
+	./extra/ft_strpadstart.c \
+	./extra/ft_strpadend.c \
 	./extra/ft_itohex.c \
 	./extra/ft_istrlen.c \
 	./extra/ft_nbr_len.c \
