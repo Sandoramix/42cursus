@@ -10,38 +10,49 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 
-int	main(int ac, char **av)
+int	main(void)
 {
-	int		val;
-	char	*string;
-	// char	*itoa;
-	// char	*itohex;
-	// char	*getaddr;
-	// char	*uitoa;
-
-	if (ac > 1)
-	{
-		val = ft_atoi(av[1]);
-		// itoa = ft_itoa(val);
-		// itohex = ft_itohex(val);
-		// getaddr = ft_getaddr(itohex);
-		// uitoa = ft_uitoa((unsigned int)val);
-		// printf("%%d:\n\toriginal = %d\n\tmine = %s\n", val, itoa);
-		// printf("%%x:\n\toriginal = %x\n\tmine = %s\n", val, itohex);
-		// printf("%%p:\n\toriginal = %p\n\tmine = %s\n", itohex, getaddr);
-		// printf("%%u:\n\toriginal = %u\n\tmine = %s\n", (uint32_t)val, uitoa);
-		// free(itoa);
-		// free(itohex);
-		// free(getaddr);
-		// free(uitoa);
-	}
-	string = ft_strdup("ab0c0de");
-	string = ft_strreplace(string, "0", " ciao ");
-	ft_printf("%% %d %+05.4d c%c %   32.0", 42, -42);
-	free(string);
+	int n;
+	// printf(" %c \n", '0');
+	n = ft_printf(" %s ", "-");
+	printf("n = %d", n);
+	// ft_printf("%p %p\n", LONG_MIN, LONG_MAX );
+	// ft_printf("%p %p\n", INT_MIN, INT_MAX );
+	// ft_printf("%p %p\n", ULONG_MAX, -ULONG_MAX );
 	return (0);
 }
+
+// int	main(int ac, char **av)
+// {
+// 	int		val;
+// 	char	*string;
+// 	char	*itoa;
+// 	char	*itohex;
+// 	char	*getaddr;
+// 	char	*uitoa;
+
+// 	if (ac > 1)
+// 	{
+// 		val = ft_atoi(av[1]);
+// 		itoa = ft_itoa(val);
+// 		itohex = ft_itohex(val);
+// 		getaddr = ft_getaddr(itohex);
+// 		uitoa = ft_uitoa((unsigned int)val);
+// 		printf("%%d:\n\toriginal = %d\n\tmine = %s\n", val, itoa);
+// 		printf("%%x:\n\toriginal = %x\n\tmine = %s\n", val, itohex);
+// 		printf("%%p:\n\toriginal = %p\n\tmine = %s\n", itohex, getaddr);
+// 		printf("%%u:\n\toriginal = %u\n\tmine = %s\n", (uint32_t)val, uitoa);
+// 		free(itoa);
+// 		free(itohex);
+// 		free(getaddr);
+// 		free(uitoa);
+// 	}
+// 	string = ft_strdup("ab %+05.4d c0de");
+// 	free(string);
+// 	return (0);
+// }
