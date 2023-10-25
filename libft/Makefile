@@ -47,26 +47,7 @@ SRC = ./ft_toupper.c \
 	./ft_lstlast_bonus.c \
 	./ft_lstmap_bonus.c \
 	./ft_lstsize_bonus.c \
-	./ft_lstiter_bonus.c \
-	./extra/ft_strpadstart.c \
-	./extra/ft_strpadend.c \
-	./extra/ft_itohex.c \
-	./extra/ft_istrlen.c \
-	./extra/ft_nbr_len.c \
-	./extra/ft_memrev.c \
-	./extra/ft_strtoupper.c \
-	./extra/ft_getaddr.c \
-	./extra/ft_itoa_base.c \
-	./extra/ft_ipow.c \
-	./extra/ft_stridxofchar.c \
-	./extra/ft_stridxofstr.c \
-	./extra/ft_iabs.c \
-	./extra/ft_uitoa.c \
-	./extra/ft_uitoa_base.c \
-	./extra/ft_mtxfree.c \
-	./extra/ft_strreplace_first.c \
-	./extra/ft_strreplace.c \
-	./extra/ft_strcount_c.c
+	./ft_lstiter_bonus.c
 
 OBJ = ${SRC:.c=.o}
 
