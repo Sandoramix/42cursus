@@ -2,7 +2,7 @@ NAME=libftprintf.a
 
 RM = rm -f
 CC = gcc
-CFLAGS = -Wall -Wextra #-Werror
+CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
 
@@ -38,7 +38,8 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C libft
-	@$(ARCHIVE) $(OBJ) libft/*.o
+	@cp libft/libft.a $(NAME)
+	@$(ARCHIVE) $(OBJ)
 
 clean:
 	@$(MAKE) -C libft fclean
@@ -53,7 +54,10 @@ re: fclean all
 
 # TODO REMOVE ME
 
-main: re
-	@$(CC) $(CFLAGS) main.c -Llibft -lft -Ilibft -L. -lftprintf libft/libft.a
+main: main.c
+	@$(MAKE)
+	@$(CC) main.c -Ilibft -L. -lftprintf
+	@clear
+	@./a.out
 
 .PHONY: all clean fclean re bonus
