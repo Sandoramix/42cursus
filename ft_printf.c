@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:51:11 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/24 20:17:41 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:06:00 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,77 @@ typedef enum e_funtype
 	PF_FPOINTER
 }	t_funtype;
 
+static char	pf_get_padchar(char *flag)
+{
+	int	i;
+
+	i = -1;
+	while (flag[++i])
+	{
+		if (ft_isdigit(flag[i]))
+			if (flag[i] == '0' && !ft_strchr(flag, '-')
+				&& !ft_strchr(flag, ' '))
+				return ('0');
+	}
+	return (' ');
+}
+
+// TODO REFACTOR THIS SHIT
+static	char	*pf_strpad(char *str, char *flag, int precision, int start)
+{
+	int			width;
+	const char	padchar = pf_get_padchar(flag);
+
+	width = ft_iabs(ft_atoi(flag + 1 + !!ft_strchr(flag, '#')
+				+ !!ft_strchr(flag, '-')));
+	if (!start)
+	{
+		str = ft_strpadend(str, '0', precision);
+		width -= !!ft_strchr(flag, ' ');
+		str = ft_strpadend(str, ' ', width);
+
+	}
+	else
+	{
+		str = ft_strpadstart(str, '0', precision);
+		str = ft_strpadstart(str, padchar, width);
+	}
+	if ((width <= precision && width > 0) || (width == 0 && ft_strchr(flag, ' ')) || (ft_strchr(flag, '-') && ft_strchr(flag, ' ')))
+		str = ft_strpadstart(str, ' ', ft_strlen(str) + 1);
+	return (str);
+}
+
+static char	*pf_apply_with_and_precision(char *str, char *flag, t_funtype type)
+{
+	int	precision;
+
+	precision = 0;
+	if (ft_strchr(flag, '.'))
+		precision = ft_atoi(ft_strchr(flag, '.') + 1);
+	if (ft_strchr(flag, '-'))
+		str = pf_strpad(str, flag, precision, 0);
+	else
+		str = pf_strpad(str, flag, precision, 1);
+	if (type == PF_FCONVERSION)
+	{
+	}
+	return (str);
+}
+
 static size_t	pf_handlebonus(char *str, char *flag, t_funtype type)
 {
 	size_t	strlen;
 
 	if (!flag || !type)
 		return (0);
-	strlen = ft_strlen(str);
-	if (!str)
+	if (type == PF_FCONVERSION)
 	{
-		ft_putstr_fd("(null)", 1);
-		return (6);
 	}
+	if (!str)
+		str = ft_strdup("(null)");
+	str = pf_apply_with_and_precision(str, flag, type);
+	strlen = ft_strlen(str);
+
 	ft_putstr_fd(str, 1);
 	free(str);
 	return (strlen);
@@ -47,17 +106,13 @@ static size_t	pf_funswitch(va_list list, char *flag, t_funtype type)
 {
 	char	*r;
 
-	r = NULL;
+	r = ft_calloc(2, sizeof(char));
+	if (!r)
+		return (0);
 	if (type == PF_FCHAR)
-	{
-		ft_putchar_fd((char)va_arg(list, int), 1);
-		return (1);
-	}
-	if (type == PF_FESCAPE)
-	{
-		ft_putchar_fd('%', 1);
-		return (1);
-	}
+		r[0] = (char)va_arg(list, int);
+	else if (type == PF_FESCAPE)
+		r[0] = '%';
 	else if (type == PF_FINT)
 		r = ft_itoa(va_arg(list, int));
 	else if (type == PF_UINT)
