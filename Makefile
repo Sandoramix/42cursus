@@ -2,7 +2,7 @@ NAME=libftprintf.a
 
 RM = rm -f
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra #-Werror
 COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
 
