@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/22 18:04:25 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/27 22:45:45 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int		ft_stridxofchar(const char *s, char c);
 int		ft_stridxofstr(const char *str, char *find);
 /**
  * @brief Add left padding to the string with specified char if necessary.
- * Original string is not altered.
+ * @attention Original string is mutated.
  * @param s string to modify
  * @param c pad character
  * @param n total len with the string should have.
@@ -131,7 +131,7 @@ int		ft_stridxofstr(const char *str, char *find);
 char	*ft_strpadstart(char *s, char c, size_t n);
 /**
  * @brief Add right padding to the string with specified char if necessary.
- * Original string is not altered.
+ * @attention Original string is mutated.
  * @param s string to modify
  * @param c pad character
  * @param n total len with the string should have.
