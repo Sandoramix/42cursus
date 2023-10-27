@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:53:58 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/27 09:39:58 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/27 09:41:23 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ int	main(int ac, char **av)
 		ft_printf("\tPrecision:\t\t[%.5d]\n", 0);
 		ft_printf("\tSpace + Width + Precision (w < p):\t\t[% 3.5d]\n", 0);
 		ft_printf("\tSpace + Width + Precision (w > p):\t\t[% 5.3d]\n", 0);
-
-
 
 		printf("\n\n\033[33mORIGINAL\033[37m\n");
 		printf("\nWIDTH + PRECISION:\n");
