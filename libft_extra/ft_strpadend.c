@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:51:06 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/24 19:52:52 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:33:07 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_strpadend(char *s, char c, size_t n)
 		n = s_len;
 	res = ft_calloc(n + 1, sizeof(char));
 	ft_memcpy(res, s, s_len);
-	ft_memset(res + (n - s_len), c, n);
+	ft_memset(res + s_len, c, n - s_len);
+	free(s);
+	s = res;
 	return (res);
 }
