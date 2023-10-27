@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:53:58 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/27 13:47:11 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/27 23:24:09 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int ac, char **av)
 		ft_printf("\tINT_MIN:\t[%u]\n", INT_MIN);
 		ft_printf("\tINT_MAX:\t[%u]\t\n", INT_MAX);
 		ft_printf("\nCHAR:\n");
-		ft_printf("\t'a' = [%c]\t'\\0' = [%c]\t'c' = [%c]\n", 'a', 0, 'c');
+		ft_printf("\t'a' = [%c]\t'\\0' = [% 3.3c]\t'c' = [%c]\n", 'a', 0, 'c');
 		ft_printf("\t'a' + 256 = [%c] \n", 'a' + 256);
 		ft_printf("\nSTRING:\n");
 		ft_printf("\ttest[%s]test\n", " == ");
@@ -63,7 +63,7 @@ int	main(int ac, char **av)
 		printf("\tINT_MIN:\t[%u]\n", INT_MIN);
 		printf("\tINT_MAX:\t[%u]\t\n", INT_MAX);
 		printf("\nCHAR:\n");
-		printf("\t'a' = [%c]\t'\\0' = [%c]\t'c' = [%c]\n", 'a', 0, 'c');
+		printf("\t'a' = [%c]\t'\\0' = [% 3.3c]\t'c' = [%c]\n", 'a', 0, 'c');
 		printf("\t'a' + 256 = [%c] \n", 'a' + 256);
 		printf("\nSTRING:\n");
 		printf("\ttest[%s]test\n", " == ");
@@ -95,13 +95,13 @@ int	main(int ac, char **av)
 	{
 		ft_printf("\n\n\033[36mBONUS\033[37m\n");
 		ft_printf("\n\n\033[33m------------------FT_PRINTF------------------\033[37m\n");
-		// ft_printf("\nWIDTH + PRECISION:\n");
-		// ft_printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
-		// ft_printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
-		// ft_printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
-		// ft_printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
-		// ft_printf("\tSpace + Width + Precision (w < p):\t\t[% 3.5d]\n", 0);
-		// ft_printf("\tSpace + Width + Precision (w > p):\t\t[% 5.3d]\n", 0);
+		ft_printf("\nWIDTH + PRECISION:\n");
+		ft_printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
+		ft_printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
+		ft_printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
+		ft_printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
+		ft_printf("\tSpace + Width + Precision (w < p):\t\t[% 3.5d]\n", 0);
+		ft_printf("\tSpace + Width + Precision (w > p):\t\t[% 5.3d]\n", 0);
 
 		ft_printf("\nZERO PADDING:\n");
 		ft_printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
@@ -114,13 +114,13 @@ int	main(int ac, char **av)
 		ft_printf("\tMinus sign + Space + Width + Precision (w > p):\t[%- 05.3d]\n", 0);
 
 		printf("\n\n\033[33m------------------ORIGINAL------------------\033[37m\n");
-		// printf("\nWIDTH + PRECISION:\n");
-		// printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
-		// printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
-		// printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
-		// printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
-		// printf("\tSpace + Width + Precision (w < p):\t\t[% 3.5d]\n", 0);
-		// printf("\tSpace + Width + Precision (w > p):\t\t[% 5.3d]\n", 0);
+		printf("\nWIDTH + PRECISION:\n");
+		printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
+		printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
+		printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
+		printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
+		printf("\tSpace + Width + Precision (w < p):\t\t[% 3.5d]\n", 0);
+		printf("\tSpace + Width + Precision (w > p):\t\t[% 5.3d]\n", 0);
 
 		printf("\nZERO PADDING:\n");
 		printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
