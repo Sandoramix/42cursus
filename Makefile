@@ -54,10 +54,14 @@ re: fclean all
 
 # TODO REMOVE ME
 
-main: main.c
+
+build: main.c
 	@$(MAKE)
-	@$(CC) main.c -Ilibft -L. -lftprintf
+	@$(CC) main.c -w -Ilibft -L. -lftprintf
 	@clear
+m: build
 	@./a.out
+b: build
+	@./a.out b
 
 .PHONY: all clean fclean re bonus
