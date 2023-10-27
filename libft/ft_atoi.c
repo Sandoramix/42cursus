@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 00:16:40 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/21 10:50:36 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/27 08:44:36 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_atoi(const char *nptr)
 	int	sign;
 	int	res;
 
+	if (!nptr)
+		return (0);
 	i = 0;
 	while (ft_isspace(nptr[i]))
 		i++;
