@@ -6,10 +6,9 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/29 18:43:22 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/29 22:54:16 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 int	ft_istrlen(const char *s)
 {
