@@ -41,6 +41,8 @@ $(NAME): $(OBJ)
 	@cp libft/libft.a $(NAME)
 	@$(ARCHIVE) $(OBJ)
 
+bonus: all
+
 clean:
 	@$(MAKE) -C libft fclean
 	@$(RM) $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/27 22:45:45 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/29 17:38:52 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int		ft_stridxofstr(const char *str, char *find);
  * @return Copy of the string plus the added padding if necessary.
  * @attention Uses: malloc
  */
-char	*ft_strpadstart(char *s, char c, size_t n);
+char	*ft_strpadstart(char *s, char c, int n);
 /**
  * @brief Add right padding to the string with specified char if necessary.
  * @attention Original string is mutated.
@@ -139,7 +139,7 @@ char	*ft_strpadstart(char *s, char c, size_t n);
  * @return Copy of the string plus the added padding if necessary.
  * @attention Uses: malloc
  */
-char	*ft_strpadend(char *s, char c, size_t n);
+char	*ft_strpadend(char *s, char c, int n);
 /**
  * @brief Update the string to uppercase.
  * @attention Original string is mutated.

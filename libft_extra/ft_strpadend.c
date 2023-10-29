@@ -6,22 +6,23 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:51:06 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/27 13:33:07 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/29 19:17:11 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_strpadend(char *s, char c, size_t n)
+char	*ft_strpadend(char *s, char c, int n)
 {
-	size_t	s_len;
+	int		s_len;
 	char	*res;
 
 	s_len = ft_strlen(s);
-	if (s_len > n)
+	if (s_len > n || n < 0)
 		n = s_len;
 	res = ft_calloc(n + 1, sizeof(char));
-	ft_memcpy(res, s, s_len);
+	if (s)
+		ft_memcpy(res, s, s_len);
 	ft_memset(res + s_len, c, n - s_len);
 	free(s);
 	s = res;

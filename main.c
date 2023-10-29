@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:53:58 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/27 23:24:09 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/29 20:04:38 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,41 +96,41 @@ int	main(int ac, char **av)
 		ft_printf("\n\n\033[36mBONUS\033[37m\n");
 		ft_printf("\n\n\033[33m------------------FT_PRINTF------------------\033[37m\n");
 		ft_printf("\nWIDTH + PRECISION:\n");
-		ft_printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
-		ft_printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
-		ft_printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
-		ft_printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
-		ft_printf("\tSpace + Width + Precision (w < p):\t\t[% 3.5d]\n", 0);
-		ft_printf("\tSpace + Width + Precision (w > p):\t\t[% 5.3d]\n", 0);
+		ft_printf("\tSingle space:\t\t\t\t\t[%.6i]\n", -3);
+		// ft_printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
+		// ft_printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
+		// ft_printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
+		// ft_printf("\tSpace + Width + Precision (3 < 5):\t\t[% 3.5d]\n", 0);
+		// ft_printf("\tSpace + Width + Precision (5 > 3):\t\t[% 5.3d]\n", 0);
 
-		ft_printf("\nZERO PADDING:\n");
-		ft_printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
-		ft_printf("\tMulti space:\t\t\t\t\t[%   0d]\n", 0);
-		ft_printf("\tWidth:\t\t\t\t\t\t[%05d]\n", 0);
-		ft_printf("\tMinus sign + Width:\t\t\t\t[%-05d]\n", 0);
-		ft_printf("\tPrecision:\t\t\t\t\t[%0.5d]\n", 0);
-		ft_printf("\tSpace + Width + Precision (w < p):\t\t[% 03.5d]\n", 0);
-		ft_printf("\tSpace + Width + Precision (w > p):\t\t[% 05.3d]\n", 0);
-		ft_printf("\tMinus sign + Space + Width + Precision (w > p):\t[%- 05.3d]\n", 0);
+		// ft_printf("\nZERO PADDING:\n");
+		// ft_printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
+		// ft_printf("\tMulti space:\t\t\t\t\t[%   0d]\n", 0);
+		// ft_printf("\tWidth:\t\t\t\t\t\t[%05d]\n", 0);
+		// ft_printf("\tMinus sign + Width:\t\t\t\t[%-05d]\n", 0);
+		// ft_printf("\tPrecision:\t\t\t\t\t[%0.5d]\n", 0);
+		// ft_printf("\tSpace + Width + Precision (3 ; 5):\t\t[% 03.5d]\n", 0);
+		// ft_printf("\tSpace + Width + Precision (5 ; 3):\t\t[% 05.3d]\n", 0);
+		// ft_printf("\tMinus sign + Space + Width + Precision (w > p):\t[%- 05.3d]\n", 0);
 
-		printf("\n\n\033[33m------------------ORIGINAL------------------\033[37m\n");
-		printf("\nWIDTH + PRECISION:\n");
-		printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
-		printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
-		printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
-		printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
-		printf("\tSpace + Width + Precision (w < p):\t\t[% 3.5d]\n", 0);
-		printf("\tSpace + Width + Precision (w > p):\t\t[% 5.3d]\n", 0);
+		// printf("\n\n\033[33m------------------ORIGINAL------------------\033[37m\n");
+		// printf("\nWIDTH + PRECISION:\n");
+		// printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
+		// printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
+		// printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
+		// printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
+		// printf("\tSpace + Width + Precision (3 ; 5):\t\t[% 3.5d]\n", 0);
+		// printf("\tSpace + Width + Precision (5 ; 3):\t\t[% 5.3d]\n", 0);
 
-		printf("\nZERO PADDING:\n");
-		printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
-		printf("\tMulti space:\t\t\t\t\t[%   0d]\n", 0);
-		printf("\tWidth:\t\t\t\t\t\t[%05d]\n", 0);
-		printf("\tMinus sign + Width:\t\t\t\t[%-05d]\n", 0);
-		printf("\tPrecision:\t\t\t\t\t[%0.5d]\n", 0);
-		printf("\tSpace + Width + Precision (w < p):\t\t[% 03.5d]\n", 0);
-		printf("\tSpace + Width + Precision (w > p):\t\t[% 05.3d]\n", 0);
-		printf("\tMinus sign + Space + Width + Precision (w > p):\t[%- 05.3d]\n", 0);
+		// printf("\nZERO PADDING:\n");
+		// printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
+		// printf("\tMulti space:\t\t\t\t\t[%   0d]\n", 0);
+		// printf("\tWidth:\t\t\t\t\t\t[%05d]\n", 0);
+		// printf("\tMinus sign + Width:\t\t\t\t[%-05d]\n", 0);
+		// printf("\tPrecision:\t\t\t\t\t[%0.5d]\n", 0);
+		// printf("\tSpace + Width + Precision (3 < 5):\t\t[% 03.5d]\n", 0);
+		// printf("\tSpace + Width + Precision (5 > 3):\t\t[% 05.3d]\n", 0);
+		// printf("\tMinus sign + Space + Width + Precision (w > p):\t[%- 05.3d]\n", 0);
 	}
 	return (0);
 }
