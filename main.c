@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:53:58 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/29 23:22:20 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/30 18:52:13 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ int	main(int ac, char **av)
 		ft_printf("\n\n\033[36mBONUS\033[37m\n");
 		ft_printf("\n\n\033[33m------------------FT_PRINTF------------------\033[37m\n");
 		ft_printf("\nWIDTH + PRECISION:\n");
-		ft_printf("\tSingle space:\t\t\t\t\t[%-20c]\n", 'x');
-		ft_printf("\tShenanigans: [% s]\n", "-");
-		printf("\tsShenanigans: [% s]\n", "-");
+		// ft_printf("\tSingle space:\t\t\t\t\t[%-20c]\n", 'x');
+		ft_printf("\tShenanigans: [% d]\n", -1);
+		printf("\tsShenanigans: [% d]\n", -10);
 
 		// ft_printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
 		// ft_printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);

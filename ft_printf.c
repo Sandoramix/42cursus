@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:51:11 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/29 23:18:34 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/30 19:05:28 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,6 @@ typedef struct s_pfflag
 	bool		has_zeros;
 }	t_pfflag;
 
-
-// static void	pf_printflag(t_pfflag f)
-// {
-// 	printf("\nflag:\n");
-// 	printf("\ttype:%u\n", f.ftype);
-// 	printf("\tresult = %s\n", f.res);
-// 	printf("\tflag = %s\n", f.flag);
-// 	printf("\tllen = %ld\n", f.llen);
-// 	printf("\trlen = %ld\n", f.rlen);
-// 	printf("\tftype = %u\n", f.ftype);
-// 	printf("\treslen = %d\n", f.reslen);
-// 	printf("\twidth = %d\n", f.width);
-// 	printf("\tprec = %d\n", f.prec);
-// 	printf("\tis_upper = %d\n", f.is_upper);
-// 	printf("\thas_prec = %d\n", f.has_prec);
-// 	printf("\thas_plus = %d\n", f.has_plus);
-// 	printf("\thas_minus = %d\n", f.has_minus);
-// 	printf("\thas_convertion = %d\n", f.has_convertion);
-// 	printf("\thas_spaces = %d\n", f.has_spaces);
-// 	printf("\thas_zeros = %d\n", f.has_zeros);
-// }
-
 static char	*pf_pad(char *s, char c, int n, bool start)
 {
 	if (start)
@@ -84,15 +62,19 @@ static size_t	pf_handlestring_start(t_pfflag flag)
 	if ((flag.has_prec && flag.ftype != PF_FSTR))
 		s = ft_strpadstart(s, '0', flag.prec - flag.reslen);
 	if (!flag.has_minus && flag.has_zeros)
-		s = ft_strpadstart(s, '0', flag.width - flag.reslen - (flag.has_plus || flag.res[0] == '-'));
+		s = ft_strpadstart(s, '0', flag.width
+				- flag.reslen - (flag.has_plus || flag.res[0] == '-'));
 	if (flag.has_plus && (flag.res && flag.res[0] != '-'))
-		s = pf_pad(s, '+', ft_strlen(s) + 1, (flag.has_zeros || flag.has_prec) && !flag.has_spaces);
+		s = pf_pad(s, '+', ft_strlen(s) + 1,
+				(flag.has_zeros || flag.has_prec) && !flag.has_spaces);
 	else if (flag.res && flag.res[0] == '-' && flag.ftype != PF_FSTR)
-		s = pf_pad(s, '-', ft_strlen(s) + 1, (flag.has_zeros || flag.has_prec) && !flag.has_spaces);
+		s = pf_pad(s, '-', ft_strlen(s) + 1,
+				(flag.has_zeros || flag.has_prec) && !flag.has_spaces);
 	if (!flag.has_minus && !flag.has_zeros)
 		s = ft_strpadstart(s, ' ', flag.width - flag.reslen);
 	if (flag.has_spaces && !flag.has_plus
-		&& (flag.has_minus || flag.width - flag.reslen <= flag.prec))
+		&& ((!ft_strchr(flag.res, '-') && !flag.has_plus) && (flag.has_minus || (flag.width - flag.reslen <= flag.prec
+				&& (flag.width != 0 || flag.ftype == PF_FINT)))))
 		s = ft_strpadstart(s, ' ', ft_strlen(s) + 1);
 	len = ft_strlen(s);
 	ft_putstr_fd(s, 1);
@@ -119,7 +101,9 @@ static size_t	pf_handlestring_end(t_pfflag flag)
 static size_t	pf_handlestring(t_pfflag flag)
 {
 	int	offset;
+	int	x;
 
+	x = 0;
 	if (flag.is_upper)
 		flag.res = ft_strtoupper(flag.res);
 	if (!flag.res)
@@ -128,6 +112,14 @@ static size_t	pf_handlestring(t_pfflag flag)
 			flag.res = ft_strdup("(null)");
 		else
 			flag.res = ft_strdup("");
+	}
+	if (flag.has_convertion && flag.res[0] != '0')
+	{
+		if (flag.is_upper)
+			ft_putstr_fd("0X", 1);
+		else
+			ft_putstr_fd("0x", 1);
+		x += 2;
 	}
 	offset = (flag.ftype != PF_FSTR && (flag.res[0] == '-' || (flag.res[0] == '0' && flag.has_prec)));
 	flag.reslen = ft_istrlen(flag.res) - offset;
@@ -140,7 +132,7 @@ static size_t	pf_handlestring(t_pfflag flag)
 		write(1, flag.res, flag.reslen);
 	flag.rlen = pf_handlestring_end(flag);
 	free(flag.res);
-	return (flag.llen + flag.rlen + flag.reslen);
+	return (flag.llen + flag.rlen + flag.reslen + x);
 }
 
 size_t	pf_handlechar(char c, t_pfflag flag)
