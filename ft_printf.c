@@ -6,146 +6,24 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:51:11 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/30 19:05:28 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:28:43 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-typedef enum e_funtype
-{
-	PF_FESCAPE,
-	PF_FUNKNOWN,
-	PF_FINT,
-	PF_UINT,
-	PF_FCHAR,
-	PF_FSTR,
-	PF_FHEX,
-	PF_FPOINTER
-}	t_funtype;
-
-typedef struct s_pfflag
-{
-	char		*flag;
-
-	char		*res;
-	size_t		llen;
-	size_t		rlen;
-	t_funtype	ftype;
-	int			reslen;
-	int			width;
-	int			prec;
-	bool		is_upper;
-	bool		has_prec;
-	bool		has_plus;
-	bool		has_minus;
-	bool		has_convertion;
-	bool		has_spaces;
-	bool		has_zeros;
-}	t_pfflag;
-
-static char	*pf_pad(char *s, char c, int n, bool start)
-{
-	if (start)
-		s = ft_strpadstart(s, c, n);
-	else
-		s = ft_strpadend(s, c, n);
-	return (s);
-}
-
-static size_t	pf_handlestring_start(t_pfflag flag)
-{
-	char	*s;
-	size_t	len;
-
-	s = NULL;
-	if ((flag.has_prec && flag.ftype != PF_FSTR))
-		s = ft_strpadstart(s, '0', flag.prec - flag.reslen);
-	if (!flag.has_minus && flag.has_zeros)
-		s = ft_strpadstart(s, '0', flag.width
-				- flag.reslen - (flag.has_plus || flag.res[0] == '-'));
-	if (flag.has_plus && (flag.res && flag.res[0] != '-'))
-		s = pf_pad(s, '+', ft_strlen(s) + 1,
-				(flag.has_zeros || flag.has_prec) && !flag.has_spaces);
-	else if (flag.res && flag.res[0] == '-' && flag.ftype != PF_FSTR)
-		s = pf_pad(s, '-', ft_strlen(s) + 1,
-				(flag.has_zeros || flag.has_prec) && !flag.has_spaces);
-	if (!flag.has_minus && !flag.has_zeros)
-		s = ft_strpadstart(s, ' ', flag.width - flag.reslen);
-	if (flag.has_spaces && !flag.has_plus
-		&& ((!ft_strchr(flag.res, '-') && !flag.has_plus) && (flag.has_minus || (flag.width - flag.reslen <= flag.prec
-				&& (flag.width != 0 || flag.ftype == PF_FINT)))))
-		s = ft_strpadstart(s, ' ', ft_strlen(s) + 1);
-	len = ft_strlen(s);
-	ft_putstr_fd(s, 1);
-	free(s);
-	return (len);
-}
-
-static size_t	pf_handlestring_end(t_pfflag flag)
-{
-	char	*s;
-	size_t	len;
-
-	s = NULL;
-	if (flag.has_minus)
-	{
-		s = ft_strpadend(s, ' ', flag.width - flag.reslen - flag.llen);
-	}
-	len = ft_strlen(s);
-	ft_putstr_fd(s, 1);
-	free(s);
-	return (len);
-}
-
-static size_t	pf_handlestring(t_pfflag flag)
-{
-	int	offset;
-	int	x;
-
-	x = 0;
-	if (flag.is_upper)
-		flag.res = ft_strtoupper(flag.res);
-	if (!flag.res)
-	{
-		if (flag.prec >= 6 || !flag.has_prec)
-			flag.res = ft_strdup("(null)");
-		else
-			flag.res = ft_strdup("");
-	}
-	if (flag.has_convertion && flag.res[0] != '0')
-	{
-		if (flag.is_upper)
-			ft_putstr_fd("0X", 1);
-		else
-			ft_putstr_fd("0x", 1);
-		x += 2;
-	}
-	offset = (flag.ftype != PF_FSTR && (flag.res[0] == '-' || (flag.res[0] == '0' && flag.has_prec)));
-	flag.reslen = ft_istrlen(flag.res) - offset;
-	if (flag.has_prec && flag.prec <= flag.reslen && flag.ftype == PF_FSTR)
-		flag.reslen = flag.prec;
-	flag.llen = pf_handlestring_start(flag);
-	if (flag.ftype == PF_FINT)
-		write(1, flag.res + offset, flag.reslen);
-	else
-		write(1, flag.res, flag.reslen);
-	flag.rlen = pf_handlestring_end(flag);
-	free(flag.res);
-	return (flag.llen + flag.rlen + flag.reslen + x);
-}
 
 size_t	pf_handlechar(char c, t_pfflag flag)
 {
 	flag.reslen = 1;
 	flag.res = NULL;
-	flag.llen = pf_handlestring_start(flag);
+	flag.llen = pf_handle_bonus_start(flag);
 	ft_putchar_fd(c, 1);
-	flag.rlen = pf_handlestring_end(flag);
+	flag.rlen = pf_handle_bonus_end(flag);
 	return (flag.llen + flag.rlen + 1);
 }
 
-static size_t	pf_funswitch(va_list list, t_pfflag flag)
+static size_t	pf_getres(va_list list, t_pfflag flag)
 {
 	if (flag.ftype == PF_FCHAR)
 	{
@@ -168,63 +46,8 @@ static size_t	pf_funswitch(va_list list, t_pfflag flag)
 	else
 		flag.res = ft_strdup(va_arg(list, char *));
 	flag.reslen = ft_strlen(flag.res);
-	return (pf_handlestring(flag));
+	return (pf_handlebonus(flag));
 }
-
-static t_pfflag	pf_update_flag_info(t_pfflag flag)
-{
-	size_t	rawlen;
-	int		i;
-
-	rawlen = ft_strlen(flag.flag);
-	flag.prec = -1;
-	flag.has_convertion = false;
-	flag.has_minus = !!ft_strchr(flag.flag, '-');
-	flag.has_plus = !!ft_strchr(flag.flag, '+');
-	flag.has_spaces = !!ft_strchr(flag.flag, ' ') && !flag.has_plus;
-	flag.is_upper = ft_tolower(flag.flag[rawlen - 1]) != flag.flag[rawlen - 1];
-	flag.has_zeros = false;
-	if (ft_strchr(flag.flag, '#'))
-		flag.has_convertion = true;
-	i = ft_istrlen(flag.flag) - 2;
-	while (i > 0 && (ft_isdigit(flag.flag[i]) || flag.flag[i] == '.'))
-		i--;
-	flag.width = ft_atoi(flag.flag + i + 1);
-	if (ft_strchr(flag.flag, '.'))
-		flag.prec = ft_atoi(ft_strchr(flag.flag, '.') + 1);
-	flag.has_prec = flag.prec != -1;
-	if (ft_strchr(flag.flag, '0'))
-		flag.has_zeros = !ft_isdigit(*(ft_strchr(flag.flag, '0') - 1))
-			&& !flag.has_prec;
-	return (flag);
-}
-
-static t_pfflag	pf_getflag(char *flag)
-{
-	size_t		f_len;
-	t_pfflag	res;
-
-	f_len = ft_strlen(flag);
-	res.flag = flag;
-	res.ftype = PF_FUNKNOWN;
-	if (ft_strchr("dii", flag[f_len - 1]))
-		res.ftype = PF_FINT;
-	else if (flag[f_len - 1] == 'p')
-		res.ftype = (PF_FPOINTER);
-	else if (ft_strchr("xX", flag[f_len - 1]))
-		res.ftype = (PF_FHEX);
-	else if (flag[f_len - 1] == 'u')
-		res.ftype = (PF_UINT);
-	else if (flag[f_len - 1] == '%' && f_len > 1)
-		res.ftype = (PF_FESCAPE);
-	else if (flag[f_len - 1] == 'c')
-		res.ftype = (PF_FCHAR);
-	else if (flag[f_len - 1] == 's')
-		res.ftype = (PF_FSTR);
-	return (pf_update_flag_info(res));
-}
-
-
 
 static void	pf_parseargs(const char *s, va_list list, size_t *len)
 {
@@ -246,7 +69,7 @@ static void	pf_parseargs(const char *s, va_list list, size_t *len)
 			write(1, s + print_idx, start - print_idx);
 			print_idx = i + 1;
 			*len = (*len - (i - start + 1))
-				+ pf_funswitch(list, pf_getflag(flag));
+				+ pf_getres(list, pf_getflag(flag));
 			free(flag);
 		}
 	}
