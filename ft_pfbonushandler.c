@@ -6,13 +6,11 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:07:41 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/31 15:43:56 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:47:18 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-
 
 size_t	pf_handle_bonus_start(t_pfflag flag)
 {
