@@ -6,38 +6,38 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:00:18 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/31 14:06:01 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:27:05 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-
 static t_pfflag	pf_parseflag(t_pfflag flag)
 {
 	size_t	rawlen;
-	int		i;
+	int		d_i;
 
 	rawlen = ft_strlen(flag.flag);
-	flag.has_convertion = false;
-	flag.has_zeros = false;
+	flag.convert = false;
+	flag.wzeros = false;
 	flag.prec = -1;
-	flag.has_minus = !!ft_strchr(flag.flag, '-');
-	flag.has_plus = !!ft_strchr(flag.flag, '+');
-	flag.has_spaces = !!ft_strchr(flag.flag, ' ') && !flag.has_plus;
-	flag.is_upper = ft_tolower(flag.flag[rawlen - 1]) != flag.flag[rawlen - 1];
+	flag.wminus = !!ft_strchr(flag.flag, '-');
+	flag.wplus = !!ft_strchr(flag.flag, '+');
+	flag.wspaces = !!ft_strchr(flag.flag, ' ') && !flag.wplus;
+	flag.isupper = ft_tolower(flag.flag[rawlen - 1]) != flag.flag[rawlen - 1];
+	flag.zero = false;
 	if (ft_strchr(flag.flag, '#'))
-		flag.has_convertion = true;
-	i = ft_istrlen(flag.flag) - 2;
-	while (i > 0 && (ft_isdigit(flag.flag[i]) || flag.flag[i] == '.'))
-		i--;
-	flag.width = ft_atoi(flag.flag + i + 1);
+		flag.convert = true;
+	d_i = ft_istrlen(flag.flag) - 2;
+	while (d_i > 0 && (ft_isdigit(flag.flag[d_i]) || flag.flag[d_i] == '.'))
+		d_i--;
+	flag.width = ft_atoi(flag.flag + d_i + 1);
 	if (ft_strchr(flag.flag, '.'))
 		flag.prec = ft_atoi(ft_strchr(flag.flag, '.') + 1);
-	flag.has_prec = flag.prec != -1;
+	flag.wprec = flag.prec != -1;
 	if (ft_strchr(flag.flag, '0'))
-		flag.has_zeros = !ft_isdigit(*(ft_strchr(flag.flag, '0') - 1))
-			&& !flag.has_prec;
+		flag.wzeros = !flag.wprec
+			&& !ft_isdigit(*(ft_strchr(flag.flag, '0') - 1));
 	return (flag);
 }
 
@@ -48,21 +48,20 @@ t_pfflag	pf_getflag(char *f)
 
 	f_len = ft_strlen(f);
 	flag.flag = f;
-	flag.ftype = PF_FUNKNOWN;
+	flag.type = PF_UNKNOWN;
 	if (ft_strchr("dii", f[f_len - 1]))
-		flag.ftype = PF_FINT;
+		flag.type = PF_INT;
 	else if (f[f_len - 1] == 'p')
-		flag.ftype = (PF_FPOINTER);
+		flag.type = (PF_POINTER);
 	else if (ft_strchr("xX", f[f_len - 1]))
-		flag.ftype = (PF_FHEX);
+		flag.type = (PF_HEX);
 	else if (f[f_len - 1] == 'u')
-		flag.ftype = (PF_UINT);
+		flag.type = (PF_UINT);
 	else if (f[f_len - 1] == '%' && f_len > 1)
-		flag.ftype = (PF_FESCAPE);
+		flag.type = (PF_ESCAPE);
 	else if (f[f_len - 1] == 'c')
-		flag.ftype = (PF_FCHAR);
+		flag.type = (PF_CHAR);
 	else if (f[f_len - 1] == 's')
-		flag.ftype = (PF_FSTR);
+		flag.type = (PF_STR);
 	return (pf_parseflag(flag));
 }
-

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/31 14:25:27 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:28:02 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@
 
 # define PF_ARGS_WHITELIST " .+-#0123456789"
 
-typedef enum e_funtype
+typedef enum e_pftype
 {
-	PF_FESCAPE,
-	PF_FUNKNOWN,
-	PF_FINT,
+	PF_ESCAPE,
+	PF_UNKNOWN,
+	PF_INT,
 	PF_UINT,
-	PF_FCHAR,
-	PF_FSTR,
-	PF_FHEX,
-	PF_FPOINTER
-}	t_funtype;
+	PF_CHAR,
+	PF_STR,
+	PF_HEX,
+	PF_POINTER
+}	t_pftype;
 
 typedef struct s_pfflag
 {
@@ -38,24 +38,27 @@ typedef struct s_pfflag
 
 	char		*res;
 	int			reslen;
+	bool		zero;
+	bool		minus;
 
 	size_t		llen;
 	size_t		rlen;
 
-	t_funtype	ftype;
+	t_pftype	type;
 
 	int			width;
+
 	int			prec;
+	bool		wprec;
 
-	bool		is_upper;
-	bool		has_prec;
-	bool		has_plus;
-	bool		has_minus;
-	bool		has_convertion;
-	bool		has_spaces;
-	bool		has_zeros;
+	bool		isupper;
+	bool		convert;
+
+	bool		wplus;
+	bool		wminus;
+	bool		wspaces;
+	bool		wzeros;
 }	t_pfflag;
-
 
 /**
  * @brief Like the original one ;)
@@ -81,10 +84,5 @@ size_t		pf_handlebonus(t_pfflag flag);
  */
 t_pfflag	pf_getflag(char *f);
 size_t		pf_handle_bonus_end(t_pfflag flag);
-/**
- * @brief Print format of the result
- * @param flag
- * @return
- */
 size_t		pf_handle_bonus_start(t_pfflag flag);
 #endif

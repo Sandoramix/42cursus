@@ -6,11 +6,13 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:07:41 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/31 14:34:45 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:43:56 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+
 
 size_t	pf_handle_bonus_start(t_pfflag flag)
 {
@@ -18,22 +20,22 @@ size_t	pf_handle_bonus_start(t_pfflag flag)
 	size_t	len;
 
 	s = NULL;
-	if ((flag.has_prec && flag.ftype != PF_FSTR))
+	if ((flag.wprec && flag.type != PF_STR))
 		s = ft_strpad(s, '0', flag.prec - flag.reslen, true);
-	if (!flag.has_minus && flag.has_zeros)
+	if (!flag.wminus && flag.wzeros)
 		s = ft_strpad(s, '0', flag.width - flag.reslen
-				- (flag.has_plus || flag.res[0] == '-'), true);
-	if (flag.has_plus && (flag.res && flag.res[0] != '-'))
+				- (flag.wplus || flag.res[0] == '-'), true);
+	if (flag.wplus && (flag.res && flag.res[0] != '-'))
 		s = ft_strpad(s, '+', ft_strlen(s) + 1,
-				(flag.has_zeros || flag.has_prec) && !flag.has_spaces);
-	else if (flag.res && flag.res[0] == '-' && flag.ftype != PF_FSTR)
+				(flag.wzeros || flag.wprec) && !flag.wspaces);
+	else if (flag.res && flag.res[0] == '-' && flag.type != PF_STR)
 		s = ft_strpad(s, '-', ft_strlen(s) + 1,
-				(flag.has_zeros || flag.has_prec) && !flag.has_spaces);
-	if (!flag.has_minus && !flag.has_zeros)
+				(flag.wzeros || flag.wprec) && !flag.wspaces);
+	if (!flag.wminus && !flag.wzeros)
 		s = ft_strpad(s, ' ', flag.width - flag.reslen, true);
-	if (flag.has_spaces && !flag.has_plus
-		&& ((!ft_strchr(flag.res, '-') && !flag.has_plus) && (flag.has_minus || (flag.width - flag.reslen <= flag.prec
-				&& (flag.width != 0 || flag.ftype == PF_FINT)))))
+	if (flag.wspaces && !flag.wplus && (!flag.minus && !flag.wplus
+			&& (flag.wminus || (flag.width - flag.reslen <= flag.prec
+					&& (flag.width != 0 || flag.type == PF_INT)))))
 		s = ft_strpad(s, ' ', ft_strlen(s) + 1, true);
 	len = ft_strlen(s);
 	ft_putstr_fd(s, 1);
@@ -47,49 +49,48 @@ size_t	pf_handle_bonus_end(t_pfflag flag)
 	size_t	len;
 
 	s = NULL;
-	if (flag.has_minus)
-	{
+	if (flag.wminus)
 		s = ft_strpad(s, ' ', flag.width - flag.reslen - flag.llen, false);
-	}
 	len = ft_strlen(s);
 	ft_putstr_fd(s, 1);
 	free(s);
 	return (len);
 }
 
-size_t	pf_handlebonus(t_pfflag flag)
+static t_pfflag	pf_handle_nullstr(t_pfflag flag)
 {
-	int	offset;
-	int	x;
-
-	x = 0;
-	if (flag.is_upper)
-		flag.res = ft_strtoupper(flag.res);
 	if (!flag.res)
 	{
-		if (flag.prec >= 6 || !flag.has_prec)
+		if (flag.prec >= 6 || !flag.wprec)
 			flag.res = ft_strdup("(null)");
 		else
 			flag.res = ft_strdup("");
 	}
-	if (flag.has_convertion && flag.res[0] != '0')
-	{
-		if (flag.is_upper)
-			ft_putstr_fd("0X", 1);
-		else
-			ft_putstr_fd("0x", 1);
-		x += 2;
-	}
-	offset = (flag.ftype != PF_FSTR && (flag.res[0] == '-' || (flag.res[0] == '0' && flag.has_prec)));
+	return (flag);
+}
+
+size_t	pf_handlebonus(t_pfflag flag)
+{
+	int	offset;
+
+	flag = pf_handle_nullstr(flag);
+	if (flag.isupper)
+		flag.res = ft_strtoupper(flag.res);
+	if (flag.convert && !flag.zero && flag.isupper)
+		ft_putstr_fd("0X", 1);
+	else if (flag.convert && !flag.zero)
+		ft_putstr_fd("0x", 1);
+	offset = flag.type != PF_STR && (flag.minus || (flag.zero && flag.wprec));
 	flag.reslen = ft_istrlen(flag.res) - offset;
-	if (flag.has_prec && flag.prec <= flag.reslen && flag.ftype == PF_FSTR)
+	if (flag.wprec && flag.prec <= flag.reslen && flag.type == PF_STR)
 		flag.reslen = flag.prec;
 	flag.llen = pf_handle_bonus_start(flag);
-	if (flag.ftype == PF_FINT)
+	if (flag.type == PF_INT)
 		write(1, flag.res + offset, flag.reslen);
 	else
 		write(1, flag.res, flag.reslen);
 	flag.rlen = pf_handle_bonus_end(flag);
+	offset = (flag.convert && !flag.zero) * 2;
 	free(flag.res);
-	return (flag.llen + flag.rlen + flag.reslen + x);
+	return (flag.llen + flag.rlen + flag.reslen + offset);
 }

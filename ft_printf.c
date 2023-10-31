@@ -6,12 +6,11 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:51:11 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/31 14:28:43 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:45:18 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
 
 size_t	pf_handlechar(char c, t_pfflag flag)
 {
@@ -25,27 +24,30 @@ size_t	pf_handlechar(char c, t_pfflag flag)
 
 static size_t	pf_getres(va_list list, t_pfflag flag)
 {
-	if (flag.ftype == PF_FCHAR)
+	flag.res = NULL;
+	if (flag.type == PF_CHAR)
 	{
 		flag.reslen = 1;
 		return (pf_handlechar((char)va_arg(list, int), flag));
 	}
-	else if (flag.ftype == PF_FESCAPE)
+	else if (flag.type == PF_ESCAPE)
 	{
 		ft_putchar_fd('%', 1);
 		return (1);
 	}
-	else if (flag.ftype == PF_FINT)
+	else if (flag.type == PF_INT)
 		flag.res = ft_itoa(va_arg(list, int));
-	else if (flag.ftype == PF_UINT)
+	else if (flag.type == PF_UINT)
 		flag.res = ft_uitoa(va_arg(list, unsigned int));
-	else if (flag.ftype == PF_FHEX)
+	else if (flag.type == PF_HEX)
 		flag.res = ft_itohex(va_arg(list, unsigned int));
-	else if (flag.ftype == PF_FPOINTER)
+	else if (flag.type == PF_POINTER)
 		flag.res = ft_getaddr(va_arg(list, void *));
 	else
 		flag.res = ft_strdup(va_arg(list, char *));
 	flag.reslen = ft_strlen(flag.res);
+	flag.zero = flag.res && flag.res[0] == '0';
+	flag.minus = flag.res && flag.res[0] == '-';
 	return (pf_handlebonus(flag));
 }
 
