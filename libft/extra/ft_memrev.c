@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nbr_len.c                                       :+:      :+:    :+:   */
+/*   ft_memrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/21 10:51:13 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:14:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "ft_printf.h"
 
-int	ft_nbr_len(long long n, int base_len)
+#include "libft.h"
+
+void	*ft_memrev(void *mem, size_t len)
 {
-	int	res;
+	size_t			i;
+	unsigned char	*mem_p;
+	unsigned char	tmp;
 
-	res = 0;
-	if (n == 0)
-		return (1);
-	if (n < 0)
-		res++;
-	while (n != 0)
+	mem_p = (unsigned char *) mem;
+	i = 0;
+	while (i <= len / 2)
 	{
-		res++;
-		n /= base_len;
+		tmp = mem_p[i];
+		mem_p[i] = mem_p[len - 1 - i];
+		mem_p[len - 1 - i] = tmp;
 	}
-	return (res);
+	return (mem_p);
 }

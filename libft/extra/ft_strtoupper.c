@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memrev.c                                        :+:      :+:    :+:   */
+/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/21 10:51:13 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:15:03 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "ft_printf.h"
 
-void	*ft_memrev(void *mem, size_t len)
+#include "libft.h"
+
+char	*ft_strtoupper(char *s)
 {
-	size_t			i;
-	unsigned char	*mem_p;
-	unsigned char	tmp;
+	int		i;
 
-	mem_p = (unsigned char *) mem;
-	i = 0;
-	while (i <= len / 2)
-	{
-		tmp = mem_p[i];
-		mem_p[i] = mem_p[len - 1 - i];
-		mem_p[len - 1 - i] = tmp;
-	}
-	return (mem_p);
+	i = -1;
+	if (!s)
+		return (s);
+	while (s[++i])
+		s[i] = ft_toupper(s[i]);
+	return (s);
 }

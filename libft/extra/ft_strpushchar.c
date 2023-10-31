@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
+/*   ft_strpushchar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/21 10:51:13 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/25 19:43:58 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/31 14:13:06 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "ft_printf.h"
 
-char	*ft_strtoupper(char *s)
+#include "libft.h"
+
+char	*ft_strpushcar(char *s, char c)
 {
-	int		i;
+	char	*res;
+	size_t	s_len;
 
-	i = -1;
-	if (!s)
-		return (s);
-	while (s[++i])
-		s[i] = ft_toupper(s[i]);
+	s_len = ft_strlen(s);
+	res = ft_calloc(s_len + 2, sizeof(char));
+	if (!res)
+		return (NULL);
+	ft_strlcat(res, s, s_len + 2);
+	res[s_len] = (char) c;
+	free(s);
+	s = res;
 	return (s);
 }

@@ -6,11 +6,11 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 16:43:47 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/22 16:57:55 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:13:06 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
 char	*ft_strreplace(char *str, char *find, char *replace)
 {

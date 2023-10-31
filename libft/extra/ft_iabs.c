@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_uitoa.c                                         :+:      :+:    :+:   */
+/*   ft_iabs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.      +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 17:38:47 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/21 10:51:13 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/31 14:14:30 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-char	*ft_uitoa(unsigned int n)
+unsigned int	ft_iabs(int n)
 {
-	return (ft_ultoa_base(n, BASE10));
+	if (n < 0)
+		return (-n);
+	return (n);
 }

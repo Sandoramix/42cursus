@@ -1,39 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stridxofstr.c                                   :+:      :+:    :+:   */
+/*   ft_itohex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/22 10:54:27 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/22 15:59:51 by odudniak         ###   ########.fr       */
+/*   Created: 2023/10/19 14:52:19 by odudniak          #+#    #+#             */
+/*   Updated: 2023/10/31 14:13:55 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <stdio.h>
+#include "libft.h"
 
-int	ft_stridxofstr(const char *str, char *find)
+char	*ft_itohex(unsigned long n)
 {
-	int		i;
-	size_t	j;
-	size_t	find_len;
-
-	if (!str || !find)
-		return (-1);
-	find_len = ft_strlen(find);
-	if (find_len == 0)
-		return (0);
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		j = 0;
-		while (find[j] && find[j] == str[i + j])
-			j++;
-		if (j == find_len)
-			return (i);
-		i++;
-	}
-	return (-1);
+	return (ft_ultoa_base(n, BASE16));
 }
