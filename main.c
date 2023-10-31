@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:53:58 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/30 18:52:13 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:46:02 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 int	main(int ac, char **av)
 {
+	const int	n = 42;
+
 	if (ac == 1 || (ac > 1 && strcmp(av[1], "b")))
 	{
 		printf("\n\n\033[33mMANDATORY\033[37m\n");
@@ -50,9 +52,10 @@ int	main(int ac, char **av)
 		ft_printf("\nMIXED DATA:\n");
 		ft_printf("\nLEN CHECK = %s",
 			ft_printf("\t[%c%i%s%d%c%u%c%x%c%X%c%p%%]\n",
-				' ', 42, " is equal to ", 42, ' ', 42, ' ', 42, ' ', 42, ' ', (void *)42) == 37
-					? "\033[32mOK\033[0;39m"
-					: "\033[31mKO\033[0;39m");
+				' ', 42, " is equal to ", 42, ' ', 42, ' ', 42, ' ', 42,
+				' ', &n) == 47
+				? "\033[32mOK\033[0;39m"
+				: "\033[31mKO\033[0;39m");
 
 		printf("\n\n\033[33mORIGINAL\033[37m\n");
 		printf("\nINT / DECIMAL:\n");
@@ -84,56 +87,54 @@ int	main(int ac, char **av)
 		printf("\nMIXED DATA:\n");
 		printf("\nLEN CHECK = %s",
 			printf("\t[%c%i%s%d%c%u%c%x%c%X%c%p%%]\n",
-				' ', 42, " is equal to ", 42, ' ', 42, ' ', 42, ' ', 42, ' ', (void *)42) == 37
-					? "\033[32mOK\033[0;39m"
-					: "\033[31mKO\033[0;39m");
+				' ', 42, " is equal to ", 42, ' ', 42, ' ', 42, ' ', 42,
+				' ', &n) == 47
+				? "\033[32mOK\033[0;39m"
+				: "\033[31mKO\033[0;39m");
 	}
-
-
-
 	if (ac > 1 && !strcmp(av[1], "b"))
 	{
 		ft_printf("\n\n\033[36mBONUS\033[37m\n");
-		ft_printf("\n\n\033[33m------------------FT_PRINTF------------------\033[37m\n");
+		ft_printf("\n\n\033[33m-------------FT_PRINTF-------------\033[37m\n");
 		ft_printf("\nWIDTH + PRECISION:\n");
-		// ft_printf("\tSingle space:\t\t\t\t\t[%-20c]\n", 'x');
+		ft_printf("\tSingle space:\t\t\t\t\t[%-20c]\n", 'x');
 		ft_printf("\tShenanigans: [% d]\n", -1);
 		printf("\tsShenanigans: [% d]\n", -10);
 
-		// ft_printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
-		// ft_printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
-		// ft_printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
-		// ft_printf("\tSpace + Width + Precision (3 < 5):\t\t[% 3.5d]\n", 0);
-		// ft_printf("\tSpace + Width + Precision (5 > 3):\t\t[% 5.3d]\n", 0);
+		ft_printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
+		ft_printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
+		ft_printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
+		ft_printf("\tSpace + Width + Precision (3 < 5):\t\t[% 3.5d]\n", 0);
+		ft_printf("\tSpace + Width + Precision (5 > 3):\t\t[% 5.3d]\n", 0);
 
-		// ft_printf("\nZERO PADDING:\n");
-		// ft_printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
-		// ft_printf("\tMulti space:\t\t\t\t\t[%   0d]\n", 0);
-		// ft_printf("\tWidth:\t\t\t\t\t\t[%05d]\n", 0);
-		// ft_printf("\tMinus sign + Width:\t\t\t\t[%-05d]\n", 0);
-		// ft_printf("\tPrecision:\t\t\t\t\t[%0.5d]\n", 0);
-		// ft_printf("\tSpace + Width + Precision (3 ; 5):\t\t[% 03.5d]\n", 0);
-		// ft_printf("\tSpace + Width + Precision (5 ; 3):\t\t[% 05.3d]\n", 0);
-		// ft_printf("\tMinus sign + Space + Width + Precision (w > p):\t[%- 05.3d]\n", 0);
+		ft_printf("\nZERO PADDING:\n");
+		ft_printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
+		ft_printf("\tMulti space:\t\t\t\t\t[%   0d]\n", 0);
+		ft_printf("\tWidth:\t\t\t\t\t\t[%05d]\n", 0);
+		ft_printf("\tMinus sign + Width:\t\t\t\t[%-05d]\n", 0);
+		ft_printf("\tPrecision:\t\t\t\t\t[%0.5d]\n", 0);
+		ft_printf("\tSpace + Width + Precision (3 ; 5):\t\t[% 03.5d]\n", 0);
+		ft_printf("\tSpace + Width + Precision (5 ; 3):\t\t[% 05.3d]\n", 0);
+		ft_printf("\t[-] + [ ] + Width + Precision (w > p):\t[%- 05.3d]\n", 0);
 
-		// printf("\n\n\033[33m------------------ORIGINAL------------------\033[37m\n");
-		// printf("\nWIDTH + PRECISION:\n");
-		// printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
-		// printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
-		// printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
-		// printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
-		// printf("\tSpace + Width + Precision (3 ; 5):\t\t[% 3.5d]\n", 0);
-		// printf("\tSpace + Width + Precision (5 ; 3):\t\t[% 5.3d]\n", 0);
+		printf("\n\n\033[33m-------------ORIGINAL-------------\033[37m\n");
+		printf("\nWIDTH + PRECISION:\n");
+		printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
+		printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
+		printf("\tWidth:\t\t\t\t\t\t[%5d]\n", 0);
+		printf("\tPrecision:\t\t\t\t\t[%.5d]\n", 0);
+		printf("\tSpace + Width + Precision (3 ; 5):\t\t[% 3.5d]\n", 0);
+		printf("\tSpace + Width + Precision (5 ; 3):\t\t[% 5.3d]\n", 0);
 
-		// printf("\nZERO PADDING:\n");
-		// printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
-		// printf("\tMulti space:\t\t\t\t\t[%   0d]\n", 0);
-		// printf("\tWidth:\t\t\t\t\t\t[%05d]\n", 0);
-		// printf("\tMinus sign + Width:\t\t\t\t[%-05d]\n", 0);
-		// printf("\tPrecision:\t\t\t\t\t[%0.5d]\n", 0);
-		// printf("\tSpace + Width + Precision (3 < 5):\t\t[% 03.5d]\n", 0);
-		// printf("\tSpace + Width + Precision (5 > 3):\t\t[% 05.3d]\n", 0);
-		// printf("\tMinus sign + Space + Width + Precision (w > p):\t[%- 05.3d]\n", 0);
+		printf("\nZERO PADDING:\n");
+		printf("\tSingle space:\t\t\t\t\t[% 0d]\n", 0);
+		printf("\tMulti space:\t\t\t\t\t[%   0d]\n", 0);
+		printf("\tWidth:\t\t\t\t\t\t[%05d]\n", 0);
+		printf("\tMinus sign + Width:\t\t\t\t[%-05d]\n", 0);
+		printf("\tPrecision:\t\t\t\t\t[%0.5d]\n", 0);
+		printf("\tSpace + Width + Precision (3 < 5):\t\t[% 03.5d]\n", 0);
+		printf("\tSpace + Width + Precision (5 > 3):\t\t[% 05.3d]\n", 0);
+		printf("\t[-] + [ ] + Width + Precision (w > p):\t[%- 05.3d]\n", 0);
 	}
 	return (0);
 }
