@@ -6,9 +6,21 @@ CFLAGS = -Wall -Wextra #-Werror
 COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
 
-SRC = ft_printf.c \
-	ft_pfflag.c \
-	ft_pfbonushandler.c
+SRC = ./ft_pfbonushandler.c \
+	./ft_pfflag.c \
+	./ft_printf.c \
+	./utils/ft_getaddr.c \
+	./utils/ft_iabs.c \
+	./utils/ft_istrlen.c \
+	./utils/ft_itohex.c \
+	./utils/ft_nbr_len.c \
+	./utils/ft_stridxofstr.c \
+	./utils/ft_strpad.c \
+	./utils/ft_strreplace_first.c \
+	./utils/ft_strtoupper.c \
+	./utils/ft_uitoa.c \
+	./utils/ft_ulnbr_len.c \
+	./utils/ft_ultoa_base.c
 
 OBJ = $(SRC:.c=.o)
 
