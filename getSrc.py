@@ -31,10 +31,10 @@ for x in os.walk(PATH):
 
 with open(OUTFILE, "w") as file:
 	out = "SRC = "
-	for i, v in enumerate(srcs):
+	for i, v in enumerate(sorted(srcs)):
 		out += ("" if i == 0 else "\t") + v + (" \\" if i < len(srcs) - 1 else "") + "\n"
 	out += "\nSRC_BONUS = "
-	for i, v in enumerate(bonuses):
+	for i, v in enumerate(sorted(bonuses)):
 		out += ("" if i == 0 else "\t") + v + (" \\" if i < len(bonuses) - 1 else "") + "\n"
 	file.write(out)
 	print(out)
