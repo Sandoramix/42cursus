@@ -16,7 +16,6 @@ SRC = ./ft_pfbonushandler.c \
 	./utils/ft_nbr_len.c \
 	./utils/ft_stridxofstr.c \
 	./utils/ft_strpad.c \
-	./utils/ft_strreplace_first.c \
 	./utils/ft_strtoupper.c \
 	./utils/ft_uitoa.c \
 	./utils/ft_ulnbr_len.c \
