@@ -13,7 +13,7 @@ This branch (`master`) is used only to share useful information between all of t
 Checked: *`done`*
 
 - [x] [libft<br><img src="https://github.com/Sandoramix/42cursus/assets/70036883/94a9fac7-a6a1-43b8-b80f-f20e3f65c8bf" style="height: 160px;object-fit: scale-down;">](https://github.com/Sandoramix/42cursus/tree/libft)
-- [ ] [ft_printf](https://github.com/Sandoramix/42cursus/tree/ft_printf)
+- [ ] [ft_printf<br><img src="https://github.com/Sandoramix/42cursus/assets/70036883/6b116105-06d1-4915-98bd-6355513e55d6" style="height: 160px;object-fit: scale-down;">](https://github.com/Sandoramix/42cursus/tree/ft_printf)
 
 ---
 
