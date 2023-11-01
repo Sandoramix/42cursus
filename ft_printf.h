@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2023/11/01 14:57:16 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:04:29 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ size_t		pf_handlebonus(t_pfflag flag);
 /**
  * @brief Parse flag information
  *
- * @param f flag's string
+ * @param f THE flag
  * @return t_pfflag the structure
  */
 t_pfflag	pf_getflag(char *f);
@@ -93,28 +93,28 @@ size_t		pf_handle_bonus_start(t_pfflag flag);
  * @return The pointer's address in hexadecimal characters
  * @attention Uses: malloc
  */
-char	*ft_getaddr(void *p);
+char		*ft_getaddr(void *p);
 /**
  * @brief Get the length of the string
  *
  * @param s string
  * @return Length of the string as integer
  */
-int		ft_istrlen(const char *s);
+int			ft_istrlen(const char *s);
 /**
  * @brief Convert a number to hex
  * @param n number `int`
  * @return String of the hex number. (`0x`) excluded
  * @attention Uses: malloc
  */
-char	*ft_itohex(unsigned long n);
+char		*ft_itohex(unsigned long n);
 /**
  * @brief Get the total count of the number in specific base.
  * @param n number to check
  * @param base_len len of the base (10, 16, etc.)
  * @return count of the final digits
  */
-int		ft_ulnbr_len(unsigned long n, int base_len);
+int			ft_ulnbr_len(unsigned long n, int base_len);
 /**
  * @brief Add right padding to the string with specified char if necessary.
  * @attention Original string is mutated.
@@ -126,7 +126,7 @@ int		ft_ulnbr_len(unsigned long n, int base_len);
  * @return Copy of the string plus the added padding if necessary.
  * @attention Uses: malloc
  */
-char	*ft_strpad(char *s, char c, int n, bool start);
+char		*ft_strpad(char *s, char c, int n, bool start);
 /**
  * @brief Update the string to uppercase.
  * @attention Original string is mutated.
@@ -134,14 +134,14 @@ char	*ft_strpad(char *s, char c, int n, bool start);
  * @param s string to return
  * @return The converted string.
  */
-char	*ft_strtoupper(char *s);
+char		*ft_strtoupper(char *s);
 /**
  * @brief Convert an `unsigned int` into a string
  * @param n unsigned int
  * @return The number as a string
  * @attention Uses: malloc.
  */
-char	*ft_uitoa(unsigned int n);
+char		*ft_uitoa(unsigned int n);
 /**
  * @brief Allocates (with malloc(3)) and returns a string
  * representing the integer received as an argument.
@@ -151,5 +151,5 @@ char	*ft_uitoa(unsigned int n);
  * NULL if the allocation fails.
  * @attention Uses: malloc
  */
-char	*ft_ultoa_base(unsigned long n, const char *base);
+char		*ft_ultoa_base(unsigned long n, const char *base);
 #endif
