@@ -6,12 +6,24 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:07:41 by odudniak          #+#    #+#             */
-/*   Updated: 2023/10/31 15:47:18 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:53:54 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
+/**
+ * @brief Handle the formatting before the result.
+ * [1] If: there's a precision and we're not working with a string,
+ * 	then we'll zero-pad up until `flag.prec` characters
+ * [2] If: there's no [-] sign && there's a 0,
+ * 	then we'll zero-pad up until `flag.width` characters
+ * 		including (if present) the sign.
+ * [3-4] If: (if present) add the sign [+] or [-] in the correct position
+ * [5] If: add necessary space padding if the alignment is right sided.
+ * [6] If: [Shenanigans] add a space if necessary.
+ * @param flag flag
+ * @return count of total printed characters
+ */
 size_t	pf_handle_bonus_start(t_pfflag flag)
 {
 	char	*s;
@@ -22,11 +34,11 @@ size_t	pf_handle_bonus_start(t_pfflag flag)
 		s = ft_strpad(s, '0', flag.prec - flag.reslen, true);
 	if (!flag.wminus && flag.wzeros)
 		s = ft_strpad(s, '0', flag.width - flag.reslen
-				- (flag.wplus || flag.res[0] == '-'), true);
-	if (flag.wplus && (flag.res && flag.res[0] != '-'))
+				- (flag.wplus || flag.minus), true);
+	if (flag.wplus && (flag.res && !flag.minus))
 		s = ft_strpad(s, '+', ft_strlen(s) + 1,
 				(flag.wzeros || flag.wprec) && !flag.wspaces);
-	else if (flag.res && flag.res[0] == '-' && flag.type != PF_STR)
+	else if (flag.res && flag.minus && flag.type != PF_STR)
 		s = ft_strpad(s, '-', ft_strlen(s) + 1,
 				(flag.wzeros || flag.wprec) && !flag.wspaces);
 	if (!flag.wminus && !flag.wzeros)
@@ -41,6 +53,13 @@ size_t	pf_handle_bonus_start(t_pfflag flag)
 	return (len);
 }
 
+/**
+ * @brief Handle the formatting after the result.
+ * If there's a left alignment then space-pad up until
+ * `width - reslen - llen` characters.
+ * @param flag flag
+ * @return count of total printed characters
+ */
 size_t	pf_handle_bonus_end(t_pfflag flag)
 {
 	char	*s;
