@@ -2,7 +2,7 @@ NAME=libftprintf.a
 
 RM = rm -f
 CC = gcc
-CFLAGS = -Wall -Wextra #-Werror
+CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS) -c
 ARCHIVE = ar rc $(NAME)
 
@@ -45,17 +45,5 @@ fclean: clean
 	@echo Removed $(NAME)!
 
 re: fclean all
-
-# TODO REMOVE ME
-
-
-build: main.c
-	@$(MAKE)
-	@$(CC) main.c -w -Ilibft -L. -lftprintf
-	@clear
-m: build
-	@./a.out
-b: build
-	@./a.out b
 
 .PHONY: all clean fclean re bonus
