@@ -4,7 +4,7 @@
 
 Every cursus' project will have it's own branch.
 
-This branch (`master`) is used only to share useful information between them.
+This branch (`master`) is used only to share useful information between projects.
 
 ---
 
