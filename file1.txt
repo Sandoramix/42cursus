@@ -1,5 +1,1 @@
-	Lorem ipsum dolor sit amet consectetur adipisicing elit.
-	Obcaecati corporis cupiditate vel neque,
-
-	impedit qui sunt asperiores reprehenderit natus adipisci earum at rem accusamus magnam cumque et sed praesentium! Dolorum a accusamus nostrum sapiente voluptas odit reprehenderit tempora impedit eligendi assumenda,
-	ad numquam dignissimos doloribus placeat consequuntur nihil dolorem reiciendis.
+Ciao
