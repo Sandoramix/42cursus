@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 14:17:47 by odudniak          #+#    #+#             */
-/*   Updated: 2023/11/05 18:15:05 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:13:23 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	*ft_calloc(size_t n, size_t size)
 	return (res);
 }
 
-static char	*my_strjoin(char *s1, char *s2, size_t start, size_t end)
+static char	*my_strjoin(char *s1, char *s2, size_t s2_n)
 {
 	char	*res;
 	size_t	s1len;
@@ -51,16 +51,23 @@ static char	*my_strjoin(char *s1, char *s2, size_t start, size_t end)
 	size_t	j;
 
 	s1len = ft_istrlen(s1);
-	res = ft_calloc(s1len + (end - start + 1) + 1, sizeof(char));
+	res = ft_calloc(s1len + s2_n + 1, sizeof(char));
 	if (!res)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (i < s1len && s1)
+	// printf("strjoin;\ns2_n = %ld\n\ts1=[%s] len = %ld\n\ts2=[%s] len = %d\n\treslen = %ld\n", s2_n, s1, s1len, s2, ft_istrlen(s2), s1len + s2_n + 1);
+	while (i < s1len && s1 && s1[i] )
+	{
+		// printf("\t[1 while]: i = %ld; j = %ld; s1[j] = [%i]\n", i, j, s1[j]);
 		res[i++] = s1[j++];
+	}
 	j = 0;
-	while (j + start < end && s2)
-		res[i++] = s2[start + (j++)];
+	while (j < s2_n && s2 && s2[j])
+	{
+		// printf("\t[1 while]: i = %ld; j = %ld; s1[j] = [%i]\n", i, j, s2[j]);
+		res[i++] = s2[j++];
+	}
 	free(s1);
 	s1 = res;
 	return (res);
@@ -112,7 +119,8 @@ char	*get_next_line(int fd)
 	while (rlen > 0 && ft_stridxof(rdata, '\n') == -1)
 	{
 		rlen = read(fd, rdata, BUFFER_SIZE);
-		buffer = my_strjoin(buffer, rdata, 0, rlen);
+		if (rlen > 0)
+			buffer = my_strjoin(buffer, rdata, rlen);
 	}
 	free(rdata);
 	if (ft_stridxof(buffer, '\n') != -1)
@@ -133,18 +141,36 @@ char	*get_next_line(int fd)
 	return (res);
 }
 
+// void ft_putstr(char *s)
+// {
+// 	if (!s)
+// 		return (ft_putstr("(null)"));
+// 	write(1, s, ft_istrlen(s));
+// }
+
+// void test(const char *file)
+// {
+// 	const int	fd = open(file, O_RDONLY);
+// 	char		*out = NULL;
+// 	int			i;
+
+// 	i = 0;
+// 	// printf("\nFILE: %s\tBUFFER: %d\n", file, BUFFER_SIZE);
+// 	out = get_next_line(fd);
+// 	// printf("\n[%d]~%s~\n", i++, out);
+// 	ft_putstr(out);
+// 	while (out)
+// 	{
+// 		free(out);
+// 		out = get_next_line(fd);
+// 		ft_putstr(out);
+// 		// printf("\n[%d]~%s~\n",i++, out);
+// 	}
+// }
+
 // int	main(void)
 // {
-// 	char		*out = NULL;
-// 	const int	fd = open("file2.txt", O_RDONLY);
-
-// 	int i = 0;
-// 	while ((out = get_next_line(fd)))
-// 	{
-// 		if (out)
-// 			printf("%s", out);
-// 		free(out);
-// 	}
+// 	test("files/41_with_nl");
 // 	return (0);
 // }
 
