@@ -1,16 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printfm.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/06 20:49:02 by odudniak          #+#    #+#             */
+/*   Updated: 2023/11/06 20:49:04 by odudniak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
+
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
+#include <stdint.h>
+
+# define RES "\033[37m"
+# define ORANGE "\033[33m"
+# define MAG "\033[36m"
+
+static int	sx_nbrlen_base(long long n, int base_len)
+{
+	int	res;
+
+	res = 0;
+	if (n == 0)
+		return (1);
+	if (n < 0)
+		res++;
+	while (n != 0)
+	{
+		res++;
+		n /= base_len;
+	}
+	return (res);
+}
 
 int	main(int ac, char **av)
 {
 	const int	n = 42;
+	const int len = 2 + sx_nbrlen_base((uintptr_t)((void *)300), 16);
 
 	if (ac == 1 || (ac > 1 && strcmp(av[1], "b")))
 	{
-		printf("\n\n\033[33mMANDATORY\033[37m\n");
-		ft_printf("\n\n\033[33mPRINTFLIBFT\033[37m\n");
+		printf("\n\n"ORANGE"MANDATORY"RES"\n");
+		ft_printf("\n\n"ORANGE"PRINTFLIBFT"RES"\n");
 		ft_printf("\nINT / DECIMAL:\n");
 		ft_printf("\tZero:\t\t[%d]\t\t/\t[%i]\n", 0, 0);
 		ft_printf("\tINT_MIN:\t[%d]\t/\t[%i]\n", INT_MIN, INT_MIN);
@@ -19,7 +55,7 @@ int	main(int ac, char **av)
 		ft_printf("\tINT_MIN:\t[%u]\n", INT_MIN);
 		ft_printf("\tINT_MAX:\t[%u]\t\n", INT_MAX);
 		ft_printf("\nCHAR:\n");
-		ft_printf("\t'a' = [%c]\t'\\0' = [% 3.3c]\t'c' = [%c]\n", 'a', 0, 'c');
+		ft_printf("\t'a' = [%c]\t'\\0' = [%c]\t'c' = [%c]\n", 'a', 0, 'c');
 		ft_printf("\t'a' + 256 = [%c] \n", 'a' + 256);
 		ft_printf("\nSTRING:\n");
 		ft_printf("\ttest[%s]test\n", " == ");
@@ -41,11 +77,11 @@ int	main(int ac, char **av)
 		ft_printf("\nLEN CHECK = %s",
 			ft_printf("\t[%c%i%s%d%c%u%c%x%c%X%c%p%%]\n",
 				' ', 42, " is equal to ", 42, ' ', 42, ' ', 42, ' ', 42,
-				' ', &n) == 47
+				' ', (void *) 300) == 33 + len
 				? "\033[32mOK\033[0;39m"
 				: "\033[31mKO\033[0;39m");
 
-		printf("\n\n\033[33mORIGINAL\033[37m\n");
+		printf("\n\n"ORANGE"ORIGINAL"RES"\n");
 		printf("\nINT / DECIMAL:\n");
 		printf("\tZero:\t\t[%d]\t\t/\t[%i]\n", 0, 0);
 		printf("\tINT_MIN:\t[%d]\t/\t[%i]\n", INT_MIN, INT_MIN);
@@ -54,7 +90,7 @@ int	main(int ac, char **av)
 		printf("\tINT_MIN:\t[%u]\n", INT_MIN);
 		printf("\tINT_MAX:\t[%u]\t\n", INT_MAX);
 		printf("\nCHAR:\n");
-		printf("\t'a' = [%c]\t'\\0' = [% 3.3c]\t'c' = [%c]\n", 'a', 0, 'c');
+		printf("\t'a' = [%c]\t'\\0' = [%c]\t'c' = [%c]\n", 'a', 0, 'c');
 		printf("\t'a' + 256 = [%c] \n", 'a' + 256);
 		printf("\nSTRING:\n");
 		printf("\ttest[%s]test\n", " == ");
@@ -76,14 +112,20 @@ int	main(int ac, char **av)
 		printf("\nLEN CHECK = %s",
 			printf("\t[%c%i%s%d%c%u%c%x%c%X%c%p%%]\n",
 				' ', 42, " is equal to ", 42, ' ', 42, ' ', 42, ' ', 42,
-				' ', &n) == 47
+				' ', (void *) 300) == 33 + len
 				? "\033[32mOK\033[0;39m"
 				: "\033[31mKO\033[0;39m");
 	}
+
+
+
+
+
+
 	if (ac > 1 && !strcmp(av[1], "b"))
 	{
-		ft_printf("\n\n\033[36mBONUS\033[37m\n");
-		ft_printf("\n\n\033[33m-------------FT_PRINTF-------------\033[37m\n");
+		ft_printf("\n\n"MAG"BONUS"RES"\n");
+		ft_printf("\n\n"ORANGE"-------------FT_PRINTF-------------"RES"\n");
 		ft_printf("\nWIDTH + PRECISION:\n");
 		ft_printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
 		ft_printf("\tShenanigans: [% d]\n", -1);
@@ -105,7 +147,7 @@ int	main(int ac, char **av)
 		ft_printf("\tSpace + Width + Precision (5 ; 3):\t\t[% 05.3d]\n", 0);
 		ft_printf("\t[-] + [ ] + Width + Precision (w > p):\t\t[%- 05.3d]\n", 0);
 
-		printf("\n\n\033[33m-------------ORIGINAL-------------\033[37m\n");
+		printf("\n\n"ORANGE"-------------ORIGINAL-------------"RES"\n");
 		printf("\nWIDTH + PRECISION:\n");
 		printf("\tSingle space:\t\t\t\t\t[% d]\n", 0);
 		printf("\tMulti space:\t\t\t\t\t[%   d]\n", 0);
