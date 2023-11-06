@@ -28,6 +28,10 @@ void	*ft_calloc(size_t n, size_t size)
 	unsigned char	*res;
 	size_t			i;
 
+	if (n > SIZE_MAX / size)
+	{
+		return (NULL);
+	}
 	res = malloc(n * size);
 	if (!res)
 		return (NULL);
@@ -42,12 +46,14 @@ void	*ft_calloc(size_t n, size_t size)
 static char	*my_strjoin(char *s1, char *s2, size_t start, size_t end)
 {
 	char	*res;
-	int		s1len;
+	size_t	s1len;
 	size_t	i;
 	size_t	j;
 
 	s1len = ft_istrlen(s1);
 	res = ft_calloc(s1len + (end - start + 1) + 1, sizeof(char));
+	if (!res)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (i < s1len && s1)
@@ -63,7 +69,7 @@ static char	*my_strjoin(char *s1, char *s2, size_t start, size_t end)
 static char	*my_substr(char *s, size_t start, size_t end)
 {
 	char	*res;
-	int		slen;
+	size_t	slen;
 	size_t	i;
 
 	slen = ft_istrlen(s);
@@ -99,45 +105,46 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	res = NULL;
-	if (ft_istrlen(buffer) > 0)
-		rdata = my_substr(buffer, 0, ft_istrlen(buffer) - 1);
-	else
-	{
-		rdata = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-		if (!rdata)
-			return (NULL);
-	}
+	rdata = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!rdata)
+		return (NULL);
 	rlen = 1;
 	while (rlen > 0 && ft_stridxof(rdata, '\n') == -1)
 	{
 		rlen = read(fd, rdata, BUFFER_SIZE);
 		buffer = my_strjoin(buffer, rdata, 0, rlen);
 	}
+	free(rdata);
 	if (ft_stridxof(buffer, '\n') != -1)
 	{
 		res = my_substr(buffer, 0, ft_stridxof(buffer, '\n'));
-		buffer = my_strjoin(NULL, buffer, ft_stridxof(buffer, '\n') + 1, ft_istrlen(buffer));
+		rdata = my_substr(buffer, ft_stridxof(buffer, '\n') + 1, ft_istrlen(buffer));
+		free(buffer);
+		buffer = my_substr(rdata, 0, ft_istrlen(rdata));
+		free(rdata);
 	}
 	else
 	{
-		res = my_substr(buffer, 0 , ft_istrlen(buffer));
+		if (ft_istrlen(buffer) > 0)
+			res = my_substr(buffer, 0 , ft_istrlen(buffer));
+		free(buffer);
 		buffer = NULL;
 	}
-	free(rdata);
 	return (res);
 }
 
-int	main(void)
-{
-	char		*out = NULL;
-	const int	fd = open("file1.txt", O_RDONLY);
+// int	main(void)
+// {
+// 	char		*out = NULL;
+// 	const int	fd = open("file2.txt", O_RDONLY);
 
-	int i = 0;
-	while ((out = get_next_line(fd)))
-	{
-		printf("%s", out);
-		free(out);
-	}
-	return (0);
-}
+// 	int i = 0;
+// 	while ((out = get_next_line(fd)))
+// 	{
+// 		if (out)
+// 			printf("%s", out);
+// 		free(out);
+// 	}
+// 	return (0);
+// }
 
