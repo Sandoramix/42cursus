@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 14:17:53 by odudniak          #+#    #+#             */
-/*   Updated: 2023/11/06 20:00:13 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:11:44 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@
 #  define BUFFER_SIZE 42
 # endif
 
+/**
+ * @brief Get the next line of given fd
+ *
+ * @param fd file descriptor
+ * @return Next line or `NULL` if reached the EOF/ got an error
+ */
 char	*get_next_line(int fd);
 
 //? ****************************UTILS*****************************************

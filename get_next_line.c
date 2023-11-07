@@ -6,12 +6,19 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 14:17:47 by odudniak          #+#    #+#             */
-/*   Updated: 2023/11/07 16:03:55 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:14:56 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+/**
+ * @brief Read from `fd` `BUFFER_SIZE` characters
+ * until a newline found or EOF is reached.
+ * @param fd file descriptor
+ * @param buffer Static buffer which will contain all data.
+ * @return the updated buffer.
+ */
 static char	*gnl_read_until_needed(int fd, char *buffer)
 {
 	char		*rdata;
