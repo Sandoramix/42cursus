@@ -6,6 +6,8 @@ OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
+bonus: all
+
 %.o: %.c
 	gcc -c -o $@ $< -I.
 
