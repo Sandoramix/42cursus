@@ -52,6 +52,8 @@ char	*get_next_line(int fd)
 		return (NULL);
 	res = NULL;
 	buffer[fd] = gnl_read_until_needed(fd, buffer[fd]);
+	if (!buffer[fd])
+		return (NULL);
 	idxof = ft_stridxof(buffer[fd], '\n');
 	res = my_substr(buffer[fd], 0,
 			((int [2]){ft_istrlen(buffer[fd]), idxof})[idxof >= 0]);
