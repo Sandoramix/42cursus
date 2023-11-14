@@ -1,0 +1,5 @@
+.vscode
+*.out
+*.o
+*.gch
+file1.txt file2.txt
