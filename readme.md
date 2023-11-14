@@ -24,8 +24,8 @@ rampercentage=$((usedram * 100 / totram))
 
 #DISK
 diskraw=$(df -h --total | grep ^total)
-diskused=$(echo "$diskraw" | awk '/total/ {print $3; exit}')
 disktot=$(echo "$diskraw" | awk '/total/ {print $2; exit}')
+diskused=$(echo "$diskraw" | awk '/total/ {print $3; exit}')
 diskpercentage=$(echo "$diskraw" | awk '/total/ {print $5; exit}')
 
 #CPU
@@ -37,7 +37,7 @@ lastboot=$(who -b | awk '// {print $3 " " $4}')
 #LVM
 isLvm="no"
 if [[ $(which lvm | wc -c) -gt 0 ]]; then
-	isLvm="yes"
+	isLvm="yes";
 fi
 
 #CONNECTIONS
