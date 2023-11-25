@@ -8,12 +8,6 @@ B2BR
 #!/bin/bash
 
 #OS
-uname=$(uname -a)
-
-#CPU
-#!/bin/bash
-
-#OS
 uname=$(uname -snrvmpio)
 
 #CPU
