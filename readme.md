@@ -2,6 +2,98 @@
 
 B2BR
 
+---
+
+## Update apt
+
+```bash
+apt update && apt upgrade -y
+```
+
+---
+
+## Sudo
+
+### Install sudo
+
+```bash
+apt install sudo
+```
+
+### Sudo Configuration
+
+```bash
+sudo visudo
+```
+or (not recommended)
+
+```bash
+nano /etc/sudoers
+```
+
+Add/Edit/Uncomment the following lines:
+
+```config
+# Reset environment variables (only for the running command) on each sudo command execution
+Defaults	env_reset
+# Send a mail to the users's specified email if the running sudo does not enter a valid command
+Defaults	mail_badpass
+# Limit the $PATH variable for sudo command
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+
+Defaults	use_pty
+Defaults	requiretty
+
+Defaults	passwd_tries=3
+Defaults	insults
+
+Defaults	logfile="/var/log/sudo/sudo.log"
+Defaults	iolog_dir="/var/log/sudo"
+Defaults	log_input,log_output
+
+Defaults	timestamp_timeout=15
+
+root		ALL=(ALL:ALL) ALL
+
+%sudo		ALL=(ALL:ALL) NOPASSWD: /bin/ls, /usr/bin/apt-get, /usr/bin/apt
+%sudo		ALL=(ALL:ALL) ALL, !/bin/rm !/bin/su
+```
+
+---
+
+## SSH
+
+### Install the service with
+
+*If you're not root use the `sudo` command*
+```bash
+apt install openssh-server
+```
+
+### SSH Configuration
+
+```bash
+nano /etc/ssh/sshd_config
+```
+
+Edit/uncomment the following lines:
+```
+# Listen for connections on port 4242
+Port 4242
+
+# Listen for connections with any IP
+ListenAddress 0.0.0.0
+
+PermitRootLogin prohibit-password
+
+# OPTIONAL (if you want to login with the public key:
+# You'll need to put into needed user's `~/.ssh/authorized_keys` file your public key)
+PubKeyAuthentication yes
+```
+
+---
+
 ## monitor.sh
 
 ```bash
