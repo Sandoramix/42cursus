@@ -19,7 +19,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(MAKE) -C $(FT_DIR)
-	@$(COMPILE)  main.c  -L$(FT_DIR) -lft -I$(INCLUDE) -I. -o $(NAME)
+	$(COMPILE)  main.c  -L$(FT_DIR) -lft -I$(INCLUDE) -I. -o $(NAME)
 
 clean:
 	$(MAKE) -C $(FT_DIR) clean
@@ -28,4 +28,6 @@ fclean: clean
 	$(MAKE) -C $(FT_DIR) fclean
 	@$(RM) $(NAME)
 
-.PHONY: all $(NAME) clean fclean
+re: fclean all
+
+.PHONY: re all $(NAME) clean fclean

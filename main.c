@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/25 14:52:59 by odudniak          #+#    #+#             */
-/*   Updated: 2023/11/25 16:02:06 by odudniak         ###   ########.fr       */
+/*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
+/*   Updated: 2023/11/26 23:42:44 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ bool	ismapvalid(char **board)
 
 int	main(int ac, char **av)
 {
+	int		fd;
+	char	**mtx;
+
 	(void)ac;
 	(void)av;
-
-	int fd = open("valid_map", O_RDONLY);
-
-	char **mtx = ft_readfile(fd, false);
-	printf("%d", ismapvalid(mtx));
+	fd = open("valid_map", O_RDONLY);
+	mtx = ft_readfile(fd, false);
 	ft_putstrmtx(mtx);
+	ft_freemtx((void **)mtx, ft_memmtxlen((void **)mtx));
+	return (0);
 }
 
