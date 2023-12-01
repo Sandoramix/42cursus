@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/01 15:30:30 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/01 22:18:51 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,35 @@
 
 typedef struct s_mapmeta
 {
-	int		rows;
-	int		cols;
-	int		players_cty;
-	int		exits_cty;
-	int		collect_cty;
+	int			rows;
+	int			cols;
 
-	int		badborders;
-	int		badchars;
+	int			players_cty;
+	t_point		startpoint;
 
-	bool	badsize;
-	bool	valid;
-}	t_sl_mapmeta;
+	int			exits_cty;
+	t_point		exitpoint;
 
-void	tmp_printmetadata(t_sl_mapmeta *meta);
+	int			collect_cty;
+
+	int			badborders;
+	int			badchars;
+
+	bool		badsize;
+	bool		badpath;
+	bool		valid;
+}	t_mapmeta;
+
+void		tmp_printmetadata(t_mapmeta *meta);
 
 //!----------------------------DEPENDENCIES------------------------------------
 /**
  * @brief Map parsing
  *
  * @param map map
- * @return t_sl_mapmeta metadata of the parsed map
+ * @return t_mapmeta metadata of the parsed map
  */
-t_sl_mapmeta	sl_parsemap(char **map);
+t_mapmeta	sl_parsemap(char **map);
 
 
 //!-------------------------------UTILS----------------------------------------
@@ -58,6 +64,6 @@ t_sl_mapmeta	sl_parsemap(char **map);
  * @return true
  * @return false
  */
-bool			sl_iswall(char c);
+bool		sl_iswall(char c);
 
 #endif

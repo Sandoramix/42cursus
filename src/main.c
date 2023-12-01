@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/01 15:32:51 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/01 22:26:17 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 {
 	char			**mtx;
 	int				fd;
-	t_sl_mapmeta	mapmeta;
+	t_mapmeta		mapmeta;
 
 	(void)ac;
 	(void)av;
