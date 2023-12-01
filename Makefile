@@ -5,7 +5,8 @@ CFLAGS=-Wall -Werror -Wextra
 COMPILE=$(CC) $(CFLAGS)
 RM=rm -rf
 
-SRC=utils.c
+SRC= parsemap.c \
+	utils.c
 
 OBJ=$(SRC:.c=.o)
 
@@ -19,7 +20,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(MAKE) -C $(FT_DIR)
-	$(COMPILE)  main.c  -L$(FT_DIR) -lft -I$(INCLUDE) -I. -o $(NAME)
+	$(COMPILE) main.c $(SRC) -L$(FT_DIR) -lft -I$(INCLUDE) -I. -o $(NAME)
 
 clean:
 	$(MAKE) -C $(FT_DIR) clean
