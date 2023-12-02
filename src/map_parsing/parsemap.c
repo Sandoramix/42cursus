@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/01 22:22:53 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/02 15:44:01 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static bool	chk_border_and_points(char **map, t_mapmeta *meta)
 			if ((j == 0 || !map[i][j + 1]) && !sl_iswall(map[i][j]))
 				meta->badborders++;
 			if (map[i][j] == PLAYER_START)
-				meta->startpoint = (t_point){i, j};
+				meta->startpoint = (t_point){j, i};
 			if (map[i][j] == EXIT)
-				meta->exitpoint = (t_point){i, j};
+				meta->exitpoint = (t_point){j, i};
 		}
 	}
 	return (meta->badborders > 0);
@@ -59,18 +59,18 @@ static void	count_chars(char **map, t_mapmeta *meta)
 static bool	chk_pathdfs(char **map, t_mapmeta *meta, t_point p)
 {
 	const int	moves[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-	const int	cols = ft_strlen(map[0]);
+	const int	cols = meta->cols;
 	char		value;
 	int			i;
 
 	if (p.x >= cols || p.x < 0 || p.y >= meta->rows || p.y < 0)
 		return (false);
 	value = map[p.y][p.x];
-	if (value == WALL || value == 1)
+	if (value == WALL || value == 42)
 		return (false);
 	if (value == EXIT)
 		return (true);
-	map[p.y][p.x] = 1;
+	map[p.y][p.x] = 42;
 	i = -1;
 	while (++i < 4)
 		if (chk_pathdfs(map, meta,
@@ -96,14 +96,17 @@ t_mapmeta	sl_parsemap(char **map)
 	t_mapmeta	meta;
 
 	meta = (t_mapmeta){0};
+	meta.startpoint = (t_point){0, 0};
+	meta.exitpoint = (t_point){0, 0};
 
-	meta.rows = ft_memmtxlen((void **)map);
+	meta.rows = ft_memmtxlen(map);
 	if (meta.rows > 0)
 		meta.cols = ft_strlen(map[0]);
 	count_chars(map, &meta);
 	chk_border_and_points(map, &meta);
 	chk_path(map, &meta);
-	meta.valid = !meta.badborders && !meta.badchars && meta.collect_cty > 0
+	meta.valid = meta.rows > 1 && meta.cols > 1
+		&&!meta.badborders && !meta.badchars && meta.collect_cty > 0
 		&& meta.exits_cty == 1 && meta.players_cty == 1 && !meta.badsize
 		&& !meta.badpath;
 	return (meta);
