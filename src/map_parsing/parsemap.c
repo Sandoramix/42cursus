@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/02 16:44:22 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:02:45 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static bool	chk_border_and_points(char **map, t_mapmeta *meta)
 	int	i;
 	int	j;
 
-	if (meta->rows < 1 || meta->cols < 1)
-		return (false);
 	meta->badborders += ft_strlen(map[0]) - ft_strcount_c(map[0], WALL);
 	meta->badborders += ft_strlen(map[ft_memmtxlen(map) - 1])
 		- ft_strcount_c(map[ft_memmtxlen(map) - 1], WALL);
@@ -30,10 +28,13 @@ static bool	chk_border_and_points(char **map, t_mapmeta *meta)
 		{
 			if ((j == 0 || !map[i][j + 1]) && !sl_iswall(map[i][j]))
 				meta->badborders++;
-			if (map[i][j] == PLAYER_START)
-				meta->startpoint = (t_point){j, i};
-			if (map[i][j] == EXIT)
-				meta->exitpoint = (t_point){j, i};
+			if (map[i][j] == PLAYER_START || map[i][j] == EXIT)
+				(t_point[2]){meta->startpoint, meta->exitpoint}
+					[map[i][j] == EXIT] = (t_point){j, i};
+			if (i < meta->rows - 1 && j > 0 && map[i][j] == COLLECTIBLE &&
+				map[i + 1][j] == WALL && map[i - 1][j] == WALL && map[i][j + 1]
+				== WALL && map[i][j - 1] == WALL)
+				meta->badpath = true;
 		}
 	}
 	return (meta->badborders > 0);
@@ -88,7 +89,7 @@ static bool	chk_path(char **map, t_mapmeta *meta)
 
 	mcopy = ft_strmtxdup(map);
 	valid = chk_pathdfs(mcopy, meta, meta->startpoint);
-	meta->badpath = !valid;
+	meta->badpath |= !valid;
 	ft_freemtx(mcopy, ft_memmtxlen(mcopy));
 	return (valid);
 }
