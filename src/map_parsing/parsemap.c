@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/02 15:44:01 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/02 15:53:39 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,6 @@ t_mapmeta	sl_parsemap(char **map)
 	t_mapmeta	meta;
 
 	meta = (t_mapmeta){0};
-	meta.startpoint = (t_point){0, 0};
-	meta.exitpoint = (t_point){0, 0};
-
 	meta.rows = ft_memmtxlen(map);
 	if (meta.rows > 0)
 		meta.cols = ft_strlen(map[0]);
