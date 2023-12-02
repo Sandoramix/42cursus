@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/02 12:49:59 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/02 16:27:18 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int ac, char **av)
 	mtx = ft_readfile(fd, false);
 	mapmeta = sl_parsemap(mtx);
 	ft_putstrmtx(mtx);
-	ft_printf(mapmeta.valid ? "\nVALID: true\n": "\nVALID: false\n");
+
 	tmp_printmetadata(&mapmeta);
 	ft_printf("\n");
 	ft_freemtx((void **)mtx, ft_memmtxlen((void **)mtx));

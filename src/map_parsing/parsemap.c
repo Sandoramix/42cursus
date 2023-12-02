@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/02 15:53:39 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/02 16:44:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static bool	chk_border_and_points(char **map, t_mapmeta *meta)
 	int	i;
 	int	j;
 
+	if (meta->rows < 1 || meta->cols < 1)
+		return (false);
 	meta->badborders += ft_strlen(map[0]) - ft_strcount_c(map[0], WALL);
 	meta->badborders += ft_strlen(map[ft_memmtxlen(map) - 1])
 		- ft_strcount_c(map[ft_memmtxlen(map) - 1], WALL);
@@ -52,7 +54,7 @@ static void	count_chars(char **map, t_mapmeta *meta)
 		meta->players_cty += ft_strcount_c(map[i], PLAYER_START);
 		meta->collect_cty += ft_strcount_c(map[i], COLLECTIBLE);
 		meta->exits_cty += ft_strcount_c(map[i], EXIT);
-		meta->badsize = meta->badsize || meta->cols != ft_istrlen(map[i]);
+		meta->badsize |= meta->cols != ft_istrlen(map[i]);
 	}
 }
 
@@ -100,10 +102,11 @@ t_mapmeta	sl_parsemap(char **map)
 	if (meta.rows > 0)
 		meta.cols = ft_strlen(map[0]);
 	count_chars(map, &meta);
+	meta.badsize |= meta.players_cty != 1 || meta.collect_cty < 2
+		|| meta.exits_cty != 1;
 	chk_border_and_points(map, &meta);
 	chk_path(map, &meta);
-	meta.valid = meta.rows > 1 && meta.cols > 1
-		&&!meta.badborders && !meta.badchars && meta.collect_cty > 0
+	meta.valid = !meta.badborders && !meta.badchars && meta.collect_cty > 0
 		&& meta.exits_cty == 1 && meta.players_cty == 1 && !meta.badsize
 		&& !meta.badpath;
 	return (meta);
