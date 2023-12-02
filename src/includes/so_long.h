@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/01 22:18:51 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/02 12:46:58 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # define EXIT 'E'
 # define WALL '1'
 # define ROAD '0'
-
 
 typedef struct s_mapmeta
 {
@@ -54,7 +53,6 @@ void		tmp_printmetadata(t_mapmeta *meta);
  * @return t_mapmeta metadata of the parsed map
  */
 t_mapmeta	sl_parsemap(char **map);
-
 
 //!-------------------------------UTILS----------------------------------------
 /**

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/01 22:26:17 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/02 12:46:40 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ int	main(int ac, char **av)
 	ft_freemtx((void **)mtx, ft_memmtxlen((void **)mtx));
 	return (0);
 }
-
