@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/02 17:02:45 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/03 15:56:00 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,10 @@ static bool	chk_border_and_points(char **map, t_mapmeta *meta)
 		{
 			if ((j == 0 || !map[i][j + 1]) && !sl_iswall(map[i][j]))
 				meta->badborders++;
-			if (map[i][j] == PLAYER_START || map[i][j] == EXIT)
-				(t_point[2]){meta->startpoint, meta->exitpoint}
-					[map[i][j] == EXIT] = (t_point){j, i};
-			if (i < meta->rows - 1 && j > 0 && map[i][j] == COLLECTIBLE &&
-				map[i + 1][j] == WALL && map[i - 1][j] == WALL && map[i][j + 1]
-				== WALL && map[i][j - 1] == WALL)
-				meta->badpath = true;
+			if (map[i][j] == PLAYER_START)
+				meta->startpoint = (t_point){j, i};
+			if (map[i][j] == EXIT)
+				meta->exitpoint = (t_point){j, i};
 		}
 	}
 	return (meta->badborders > 0);
@@ -63,23 +60,24 @@ static bool	chk_pathdfs(char **map, t_mapmeta *meta, t_point p)
 {
 	const int	moves[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 	const int	cols = meta->cols;
-	char		value;
+	bool		valid;
 	int			i;
 
 	if (p.x >= cols || p.x < 0 || p.y >= meta->rows || p.y < 0)
 		return (false);
-	value = map[p.y][p.x];
-	if (value == WALL || value == 42)
+	if (map[p.y][p.x] == COLLECTIBLE)
+		meta->reached_coll_cty += 1;
+	if (map[p.y][p.x] == WALL || map[p.y][p.x] == 42)
 		return (false);
-	if (value == EXIT)
+	if (map[p.y][p.x] == EXIT)
 		return (true);
 	map[p.y][p.x] = 42;
 	i = -1;
+	valid = false;
 	while (++i < 4)
-		if (chk_pathdfs(map, meta,
-				(t_point){p.x + moves[i][0], p.y + moves[i][1]}))
-			return (true);
-	return (false);
+		valid |= chk_pathdfs(map, meta,
+				(t_point){p.x + moves[i][0], p.y + moves[i][1]});
+	return (valid);
 }
 
 static bool	chk_path(char **map, t_mapmeta *meta)
@@ -89,7 +87,9 @@ static bool	chk_path(char **map, t_mapmeta *meta)
 
 	mcopy = ft_strmtxdup(map);
 	valid = chk_pathdfs(mcopy, meta, meta->startpoint);
-	meta->badpath |= !valid;
+	meta->badpath |= !valid || meta->reached_coll_cty != meta->collect_cty;
+	ft_printf("\nDFS PATH VALIDATION:\n");
+	ft_putstrmtx(mcopy);
 	ft_freemtx(mcopy, ft_memmtxlen(mcopy));
 	return (valid);
 }

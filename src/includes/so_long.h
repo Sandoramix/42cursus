@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/02 12:47:17 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/03 15:04:48 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_mapmeta
 	t_point		exitpoint;
 
 	int			collect_cty;
+	int			reached_coll_cty;
 
 	int			badborders;
 	int			badchars;
