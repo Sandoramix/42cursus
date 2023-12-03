@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/03 15:56:00 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/03 18:19:43 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,6 @@ static bool	chk_border_and_points(char **map, t_mapmeta *meta)
 		{
 			if ((j == 0 || !map[i][j + 1]) && !sl_iswall(map[i][j]))
 				meta->badborders++;
-			if (map[i][j] == PLAYER_START)
-				meta->startpoint = (t_point){j, i};
-			if (map[i][j] == EXIT)
-				meta->exitpoint = (t_point){j, i};
 		}
 	}
 	return (meta->badborders > 0);
@@ -47,8 +43,14 @@ static void	count_chars(char **map, t_mapmeta *meta)
 	{
 		j = -1;
 		while (map[i][++j])
+		{
 			if (!ft_strchr(SL_ALLOWEDCHARS, map[i][j]))
 				meta->badchars++;
+			if (map[i][j] == PLAYER_START)
+				meta->startpoint = (t_point){j, i};
+			if (map[i][j] == EXIT)
+				meta->exitpoint = (t_point){j, i};
+		}
 		meta->players_cty += ft_strcount_c(map[i], PLAYER_START);
 		meta->collect_cty += ft_strcount_c(map[i], COLLECTIBLE);
 		meta->exits_cty += ft_strcount_c(map[i], EXIT);
