@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/03 15:04:48 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/04 20:52:55 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SO_LONG_H
 # include "libft.h"
 
-# define SL_ALLOWEDCHARS "CPE10"
+# define SL_ALLOWEDCHARS "CPE10N"
 
 # define COLLECTIBLE 'C'
 # define PLAYER_START 'P'

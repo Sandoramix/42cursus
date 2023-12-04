@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/03 15:08:46 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/04 20:55:34 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int ac, char **av)
 
 	(void)ac;
 	(void)av;
-	fd = open("valid_map", O_RDONLY);
+	fd = open("mw5.ber", O_RDONLY);
 	mtx = ft_readfile(fd, false);
 	printf("\nLOADED MAP:\n");
 	ft_putstrmtx(mtx);
