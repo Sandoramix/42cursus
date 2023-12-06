@@ -11,7 +11,8 @@ ALL_INCLUDES=-I$(ROOTDIR)/includes -I$(FT_DIR)/includes
 
 SRC= ./src/map_parsing/parsemap.c \
 	./src/utils.c \
-	./src/main.c
+	./src/main.c \
+	./src/map_parsing/inputctrl.c
 
 OBJ= $(SRC:.c=.o)
 

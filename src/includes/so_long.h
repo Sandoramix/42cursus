@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/04 20:52:55 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:16:06 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,11 @@ void		tmp_printmetadata(t_mapmeta *meta);
  * @return t_mapmeta metadata of the parsed map
  */
 t_mapmeta	sl_parsemap(char **map);
-
+/**
+ * @brief Program input control (map validation)
+ * @return `1` if error occured, else `0`
+ */
+int			sl_inputctrl(int ac, char **av, char ***mtx, t_mapmeta *meta);
 //!-------------------------------UTILS----------------------------------------
 /**
  * @brief Check if the given character is a wall
@@ -65,4 +69,13 @@ t_mapmeta	sl_parsemap(char **map);
  */
 bool		sl_iswall(char c);
 
+/**
+ * @brief Print map metadata errors
+ *
+ * @param m map metadata
+ * @return 1
+ */
+int			sl_errmsg(t_mapmeta m);
+
+int			sl_helpmsg(char *progname);
 #endif

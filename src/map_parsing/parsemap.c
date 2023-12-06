@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/03 18:19:43 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:38:17 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,9 @@ static bool	chk_path(char **map, t_mapmeta *meta)
 	mcopy = ft_strmtxdup(map);
 	valid = chk_pathdfs(mcopy, meta, meta->startpoint);
 	meta->badpath |= !valid || meta->reached_coll_cty != meta->collect_cty;
-	ft_printf("\nDFS PATH VALIDATION:\n");
+	ft_printf(COLOR_CYAN"\nDFS PATH VALIDATION:\n");
 	ft_putstrmtx(mcopy);
+	ft_printf(CR);
 	ft_freemtx(mcopy, ft_memmtxlen(mcopy));
 	return (valid);
 }
@@ -106,7 +107,7 @@ t_mapmeta	sl_parsemap(char **map)
 		meta.cols = ft_strlen(map[0]);
 	count_chars(map, &meta);
 	meta.badsize |= meta.players_cty != 1 || meta.collect_cty < 2
-		|| meta.exits_cty != 1;
+		|| meta.exits_cty != 1 || meta.rows == meta.cols;
 	chk_border_and_points(map, &meta);
 	chk_path(map, &meta);
 	meta.valid = !meta.badborders && !meta.badchars && meta.collect_cty > 0
