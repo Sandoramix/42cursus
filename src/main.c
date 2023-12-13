@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/06 19:33:24 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/13 19:28:15 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 #include "ft_gnl.h"
 #include "so_long.h"
 #include "ft_printf.h"
+#include "mlx.h"
 
 int	main(int ac, char **av)
 {
-	char			**mtx;
-	t_mapmeta		mapmeta;
+	t_game	game;
 
-	mtx = NULL;
-	mapmeta = (t_mapmeta){0};
-	if (sl_inputctrl(ac, av, &mtx, &mapmeta))
+	game.map = NULL;
+	game.meta = (t_mapmeta){0};
+	if (sl_inputctrl(ac, av, &game))
 		return (1);
 	printf("\nLOADED MAP:\n");
-	ft_putstrmtx(mtx);
-	tmp_printmetadata(&mapmeta);
+	ft_putstrmtx(game.map);
+	tmp_printmetadata(&game.meta);
 	ft_printf("\n");
-	ft_freemtx(mtx, ft_memmtxlen(mtx));
+	game.mlx = mlx_init();
+
+	mlx_destroy_display(game.mlx);
+	free(game.mlx);
+	ft_freemtx(game.map, ft_memmtxlen(game.map));
 	return (0);
 }

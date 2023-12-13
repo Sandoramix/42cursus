@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/06 19:16:06 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/13 19:19:07 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ typedef struct s_mapmeta
 	bool		valid;
 }	t_mapmeta;
 
+typedef struct s_game
+{
+	void		*mlx;
+	char		**map;
+	t_mapmeta	meta;
+}	t_game;
+
 void		tmp_printmetadata(t_mapmeta *meta);
 
 //!----------------------------DEPENDENCIES------------------------------------
@@ -58,7 +65,7 @@ t_mapmeta	sl_parsemap(char **map);
  * @brief Program input control (map validation)
  * @return `1` if error occured, else `0`
  */
-int			sl_inputctrl(int ac, char **av, char ***mtx, t_mapmeta *meta);
+int			sl_inputctrl(int ac, char **av, t_game *game);
 //!-------------------------------UTILS----------------------------------------
 /**
  * @brief Check if the given character is a wall

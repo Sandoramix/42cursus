@@ -1,43 +1,58 @@
 NAME=so_long
 
-ROOTDIR=./src
 CC=cc
 CFLAGS=-Wall -Werror -Wextra
 COMPILE=$(CC) $(CFLAGS)
 RM=rm -rf
 
-FT_DIR=$(ROOTDIR)/libftx
-ALL_INCLUDES=-I$(ROOTDIR)/includes -I$(FT_DIR)/includes
+ROOTDIR=./src
+
+LIBFTX_DIR=$(ROOTDIR)/libftx
+MLX_DIR=$(ROOTDIR)/minilibx
+
+INCLUDES=-I$(ROOTDIR)/includes -I$(LIBFTX_DIR)/includes -I$(MLX_DIR)
+
+VALGRIND=@valgrind --leak-check=full -s --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
+
 
 SRC= ./src/map_parsing/parsemap.c \
 	./src/utils.c \
 	./src/main.c \
 	./src/map_parsing/inputctrl.c
 
-OBJ= $(SRC:.c=.o)
+OBJ=$(SRC:.c=.o)
 
 all: $(NAME)
 
-%.o: %.c
-	@$(COMPILE) $(ALL_INCLUDES) -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(MAKE) -C $(FT_DIR)
-	@$(COMPILE) $(ALL_INCLUDES) $(OBJ) -L$(FT_DIR) -lft -o $(NAME)
+	$(MAKE) -C $(LIBFTX_DIR)
+	$(MAKE) -C $(MLX_DIR)
+	$(COMPILE) $(INCLUDES) $(OBJ) -L$(LIBFTX_DIR) -lft -L$(MLX_DIR) -lmlx_$(shell uname) -lXext -lX11 -o $(NAME)
 	@echo "$(GREEN)[SO_LONG]:\tPROGRAM CREATED SUCCESSFULLY$(R)"
 
 clean:
 	@$(RM) $(OBJ)
-	$(MAKE) -C $(FT_DIR) clean
+	$(MAKE) -C $(MLX_DIR) clean
+	$(MAKE) -C $(LIBFTX_DIR) clean
 
 fclean: clean
-	$(MAKE) -C $(FT_DIR) fclean
+	$(MAKE) -C $(LIBFTX_DIR) fclean
 	@$(RM) $(NAME)
 	@echo "$(BLUE)[SO_LONG]:\tPROGRAM DELETED$(R)"
 
 re: fclean all
 
+%.o: %.c
+	@$(COMPILE) $(INCLUDES) -c $< -o $@
 
+valgrind: all
+	@$(VALGRIND) ./$(NAME) valid0.ber
+download:
+	@wget https://cdn.intra.42.fr/document/document/21656/minilibx-linux.tgz
+	@tar -xf minilibx-linux.tgz
+	@mv minilibx-linux $(ROOTDIR)/minilibx
+	@$(RM) minilibx-linux.tgz
 
 # ---COLORS---
 GREEN=\033[0;32m
