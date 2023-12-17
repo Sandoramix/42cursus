@@ -1,20 +1,11 @@
 NAME=so_long
 
-CC=cc
-CFLAGS=-Wall -Werror -Wextra
-COMPILE=$(CC) $(CFLAGS)
-RM=rm -rf
-
 ROOTDIR=./src
 
 LIBFTX_DIR=$(ROOTDIR)/libftx
 MLX_DIR=$(ROOTDIR)/minilibx
 
-INCLUDES=-I$(ROOTDIR)/includes -I$(LIBFTX_DIR)/includes -I$(MLX_DIR)
-
-VALGRIND=@valgrind --leak-check=full -s --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
-
-
+# --------------
 SRC= ./src/map_parsing/parsemap.c \
 	./src/utils.c \
 	./src/main.c \
@@ -22,8 +13,17 @@ SRC= ./src/map_parsing/parsemap.c \
 
 OBJ=$(SRC:.c=.o)
 
-all: $(NAME)
+# ----RULES-----
 
+CC=cc
+CFLAGS=-Wall -Werror -Wextra
+COMPILE=$(CC) $(CFLAGS)
+RM=rm -rf
+
+INCLUDES=-I/usr/include/X11 -I$(ROOTDIR)/includes -I$(LIBFTX_DIR)/includes -I$(MLX_DIR)
+
+
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(MAKE) -C $(LIBFTX_DIR)
@@ -41,25 +41,33 @@ fclean: clean
 	@$(RM) $(NAME)
 	@echo "$(BLUE)[SO_LONG]:\tPROGRAM DELETED$(R)"
 
+# --------------
+
 re: fclean all
+
+# --------------
 
 %.o: %.c
 	@$(COMPILE) $(INCLUDES) -c $< -o $@
 
+# ----UTILS-----
+VALGRIND=@valgrind --leak-check=full -s --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
 valgrind: all
-	@$(VALGRIND) ./$(NAME) valid0.ber
+	@$(VALGRIND) ./$(NAME) $(mapfile)
+
 download:
 	@wget https://cdn.intra.42.fr/document/document/21656/minilibx-linux.tgz
 	@tar -xf minilibx-linux.tgz
 	@mv minilibx-linux $(ROOTDIR)/minilibx
 	@$(RM) minilibx-linux.tgz
 
-# ---COLORS---
+# ----OTHER-----
+.PHONY: all clean fclean re
+.SILENT:
+
+# ----COLORS----
 GREEN=\033[0;32m
 RED=\033[0;31m
 BLUE=\033[0;34m
 R=\033[0m
-# ------------
-
-.PHONY: all clean fclean re
-.SILENT:
+# --------------

@@ -6,13 +6,25 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/13 19:19:07 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/17 17:30:41 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
+# include "X.h"
+# include "mlx.h"
+
 # include "libft.h"
+# include "sl_settings.h"
+
+# ifndef SL_TILESIZE
+#  define SL_TILESIZE 32
+# endif
+
+# ifndef SL_DEBUG
+#  define SL_DEBUG false
+# endif
 
 # define SL_ALLOWEDCHARS "CPE10N"
 
@@ -47,7 +59,10 @@ typedef struct s_mapmeta
 typedef struct s_game
 {
 	void		*mlx;
+	void		*window;
+
 	char		**map;
+
 	t_mapmeta	meta;
 }	t_game;
 

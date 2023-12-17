@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/15 18:05:00 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/17 15:12:54 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ static bool	chk_badborders(char **map, t_mapmeta *meta)
 	int	i;
 	int	j;
 
-	meta->badborders += ft_strlen(map[0]) - ft_strcount_c(map[0], WALL);
-	meta->badborders += ft_strlen(map[ft_memmtxlen(map) - 1])
-		- ft_strcount_c(map[ft_memmtxlen(map) - 1], WALL);
+	if (meta->rows > 0)
+		meta->badborders += ft_strlen(map[0]) - ft_strcount_c(map[0], WALL);
+	if (meta->rows > 1)
+		meta->badborders += ft_strlen(map[meta->rows - 1])
+			- ft_strcount_c(map[meta->rows - 1], WALL);
 	i = 0;
 	while (++i < meta->rows - 1)
 	{
@@ -60,13 +62,11 @@ static void	count_chars(char **map, t_mapmeta *meta)
 static bool	chk_pathdfs(char **map, t_mapmeta *meta, t_point p)
 {
 	const int	moves[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-	int			cols;
 	bool		valid;
 	int			i;
 
 	if (p.y >= meta->rows || p.y < 0 || p.x >= ft_istrlen(map[p.y]) || p.x < 0)
 		return (false);
-	cols = ft_istrlen(map[p.y]);
 	if (map[p.y][p.x] == COLLECTIBLE)
 		meta->reached_coll_cty += 1;
 	if (map[p.y][p.x] == WALL || map[p.y][p.x] == 42)
@@ -90,9 +90,12 @@ static bool	chk_path(char **map, t_mapmeta *meta)
 	mcopy = ft_strmtxdup(map);
 	valid = chk_pathdfs(mcopy, meta, meta->startpoint);
 	meta->badpath |= !valid || meta->reached_coll_cty != meta->collect_cty;
-	ft_printf(COLOR_CYAN"\nDFS PATH VALIDATION:\n");
-	ft_putstrmtx(mcopy);
-	ft_printf(CR);
+	if (SL_DEBUG)
+	{
+		ft_printf(COLOR_CYAN"\nDFS PATH VALIDATION:\n");
+		ft_putstrmtx(mcopy);
+		ft_printf(CR);
+	}
 	ft_freemtx(mcopy, ft_memmtxlen(mcopy));
 	return (valid);
 }
