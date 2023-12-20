@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 15:22:33 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 18:13:04 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:27:59 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,19 @@ void	sl_loadtextures(t_game *game)
 	game->imgs.enemy[ft_memmtxlen(enemies)] = NULL;
 }
 
+XImage	*get_texture(t_game *game, char id)
+{
+	if (id == PLAYER)
+		return (game->imgs.player[1]->image);
+	if (id == EXIT)
+		return (game->imgs.exit.image);
+	if (id == WALL)
+		return (game->imgs.wall.image);
+	if (id == FLOOR)
+		return (game->imgs.floor.image);
+	if (id == COLLECTIBLE)
+		return (game->imgs.collectible.image);
+	if (id == ENEMY)
+		return (game->imgs.enemy[0]->image);
+	return (NULL);
+}

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 18:34:09 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:31:55 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,14 @@ int			sl_parse(int ac, char **av, t_game *game);
  * @return int 0;
  */
 int			sl_ondestroy(t_game *game);
+/**
+ * @brief Event listener on every keyboard action
+ *
+ * @param key key pressed
+ * @param game game data
+ * @return int 0
+ */
+int	sl_onkeypressed(int key, t_game *game);
 //!----------------------------IMG HANDLING------------------------------------
 /**
  * @brief Generate image from `xpm_path`
@@ -103,6 +111,14 @@ void		sl_destroytextures(t_game *game);
  * @param game
  */
 void		sl_loadtextures(t_game *game);
+/**
+ * @brief Get the texture object by given ID (aka map cell value)
+ *
+ * @param game game data
+ * @param id cell to retrieve
+ * @return XImage*
+ */
+XImage		*get_texture(t_game *game, char id);
 //!-------------------------------UTILS----------------------------------------
 /**
  * @brief Check whether the player can move onto given cell.
