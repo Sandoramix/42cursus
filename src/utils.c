@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:39 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/06 19:36:44 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 14:24:18 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	tmp_printmetadata(t_mapmeta *meta)
 {
 	ft_printf("\nMETA:\n");
-	ft_printf("\trows\t\t\t[%d]\n", meta->rows);
-	ft_printf("\tcols\t\t\t[%d]\n", meta->cols);
+	ft_printf("\trows\t\t\t[%d]\n", meta->size.y);
+	ft_printf("\tcols\t\t\t[%d]\n", meta->size.x);
 	ft_printf("\tcollect_cty\t\t[%d]\n", meta->collect_cty);
 	ft_printf("\tplayers_cty\t\t[%d]\n", meta->players_cty);
 	ft_printf("\t└─startpoint\t\t{%d, %d}\n",
@@ -42,7 +42,7 @@ bool	sl_iswall(char c)
 int	sl_errmsg(t_mapmeta m)
 {
 	ft_printf(COLOR_RED"[MAP ERROR]\t");
-	if (m.badsize && m.cols == m.rows)
+	if (m.badsize && m.size.x == m.size.y)
 		ft_printf("Map must be rectangular.");
 	else if (m.badsize)
 		ft_printf("Map size is invalid.");

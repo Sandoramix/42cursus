@@ -6,18 +6,19 @@ LIBFTX_DIR=$(ROOTDIR)/libftx
 MLX_DIR=$(ROOTDIR)/minilibx
 
 # --------------
-SRC= ./src/map_parsing/parsemap.c \
+SRC= main.c \
+	./src/sl_parse.c \
 	./src/utils.c \
-	./src/main.c \
-	./src/map_parsing/inputctrl.c
+	./src/parsemap.c \
+	./src/textures.c
 
 OBJ=$(SRC:.c=.o)
 
 # ----RULES-----
 
 CC=cc
-CFLAGS=-Wall -Werror -Wextra
-COMPILE=$(CC) $(CFLAGS)
+CFLAGS=-Wall -Wextra -Werror
+COMPILE=$(CC) $(CFLAGS) -g
 RM=rm -rf
 
 INCLUDES=-I/usr/include/X11 -I$(ROOTDIR)/includes -I$(LIBFTX_DIR)/includes -I$(MLX_DIR)

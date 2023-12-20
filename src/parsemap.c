@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/17 15:12:54 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 14:06:03 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static bool	chk_badborders(char **map, t_mapmeta *meta)
 	int	i;
 	int	j;
 
-	if (meta->rows > 0)
+	if (meta->size.y > 0)
 		meta->badborders += ft_strlen(map[0]) - ft_strcount_c(map[0], WALL);
-	if (meta->rows > 1)
-		meta->badborders += ft_strlen(map[meta->rows - 1])
-			- ft_strcount_c(map[meta->rows - 1], WALL);
+	if (meta->size.y > 1)
+		meta->badborders += ft_strlen(map[meta->size.y - 1])
+			- ft_strcount_c(map[meta->size.y - 1], WALL);
 	i = 0;
-	while (++i < meta->rows - 1)
+	while (++i < meta->size.y - 1)
 	{
 		j = ft_istrlen(map[i]);
 		if (j > 0 && !sl_iswall(map[i][j - 1]))
@@ -40,7 +40,7 @@ static void	count_chars(char **map, t_mapmeta *meta)
 	int	j;
 
 	i = -1;
-	while (++i < meta->rows - 1)
+	while (++i < meta->size.y - 1)
 	{
 		j = -1;
 		while (map[i][++j])
@@ -55,7 +55,7 @@ static void	count_chars(char **map, t_mapmeta *meta)
 		meta->players_cty += ft_strcount_c(map[i], PLAYER_START);
 		meta->collect_cty += ft_strcount_c(map[i], COLLECTIBLE);
 		meta->exits_cty += ft_strcount_c(map[i], EXIT);
-		meta->badsize |= meta->cols != ft_istrlen(map[i]);
+		meta->badsize |= meta->size.x != ft_istrlen(map[i]);
 	}
 }
 
@@ -65,7 +65,7 @@ static bool	chk_pathdfs(char **map, t_mapmeta *meta, t_point p)
 	bool		valid;
 	int			i;
 
-	if (p.y >= meta->rows || p.y < 0 || p.x >= ft_istrlen(map[p.y]) || p.x < 0)
+	if (p.y >= meta->size.y || p.y < 0 || p.x >= ft_istrlen(map[p.y]) || p.x < 0)
 		return (false);
 	if (map[p.y][p.x] == COLLECTIBLE)
 		meta->reached_coll_cty += 1;
@@ -105,12 +105,12 @@ t_mapmeta	sl_parsemap(char **map)
 	t_mapmeta	meta;
 
 	meta = (t_mapmeta){0};
-	meta.rows = ft_memmtxlen(map);
-	if (meta.rows > 0)
-		meta.cols = ft_strlen(map[0]);
+	meta.size.y = ft_memmtxlen(map);
+	if (meta.size.y > 0)
+		meta.size.x = ft_strlen(map[0]);
 	count_chars(map, &meta);
 	meta.badsize |= meta.players_cty != 1 || meta.collect_cty < 2
-		|| meta.exits_cty != 1 || meta.rows == meta.cols;
+		|| meta.exits_cty != 1 || meta.size.y == meta.size.x;
 	chk_badborders(map, &meta);
 	chk_path(map, &meta);
 	meta.valid = !meta.badborders && !meta.badchars && meta.collect_cty > 0

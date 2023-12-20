@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inputctrl.c                                        :+:      :+:    :+:   */
+/*   sl_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:08:56 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/17 15:41:47 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 14:43:01 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	sl_inputctrl(int ac, char **av, t_game *game)
+int	sl_parse(int ac, char **av, t_game *game)
 {
 	int	fd;
 
@@ -28,6 +28,7 @@ int	sl_inputctrl(int ac, char **av, t_game *game)
 		return (ft_perror("Error\nFile %s not found\n", av[1]));
 	game->map = ft_readfile(fd, false);
 	game->meta = sl_parsemap(game->map);
+	close(fd);
 	if (!game->meta.valid)
 	{
 		ft_freemtx(game->map, ft_memmtxlen(game->map));
