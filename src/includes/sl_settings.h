@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 17:27:50 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 15:46:37 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:21:05 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@
 # define SL_ALLOWEDCHARS "CPE10N"
 
 # define COLLECTIBLE 'C'
-# define PLAYER_START 'P'
+# define PLAYER 'P'
+# define ENEMY 'P'
 # define EXIT 'E'
 # define WALL '1'
 # define FLOOR '0'

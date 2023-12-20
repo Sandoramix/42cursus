@@ -6,69 +6,69 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 14:06:03 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:21:15 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static bool	chk_badborders(char **map, t_mapmeta *meta)
+static bool	chk_badborders(char **map, t_meta *meta)
 {
 	int	i;
 	int	j;
 
-	if (meta->size.y > 0)
-		meta->badborders += ft_strlen(map[0]) - ft_strcount_c(map[0], WALL);
-	if (meta->size.y > 1)
-		meta->badborders += ft_strlen(map[meta->size.y - 1])
-			- ft_strcount_c(map[meta->size.y - 1], WALL);
+	if (meta->map.size.y > 0)
+		meta->map.badborders += ft_strlen(map[0]) - ft_strcount_c(map[0], WALL);
+	if (meta->map.size.y > 1)
+		meta->map.badborders += ft_strlen(map[meta->map.size.y - 1])
+			- ft_strcount_c(map[meta->map.size.y - 1], WALL);
 	i = 0;
-	while (++i < meta->size.y - 1)
+	while (++i < meta->map.size.y - 1)
 	{
 		j = ft_istrlen(map[i]);
 		if (j > 0 && !sl_iswall(map[i][j - 1]))
-			meta->badborders++;
+			meta->map.badborders++;
 		if (!sl_iswall(map[i][0]))
-			meta->badborders++;
+			meta->map.badborders++;
 	}
-	return (meta->badborders > 0);
+	return (meta->map.badborders > 0);
 }
 
-static void	count_chars(char **map, t_mapmeta *meta)
+static void	count_chars(char **map, t_meta *meta)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	while (++i < meta->size.y - 1)
+	while (++i < meta->map.size.y - 1)
 	{
 		j = -1;
 		while (map[i][++j])
 		{
 			if (!ft_strchr(SL_ALLOWEDCHARS, map[i][j]))
-				meta->badchars++;
-			if (map[i][j] == PLAYER_START)
-				meta->startpoint = (t_point){j, i};
+				meta->map.badchars++;
+			if (map[i][j] == PLAYER)
+				meta->position = (t_point){j, i};
 			if (map[i][j] == EXIT)
 				meta->exitpoint = (t_point){j, i};
 		}
-		meta->players_cty += ft_strcount_c(map[i], PLAYER_START);
+		meta->map.players_cty += ft_strcount_c(map[i], PLAYER);
 		meta->collect_cty += ft_strcount_c(map[i], COLLECTIBLE);
-		meta->exits_cty += ft_strcount_c(map[i], EXIT);
-		meta->badsize |= meta->size.x != ft_istrlen(map[i]);
+		meta->map.exits_cty += ft_strcount_c(map[i], EXIT);
+		meta->map.badsize |= meta->map.size.x != ft_istrlen(map[i]);
 	}
 }
 
-static bool	chk_pathdfs(char **map, t_mapmeta *meta, t_point p)
+static bool	chk_pathdfs(char **map, t_meta *meta, t_point p)
 {
 	const int	moves[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 	bool		valid;
 	int			i;
 
-	if (p.y >= meta->size.y || p.y < 0 || p.x >= ft_istrlen(map[p.y]) || p.x < 0)
+	if (!sl_canmove(map, *meta, p))
 		return (false);
 	if (map[p.y][p.x] == COLLECTIBLE)
-		meta->reached_coll_cty += 1;
+		meta->map.coll_cty += 1;
 	if (map[p.y][p.x] == WALL || map[p.y][p.x] == 42)
 		return (false);
 	if (map[p.y][p.x] == EXIT)
@@ -82,14 +82,14 @@ static bool	chk_pathdfs(char **map, t_mapmeta *meta, t_point p)
 	return (valid);
 }
 
-static bool	chk_path(char **map, t_mapmeta *meta)
+static bool	chk_path(char **map, t_meta *meta)
 {
 	char	**mcopy;
 	bool	valid;
 
 	mcopy = ft_strmtxdup(map);
-	valid = chk_pathdfs(mcopy, meta, meta->startpoint);
-	meta->badpath |= !valid || meta->reached_coll_cty != meta->collect_cty;
+	valid = chk_pathdfs(mcopy, meta, meta->position);
+	meta->map.badpath |= !valid || meta->map.coll_cty != meta->collect_cty;
 	if (SL_DEBUG)
 	{
 		ft_printf(COLOR_CYAN"\nDFS PATH VALIDATION:\n");
@@ -100,21 +100,24 @@ static bool	chk_path(char **map, t_mapmeta *meta)
 	return (valid);
 }
 
-t_mapmeta	sl_parsemap(char **map)
+t_meta	sl_parsemap(char **map)
 {
-	t_mapmeta	meta;
+	t_meta	meta;
 
-	meta = (t_mapmeta){0};
-	meta.size.y = ft_memmtxlen(map);
-	if (meta.size.y > 0)
-		meta.size.x = ft_strlen(map[0]);
+	meta = (t_meta){0};
+	meta.exitpoint = (t_point){0};
+	meta.position = (t_point){0};
+	meta.map = (t_mapmeta){0};
+	meta.map.size.y = ft_memmtxlen(map);
+	if (meta.map.size.y > 0)
+		meta.map.size.x = ft_strlen(map[0]);
 	count_chars(map, &meta);
-	meta.badsize |= meta.players_cty != 1 || meta.collect_cty < 2
-		|| meta.exits_cty != 1 || meta.size.y == meta.size.x;
+	meta.map.badsize |= meta.map.players_cty != 1 || meta.collect_cty < 2
+		|| meta.map.exits_cty != 1 || meta.map.size.y == meta.map.size.x;
 	chk_badborders(map, &meta);
 	chk_path(map, &meta);
-	meta.valid = !meta.badborders && !meta.badchars && meta.collect_cty > 0
-		&& meta.exits_cty == 1 && meta.players_cty == 1 && !meta.badsize
-		&& !meta.badpath;
+	meta.map.valid = !meta.map.badborders && !meta.map.badchars
+		&& meta.collect_cty > 0 && meta.map.exits_cty == 1
+		&& meta.map.players_cty == 1 && !meta.map.badsize && !meta.map.badpath;
 	return (meta);
 }

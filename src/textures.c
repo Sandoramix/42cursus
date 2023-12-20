@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 15:22:33 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 15:30:08 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:13:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,20 @@ void	sl_destroytextures(t_game *game)
 {
 	int	i;
 
-	mlx_destroy_image(game->mlx, game->imgs.floor.ptr);
-	mlx_destroy_image(game->mlx, game->imgs.exit.ptr);
-	mlx_destroy_image(game->mlx, game->imgs.wall.ptr);
-	mlx_destroy_image(game->mlx, game->imgs.collectible.ptr);
+	mlx_destroy_image(game->mlx, game->imgs.floor.image);
+	mlx_destroy_image(game->mlx, game->imgs.exit.image);
+	mlx_destroy_image(game->mlx, game->imgs.wall.image);
+	mlx_destroy_image(game->mlx, game->imgs.collectible.image);
 	i = -1;
 	while (game->imgs.player[++i])
 	{
-		mlx_destroy_image(game->mlx, game->imgs.player[i]->ptr);
+		mlx_destroy_image(game->mlx, game->imgs.player[i]->image);
 		free(game->imgs.player[i]);
 	}
 	i = -1;
 	while (game->imgs.enemy[++i])
 	{
-		mlx_destroy_image(game->mlx, game->imgs.enemy[i]->ptr);
+		mlx_destroy_image(game->mlx, game->imgs.enemy[i]->image);
 		free(game->imgs.enemy[i]);
 	}
 	free(game->imgs.player);
@@ -41,13 +41,15 @@ t_img	sl_imggen(t_game *game, char *xpm_path)
 {
 	t_img	res;
 
-	res.size = (t_point){SL_TILESIZE, SL_TILESIZE};
-	res.ptr = mlx_xpm_file_to_image(game->mlx, xpm_path, &res.size.x,
-			&res.size.y);
-	if (!res.ptr)
+	res.height = SL_TILESIZE;
+	res.width = SL_TILESIZE;
+	res.image = mlx_xpm_file_to_image(game->mlx, xpm_path, &res.width,
+			&res.height);
+	if (!res.image)
 	{
-		ft_printf(COLOR_RED"ERROR WHILE GENERATING TEXTURE located at \
-			[%s].\bAborting...\n"CR, xpm_path);
+		ft_printf(COLOR_RED
+			"ERROR WHILE GENERATING TEXTURE located at [%s].\nAborting...\n"CR,
+			xpm_path);
 		sl_ondestroy(game);
 	}
 	return (res);

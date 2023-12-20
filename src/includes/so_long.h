@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 15:33:10 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:34:09 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,56 +16,60 @@
 # include <keysym.h>
 # include <keysymdef.h>
 
-# include "mlx.h"
+# include <mlx.h>
+# include <mlx_int.h>
 
 # include <libft.h>
 # include <sl_settings.h>
 # include <sl_assets.h>
 
-
 typedef struct s_mapmeta
 {
 	t_point		size;
 
+	bool		valid;
+	bool		badsize;
+	bool		badpath;
 	int			players_cty;
-	t_point		startpoint;
-
 	int			exits_cty;
-	t_point		exitpoint;
-
-	int			collect_cty;
-	int			reached_coll_cty;
 
 	int			badborders;
 	int			badchars;
 
-	bool		badsize;
-	bool		badpath;
-	bool		valid;
+	int			coll_cty;
 }	t_mapmeta;
+
+typedef struct s_meta
+{
+	bool		alive;
+	int			moves;
+	t_point		position;
+	t_point		exitpoint;
+	int			collect_cty;
+	t_mapmeta	map;
+}	t_meta;
 
 typedef struct s_game
 {
-	void		*mlx;
-	void		*window;
-
 	char		**map;
+	t_meta		meta;
 
-	t_mapmeta	meta;
+	t_xvar		*mlx;
+	Window		*window;
 
 	t_textures	imgs;
 }	t_game;
 
-void		tmp_printmetadata(t_mapmeta *meta);
+void		tmp_printmetadata(t_meta *meta);
 
 //!----------------------------DEPENDENCIES------------------------------------
 /**
  * @brief Map parsing
  *
  * @param map map
- * @return t_mapmeta metadata of the parsed map
+ * @return t_meta game metadata
  */
-t_mapmeta	sl_parsemap(char **map);
+t_meta		sl_parsemap(char **map);
 /**
  * @brief Program input control (map validation)
  * @return `1` if error occured, else `0`
@@ -101,6 +105,25 @@ void		sl_destroytextures(t_game *game);
 void		sl_loadtextures(t_game *game);
 //!-------------------------------UTILS----------------------------------------
 /**
+ * @brief Check whether the player can move onto given cell.
+ *
+ * @param map Map
+ * @param meta game meta
+ * @param p position of the next move.
+ * @return `true` if the player can move onto the given cell, `false` otherwise
+ */
+bool		sl_canmove(char **map, t_meta meta, t_point p);
+/**
+ * @brief
+ *
+ * @param map
+ * @param meta
+ * @param next_move
+ * @return true
+ * @return false
+ */
+bool		sl_canmove(char **map, t_meta meta, t_point next_move);
+/**
  * @brief Check if the given character is a wall
  *
  * @param c
@@ -112,10 +135,10 @@ bool		sl_iswall(char c);
 /**
  * @brief Print map metadata errors
  *
- * @param m map metadata
+ * @param m game metadata
  * @return 1
  */
-int			sl_errmsg(t_mapmeta m);
+int			sl_errmsg(t_meta meta);
 
 int			sl_helpmsg(char *progname);
 #endif

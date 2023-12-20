@@ -52,7 +52,7 @@ re: fclean all
 	@$(COMPILE) $(INCLUDES) -c $< -o $@
 
 # ----UTILS-----
-VALGRIND=@valgrind --leak-check=full -s --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
+VALGRIND=@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
 valgrind: all
 	@$(VALGRIND) ./$(NAME) $(mapfile)
 

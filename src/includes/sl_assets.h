@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:06:04 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 15:57:29 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:22:37 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@
 # define SLA_WALL			SLA_RDIR"wall.xpm"
 # define SLA_EXIT			SLA_RDIR"exit.xpm"
 
-typedef struct s_img
-{
-	void	*ptr;
-	t_point	size;
-}	t_img;
 
 
 typedef struct s_textures
