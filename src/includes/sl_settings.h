@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 17:27:50 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 01:12:35 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 18:54:19 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include "libft.h"
 
 # define FPS 4
+
+# ifndef SL_DEBUG
+#  define SL_DEBUG false
+# endif
 
 // KEYBINDINGS
 # ifndef SL_QUIT
@@ -39,21 +43,18 @@
 # endif
 
 // MAP DEFINITIONS
-# ifndef SL_TILESIZE
-#  define SL_TILESIZE 32
-# endif
-
-# ifndef SL_DEBUG
-#  define SL_DEBUG false
-# endif
 
 # define SL_ALLOWEDCHARS "CPE10N"
 
 # define COLLECTIBLE 'C'
 # define PLAYER 'P'
-# define ENEMY 'P'
+# define ENEMY 'N'
 # define EXIT 'E'
 # define WALL '1'
 # define FLOOR '0'
+
+# ifndef SL_TILESIZE
+#  define SL_TILESIZE 32
+# endif
 
 #endif
