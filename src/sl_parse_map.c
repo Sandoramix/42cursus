@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 00:48:17 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 19:41:16 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void	count_chars(char **map, t_meta *meta)
 				meta->position = (t_point){j, i};
 			else if (map[i][j] == EXIT)
 				meta->exitpoint = (t_point){j, i};
+			else if (map[i][j] == ENEMY)
+				sl_add_enemy(meta, j, i);
 		}
 		meta->map.players_cty += ft_strcount_c(map[i], PLAYER);
 		meta->collect_cty += ft_strcount_c(map[i], COLLECTIBLE);
@@ -110,6 +112,7 @@ t_meta	sl_parsemap(char **map)
 	meta.map = (t_mapmeta){0};
 	meta.facing = FACE_RIGHT;
 	meta.map.size.y = ft_memmtxlen(map);
+	meta.enemies_pos = NULL;
 	if (meta.map.size.y > 0)
 		meta.map.size.x = ft_strlen(map[0]);
 	count_chars(map, &meta);

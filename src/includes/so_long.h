@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 01:12:47 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 19:19:23 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_meta		sl_parsemap(char **map);
  * @return `1` if error occured, else `0`
  */
 int			sl_parse(int ac, char **av, t_game *game);
+
+void		sl_add_enemy(t_meta *meta, int x, int y);
 //!----------------------------EVENTS-------------------------------
 /**
  * @brief OnDestroy event. Frees every allocation made

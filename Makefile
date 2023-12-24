@@ -11,6 +11,7 @@ SRC= main.c \
 	./src/sl_parse.c \
 	./src/sl_parse_map.c \
 	./src/sl_textures.c \
+	./src/sl_enemies.c \
 	./src/sl_utils.c \
 	./src/sl_time.c
 
