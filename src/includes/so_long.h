@@ -6,12 +6,13 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 19:31:55 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 01:12:47 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
+# include <time.h>
 # include <X.h>
 # include <keysym.h>
 # include <keysymdef.h>
@@ -22,45 +23,12 @@
 # include <libft.h>
 # include <sl_settings.h>
 # include <sl_assets.h>
-
-typedef struct s_mapmeta
-{
-	t_point		size;
-
-	bool		valid;
-	bool		badsize;
-	bool		badpath;
-	int			players_cty;
-	int			exits_cty;
-
-	int			badborders;
-	int			badchars;
-
-	int			coll_cty;
-}	t_mapmeta;
-
-typedef struct s_meta
-{
-	bool		alive;
-	int			moves;
-	t_point		position;
-	t_point		exitpoint;
-	int			collect_cty;
-	t_mapmeta	map;
-}	t_meta;
-
-typedef struct s_game
-{
-	char		**map;
-	t_meta		meta;
-
-	t_xvar		*mlx;
-	Window		*window;
-
-	t_textures	imgs;
-}	t_game;
+# include <sl_structs.h>
 
 void		tmp_printmetadata(t_meta *meta);
+
+// ! EXTRA (NEEDED FOR SPRITES RENDER LIMITING)
+void		sl_updatetexture_ids(t_game *game);
 
 //!----------------------------DEPENDENCIES------------------------------------
 /**
@@ -84,13 +52,13 @@ int			sl_parse(int ac, char **av, t_game *game);
  */
 int			sl_ondestroy(t_game *game);
 /**
- * @brief Event listener on every keyboard action
+ * @brief Event listener for `key press` event
  *
  * @param key key pressed
  * @param game game data
  * @return int 0
  */
-int	sl_onkeypressed(int key, t_game *game);
+int			sl_onkeypressed(int key, t_game *game);
 //!----------------------------IMG HANDLING------------------------------------
 /**
  * @brief Generate image from `xpm_path`
@@ -119,6 +87,8 @@ void		sl_loadtextures(t_game *game);
  * @return XImage*
  */
 XImage		*get_texture(t_game *game, char id);
+
+void		sl_puttexture(t_game *game, char id, int x, int y);
 //!-------------------------------UTILS----------------------------------------
 /**
  * @brief Check whether the player can move onto given cell.
