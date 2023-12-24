@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 17:27:50 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 17:21:05 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 01:12:35 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <keysym.h>
 # include <keysymdef.h>
 # include "libft.h"
+
+# define FPS 4
 
 // KEYBINDINGS
 # ifndef SL_QUIT

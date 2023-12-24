@@ -6,37 +6,48 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 19:31:38 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 01:11:35 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <ft_printf.h>
 
-#include "so_long.h"
+#include <so_long.h>
 
-int	sl_render(t_game *game)
+static bool	check_endgame(t_game *game)
 {
-	int	i;
-	int	j;
-
-	mlx_clear_window(game->mlx, game->window);
 	if (!game->meta.alive)
 		ft_printf(COLOR_RED"You've been overflowed by bugs.\n"CR);
 	if (game->meta.collect_cty == 0 && !game->meta.map.exits_cty)
 		ft_printf(COLOR_GREEN"You won! GG\n"CR);
 	if (!game->meta.alive || (game->meta.collect_cty == 0
 			&& !game->meta.map.exits_cty))
-		return (sl_ondestroy(game));
+		sl_ondestroy(game);
+	return (true);
+}
+
+int	sl_render(t_game *game)
+{
+	char	*moves;
+	int		i;
+	int		j;
+
+	check_endgame(game);
 	i = -1;
 	while (++i < game->meta.map.size.y)
 	{
 		j = -1;
 		while (++j < game->meta.map.size.x)
-			mlx_put_image_to_window(game->mlx, game->window,
-				get_texture(game, game->map[i][j]), j * SL_TILESIZE,
-				i * SL_TILESIZE);
+			sl_puttexture(game, game->map[i][j], j, i);
 	}
+	moves = ft_itoa(game->meta.moves);
+	mlx_string_put(game->mlx, game->window,
+		game->meta.position.x * SL_TILESIZE + (SL_TILESIZE * .5)
+		- ft_nbr_len(game->meta.moves, 10) * SL_TILESIZE * .05,
+		game->meta.position.y * SL_TILESIZE - 5, 0xffc800, moves);
+	free(moves);
+	sl_updatetexture_ids(game);
 	return (0);
 }
 

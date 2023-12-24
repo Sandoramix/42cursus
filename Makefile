@@ -11,7 +11,8 @@ SRC= main.c \
 	./src/sl_parse.c \
 	./src/sl_parse_map.c \
 	./src/sl_textures.c \
-	./src/sl_utils.c
+	./src/sl_utils.c \
+	./src/sl_time.c
 
 OBJ=$(SRC:.c=.o)
 
@@ -56,6 +57,7 @@ re: fclean all
 VALGRIND=@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
 valgrind: all
 	@$(VALGRIND) ./$(NAME) $(mapfile)
+valgrindre: re valgrind
 
 download:
 	@wget https://cdn.intra.42.fr/document/document/21656/minilibx-linux.tgz
@@ -64,7 +66,7 @@ download:
 	@$(RM) minilibx-linux.tgz
 
 # ----OTHER-----
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re valgrind
 .SILENT:
 
 # ----COLORS----
