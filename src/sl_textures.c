@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   textures.c                                         :+:      :+:    :+:   */
+/*   sl_textures.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 15:22:33 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 19:27:59 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 00:35:14 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,15 @@ void	sl_destroytextures(t_game *game)
 	mlx_destroy_image(game->mlx, game->imgs.exit.image);
 	mlx_destroy_image(game->mlx, game->imgs.wall.image);
 	mlx_destroy_image(game->mlx, game->imgs.collectible.image);
+	mlx_destroy_image(game->mlx, game->imgs.enemy.image);
 	i = -1;
-	while (game->imgs.player[++i])
-	{
-		mlx_destroy_image(game->mlx, game->imgs.player[i]->image);
-		free(game->imgs.player[i]);
-	}
+	while (game->imgs.player_l[++i])
+		mlx_destroy_image(game->mlx, game->imgs.player_l[i]->image);
 	i = -1;
-	while (game->imgs.enemy[++i])
-	{
-		mlx_destroy_image(game->mlx, game->imgs.enemy[i]->image);
-		free(game->imgs.enemy[i]);
-	}
-	free(game->imgs.player);
-	free(game->imgs.enemy);
+	while (game->imgs.player_r[++i])
+		mlx_destroy_image(game->mlx, game->imgs.player_r[i]->image);
+	ft_freemtx(game->imgs.player_l, ft_memmtxlen(game->imgs.player_l));
+	ft_freemtx(game->imgs.player_r, ft_memmtxlen(game->imgs.player_r));
 	game->imgs = (t_textures){0};
 }
 
@@ -55,47 +50,73 @@ t_img	sl_imggen(t_game *game, char *xpm_path)
 	return (res);
 }
 
+static t_img	**sl_gen_player_textures(t_game *game, const char **filenames,
+	t_facing facing)
+{
+	const int	len = ((int [2]){game->imgs.plr_cty, game->imgs.pll_cty})
+	[facing == FACE_LEFT];
+	int			i;
+	t_img		**res;
+
+	res = ft_calloc(len + 1, sizeof(t_img *));
+	if (!res)
+	{
+		ft_printf(COLOR_RED"MALLOC ERROR ON PLAYER TEXTURES.\nAborting...\n"CR);
+		sl_ondestroy(game);
+	}
+	res[len] = NULL;
+	i = -1;
+	while (++i < len)
+	{
+		res[i] = ft_calloc(1, sizeof(t_img));
+		if (!res[i])
+		{
+			ft_printf(COLOR_RED
+				"MALLOC ERROR ON PLAYER TEXTURES.\nAborting...\n"CR);
+			sl_ondestroy(game);
+		}
+		*(res[i]) = sl_imggen(game, (char *)(filenames[i]));
+	}
+	return (res);
+}
+
 void	sl_loadtextures(t_game *game)
 {
-	const char	*players[] = {SLA_PLAYER};
-	const char	*enemies[] = {SLA_ENEMY};
-	int			i;
+	const char	*pl[] = {SLA_PLAYER_L};
+	const char	*pr[] = {SLA_PLAYER_R};
 
+	game->imgs.pll_cty = ft_memmtxlen(pl);
+	game->imgs.plr_cty = ft_memmtxlen(pr);
 	game->imgs.floor = sl_imggen(game, SLA_FLOOR);
 	game->imgs.exit = sl_imggen(game, SLA_EXIT);
 	game->imgs.wall = sl_imggen(game, SLA_WALL);
 	game->imgs.collectible = sl_imggen(game, SLA_COLLECTIBLE);
-	i = -1;
-	game->imgs.player = ft_calloc(ft_memmtxlen(players) + 1, sizeof(t_img *));
-	while (players[++i])
-	{
-		game->imgs.player[i] = ft_calloc(1, sizeof(t_img));
-		*(game->imgs.player[i]) = sl_imggen(game, (char *)players[i]);
-	}
-	game->imgs.player[ft_memmtxlen(players)] = NULL;
-	i = -1;
-	game->imgs.enemy = ft_calloc(ft_memmtxlen(enemies) + 1, sizeof(t_img *));
-	while (enemies[++i])
-	{
-		game->imgs.enemy[i] = ft_calloc(1, sizeof(t_img));
-		*(game->imgs.enemy[i]) = sl_imggen(game, (char *)enemies[i]);
-	}
-	game->imgs.enemy[ft_memmtxlen(enemies)] = NULL;
+	game->imgs.enemy = sl_imggen(game, SLA_ENEMY);
+	game->imgs.player_l = sl_gen_player_textures(game, pl, FACE_LEFT);
+	game->imgs.player_r = sl_gen_player_textures(game, pr, FACE_RIGHT);
 }
 
-XImage	*get_texture(t_game *game, char id)
+void	sl_puttexture(t_game *game, char id, int x, int y)
 {
-	if (id == PLAYER)
-		return (game->imgs.player[1]->image);
-	if (id == EXIT)
-		return (game->imgs.exit.image);
-	if (id == WALL)
-		return (game->imgs.wall.image);
-	if (id == FLOOR)
-		return (game->imgs.floor.image);
-	if (id == COLLECTIBLE)
-		return (game->imgs.collectible.image);
-	if (id == ENEMY)
-		return (game->imgs.enemy[0]->image);
-	return (NULL);
+	const int			x_px = x * SL_TILESIZE;
+	const int			y_px = y * SL_TILESIZE;
+	XImage				*img;
+
+	if (id == PLAYER && game->meta.facing == FACE_RIGHT)
+		img = game->imgs.player_r[game->imgs.plr_idx]->image;
+	else if (id == PLAYER && game->meta.facing == FACE_LEFT)
+		img = game->imgs.player_l[game->imgs.pll_idx]->image;
+	else if (id == EXIT)
+		img = game->imgs.exit.image;
+	else if (id == WALL)
+		img = game->imgs.wall.image;
+	else if (id == FLOOR)
+		img = game->imgs.floor.image;
+	else if (id == COLLECTIBLE)
+		img = game->imgs.collectible.image;
+	else if (id == ENEMY)
+		img = game->imgs.enemy.image;
+	else
+		return ;
+	mlx_put_image_to_window(game->mlx, game->window, img, x_px, y_px);
 }

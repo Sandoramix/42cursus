@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:08:56 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 17:59:08 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 00:41:45 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	sl_parse(int ac, char **av, t_game *game)
 	close(fd);
 	if (!game->meta.map.valid)
 	{
+		tmp_printmetadata(&game->meta);
 		ft_freemtx(game->map, ft_memmtxlen(game->map));
 		return (sl_errmsg(game->meta));
 	}

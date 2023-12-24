@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 19:26:27 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 19:32:28 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 00:49:34 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,27 @@ int	sl_ondestroy(t_game *game)
 	return (0);
 }
 
+static t_point	get_nextmove(t_game *game, int key)
+{
+	t_point				nextmove;
+
+	nextmove = game->meta.position;
+	if (key == SL_UP)
+		nextmove.y--;
+	else if (key == SL_DOWN)
+		nextmove.y++;
+	if (key == SL_LEFT)
+	{
+		game->meta.facing = FACE_LEFT;
+		nextmove.x--;
+	}
+	else if (key == SL_RIGHT)
+	{
+		game->meta.facing = FACE_RIGHT;
+		nextmove.x++;
+	}
+	return (nextmove);
+}
 
 int	sl_onkeypressed(int key, t_game *game)
 {
@@ -33,17 +54,10 @@ int	sl_onkeypressed(int key, t_game *game)
 	if (key == SL_QUIT)
 		return (sl_ondestroy(game));
 	currpos = &game->meta.position;
-	nextmove = game->meta.position;
-	if (key == SL_UP)
-		nextmove.y--;
-	else if (key == SL_DOWN)
-		nextmove.y++;
-	if (key == SL_RIGHT)
-		nextmove.x++;
-	else if (key == SL_LEFT)
-		nextmove.x--;
+	nextmove = get_nextmove(game, key);
 	if (!sl_canmove(game->map, game->meta, nextmove))
 		return (0);
+	game->meta.moves++;
 	game->map[currpos->y][currpos->x] = FLOOR;
 	if (game->map[nextmove.y][nextmove.x] == COLLECTIBLE)
 		game->meta.collect_cty--;

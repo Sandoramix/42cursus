@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsemap.c                                         :+:      :+:    :+:   */
+/*   sl_parse_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 18:21:15 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 00:48:17 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ static void	count_chars(char **map, t_meta *meta)
 	int	j;
 
 	i = -1;
-	while (++i < meta->map.size.y - 1)
+	while (++i < meta->map.size.y)
 	{
 		j = -1;
 		while (map[i][++j])
 		{
 			if (!ft_strchr(SL_ALLOWEDCHARS, map[i][j]))
 				meta->map.badchars++;
-			if (map[i][j] == PLAYER)
+			else if (map[i][j] == PLAYER)
 				meta->position = (t_point){j, i};
-			if (map[i][j] == EXIT)
+			else if (map[i][j] == EXIT)
 				meta->exitpoint = (t_point){j, i};
 		}
 		meta->map.players_cty += ft_strcount_c(map[i], PLAYER);
@@ -108,11 +108,12 @@ t_meta	sl_parsemap(char **map)
 	meta.exitpoint = (t_point){0};
 	meta.position = (t_point){0};
 	meta.map = (t_mapmeta){0};
+	meta.facing = FACE_RIGHT;
 	meta.map.size.y = ft_memmtxlen(map);
 	if (meta.map.size.y > 0)
 		meta.map.size.x = ft_strlen(map[0]);
 	count_chars(map, &meta);
-	meta.map.badsize |= meta.map.players_cty != 1 || meta.collect_cty < 2
+	meta.map.badsize |= meta.map.players_cty != 1 || meta.collect_cty < 1
 		|| meta.map.exits_cty != 1 || meta.map.size.y == meta.map.size.x;
 	chk_badborders(map, &meta);
 	chk_path(map, &meta);
