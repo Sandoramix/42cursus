@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   sl_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:39 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/20 18:20:00 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 00:47:43 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,7 @@ bool	sl_iswall(char c)
 int	sl_errmsg(t_meta m)
 {
 	ft_printf(COLOR_RED"[MAP ERROR]\t");
-	if (m.map.badsize && m.map.size.x == m.map.size.y)
-		ft_printf("Map must be rectangular.");
-	else if (m.map.badsize)
-		ft_printf("Map size is invalid.");
-	else if (m.map.badchars > 0)
+	if (m.map.badchars > 0)
 		ft_printf("Map contains %d invalid characters.", m.map.badchars);
 	else if (m.map.badborders)
 		ft_printf("The map has to be surrounded by walls.");
@@ -58,6 +54,10 @@ int	sl_errmsg(t_meta m)
 		ft_printf("There are not enough collectibles.");
 	else if (m.map.badpath)
 		ft_printf("The game cannot be finished because of a bad path.");
+	else if (m.map.badsize && m.map.size.x == m.map.size.y)
+		ft_printf("Map must be rectangular.");
+	else if (m.map.badsize)
+		ft_printf("Map size is invalid.");
 	if (m.map.badpath && m.collect_cty != m.map.coll_cty)
 		ft_printf("\n\t\tReachable collectibles: %d / %d", m.map.coll_cty,
 			m.collect_cty);
@@ -65,14 +65,12 @@ int	sl_errmsg(t_meta m)
 	return (1);
 }
 
-
 int	sl_helpmsg(char *progname)
 {
 	ft_printf(COLOR_YELLOW"Usage: "COLOR_CYAN"%s <path_to_map>\n"CR, progname);
 	exit(1);
 	return (1);
 }
-
 
 bool	sl_canmove(char **map, t_meta meta, t_point p)
 {
