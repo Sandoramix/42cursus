@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 01:11:35 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/24 19:37:41 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	sl_game_init(t_game *game)
 {
 	game->meta.alive = true;
 	game->mlx = mlx_init();
+	if (!game->mlx)
+		sl_ondestroy(game);
 	sl_loadtextures(game);
 	game->window = mlx_new_window(game->mlx,
 			game->meta.map.size.x * SL_TILESIZE,
