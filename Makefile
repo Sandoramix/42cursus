@@ -13,7 +13,8 @@ SRC= main.c \
 	./src/sl_textures.c \
 	./src/sl_enemies.c \
 	./src/sl_utils.c \
-	./src/sl_time.c
+	./src/sl_time.c \
+	./src/sl_bounds.c
 
 OBJ=$(SRC:.c=.o)
 

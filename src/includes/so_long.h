@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 19:19:23 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 18:38:15 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ t_meta		sl_parsemap(char **map);
 int			sl_parse(int ac, char **av, t_game *game);
 
 void		sl_add_enemy(t_meta *meta, int x, int y);
+
+/**
+ * @brief Move all enemies randomly
+ * @attention Uses `srand`, `time` and `rand`
+ * @param game
+ */
+void		sl_move_enemies(t_game *game);
+
+/**
+ * @brief Check if `key` is a mapped ingame key or not.
+ *
+ * @param key
+ */
+bool		sl_knownkey(int key);
 //!----------------------------EVENTS-------------------------------
 /**
  * @brief OnDestroy event. Frees every allocation made
@@ -102,15 +116,23 @@ void		sl_puttexture(t_game *game, char id, int x, int y);
  */
 bool		sl_canmove(char **map, t_meta meta, t_point p);
 /**
- * @brief
+ * @brief Check whether the enemy can mvoe onto given cell
  *
- * @param map
- * @param meta
- * @param next_move
- * @return true
- * @return false
+ * @param map Map
+ * @param meta game meta
+ * @param p position of the next move.
+ * @return `true` if the enemy can move onto the given cell, `false` otherwise.
  */
-bool		sl_canmove(char **map, t_meta meta, t_point next_move);
+bool		sl_enemy_canmove(char **map, t_meta meta, t_point pos);
+/**
+ * @brief Check whether the point `p` is in map's bounds.
+ *
+ * @param map map
+ * @param meta game meta
+ * @param p point
+ * @return `true` if point is in bounds, `false` otherwise.
+ */
+bool		sl_point_in_bounds(char **map, t_meta meta, t_point p);
 /**
  * @brief Check if the given character is a wall
  *

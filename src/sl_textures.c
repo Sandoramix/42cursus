@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 15:22:33 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 00:35:14 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:16:49 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	sl_destroytextures(t_game *game)
 		mlx_destroy_image(game->mlx, game->imgs.player_r[i]->image);
 	ft_freemtx(game->imgs.player_l, ft_memmtxlen(game->imgs.player_l));
 	ft_freemtx(game->imgs.player_r, ft_memmtxlen(game->imgs.player_r));
-	game->imgs = (t_textures){0};
 }
 
 t_img	sl_imggen(t_game *game, char *xpm_path)

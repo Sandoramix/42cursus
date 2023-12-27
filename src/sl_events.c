@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 19:26:27 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 08:05:41 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 17:26:38 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,21 @@
 
 int	sl_ondestroy(t_game *game)
 {
+	const int	status = !game->mlx;
+
 	ft_freemtx(game->map, game->meta.map.size.y);
 	ft_lstclear(&game->meta.enemies_pos, &free);
-	if (!game->mlx)
-		return (ft_perror("There was an error with connection to X server\n"));
-	mlx_clear_window(game->mlx, game->window);
-	mlx_destroy_window(game->mlx, game->window);
-	mlx_destroy_display(game->mlx);
-	free(game->mlx);
-	sl_destroytextures(game);
-	exit(0);
-	return (0);
+	if (!status)
+	{
+		sl_destroytextures(game);
+		mlx_clear_window(game->mlx, game->window);
+		mlx_destroy_window(game->mlx, game->window);
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+	}
+	exit(status);
+	return (status);
 }
-
-// void	sl_update_enemies(t_game *game)
-// {
-
-// }
 
 static t_point	get_nextmove(t_game *game, int key)
 {
@@ -63,7 +61,7 @@ int	sl_onkeypressed(int key, t_game *game)
 		return (sl_ondestroy(game));
 	currpos = &game->meta.position;
 	nextmove = get_nextmove(game, key);
-	if (!sl_canmove(game->map, game->meta, nextmove))
+	if (!sl_canmove(game->map, game->meta, nextmove) || !sl_knownkey(key))
 		return (0);
 	game->meta.moves++;
 	game->map[currpos->y][currpos->x] = FLOOR;
@@ -79,5 +77,6 @@ int	sl_onkeypressed(int key, t_game *game)
 	else
 		game->map[nextmove.y][nextmove.x] = PLAYER;
 	*(currpos) = (t_point){nextmove.x, nextmove.y};
+	sl_move_enemies(game);
 	return (0);
 }

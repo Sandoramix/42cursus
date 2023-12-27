@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 08:06:07 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 08:17:14 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	sl_game_init(t_game *game)
 	game->meta.alive = true;
 	game->mlx = mlx_init();
 	if (!game->mlx)
-		sl_ondestroy(game);
+		return (ft_perror("There was an error with connection to X server\n"));
 	sl_loadtextures(game);
 	game->window = mlx_new_window(game->mlx,
 			game->meta.map.size.x * SL_TILESIZE,
@@ -78,12 +78,15 @@ int	main(int ac, char **av)
 	game.meta = (t_meta){0};
 	game.meta.map = (t_mapmeta){0};
 	game.imgs = (t_textures){0};
+	game.mlx = NULL;
 	if (sl_parse(ac, av, &game))
-		return (1);
-	printf("\nLOADED MAP:\n");
-	ft_putstrmtx(game.map);
+		return (sl_ondestroy(&game));
 	if (SL_DEBUG)
+	{
+		printf("\nLOADED MAP:\n");
+		ft_putstrmtx(game.map);
 		tmp_printmetadata(&game.meta);
+	}
 	ft_printf("\n");
 	return (sl_game_init(&game));
 }

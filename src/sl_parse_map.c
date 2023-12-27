@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 19:41:16 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:17:05 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ t_meta	sl_parsemap(char **map)
 	meta.exitpoint = (t_point){0};
 	meta.position = (t_point){0};
 	meta.map = (t_mapmeta){0};
-	meta.facing = FACE_RIGHT;
 	meta.map.size.y = ft_memmtxlen(map);
+	meta.facing = FACE_RIGHT;
 	meta.enemies_pos = NULL;
 	if (meta.map.size.y > 0)
 		meta.map.size.x = ft_strlen(map[0]);

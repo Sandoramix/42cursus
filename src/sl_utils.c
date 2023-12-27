@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:39 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 00:47:43 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 17:20:25 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,14 @@ int	sl_helpmsg(char *progname)
 	return (1);
 }
 
-bool	sl_canmove(char **map, t_meta meta, t_point p)
+bool	sl_knownkey(int key)
 {
-	if (p.y >= meta.map.size.y || p.y < 0 || p.x >= ft_istrlen(map[p.y])
-		|| p.x < 0 || map[p.y][p.x] == WALL ||
-		(meta.alive && meta.collect_cty > 0 && map[p.y][p.x] == EXIT))
-		return (false);
-	return (true);
+	const int	known[] = {SL_UP, SL_DOWN, SL_LEFT, SL_RIGHT, SL_QUIT};
+	int			i;
+
+	i = -1;
+	while (++i < 5)
+		if (key == known[i])
+			return (true);
+	return (false);
 }
