@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 19:03:13 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 20:00:18 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,25 @@
 
 #include <so_long.h>
 
-static bool	check_endgame(t_game *game)
+bool	check_endgame(t_game *game)
 {
+	const char		*moves = ft_itoa(game->meta.moves);
+	char			*msg;
+	const t_point	center = {game->meta.map.size.x / 2 * SL_TILESIZE,
+		game->meta.map.size.y / 2 * SL_TILESIZE};
+
 	if (!game->meta.alive)
-		ft_printf(COLOR_RED"You've been overflowed by bugs.\n"CR);
+		mlx_string_put(game->mlx, game->window, center.x, center.y,
+			0xffc800, "You've been overflowed by bugs.");
+	msg = ft_strjoin("You won! GG\nTotal moves: ", (char *)moves);
 	if (game->meta.collect_cty == 0 && !game->meta.map.exits_cty)
-	{
-		ft_printf(COLOR_GREEN"You won! GG\n"CR);
-		ft_printf(COLOR_YELLOW"TOTAL MOVES: %d\n"CR, game->meta.moves);
-	}
-	if (!game->meta.alive || (game->meta.collect_cty == 0
-			&& !game->meta.map.exits_cty))
-		sl_ondestroy(game);
+		mlx_string_put(game->mlx, game->window, center.x, center.y, 0xffc800,
+			msg);
+	// if (!game->meta.alive || (game->meta.collect_cty == 0
+	// 		&& !game->meta.map.exits_cty))
+		// sl_ondestroy(game);
+	free(msg);
+	free((char *)moves);
 	return (true);
 }
 
@@ -36,7 +43,6 @@ int	sl_render(t_game *game)
 	int		i;
 	int		j;
 
-	check_endgame(game);
 	i = -1;
 	while (++i < game->meta.map.size.y)
 	{
@@ -49,6 +55,7 @@ int	sl_render(t_game *game)
 		game->meta.position.x * SL_TILESIZE + (SL_TILESIZE * .5)
 		- ft_nbr_len(game->meta.moves, 10) * SL_TILESIZE * .05,
 		game->meta.position.y * SL_TILESIZE - 5, 0xffc800, moves);
+	check_endgame(game);
 	free(moves);
 	sl_updatetexture_ids(game);
 	return (0);
@@ -73,6 +80,31 @@ int	sl_game_init(t_game *game)
 	return (0);
 }
 
+int	sl_parse(int ac, char **av, t_game *game)
+{
+	int	fd;
+
+	if (ac != 2)
+		return (sl_helpmsg(av[0]));
+	if (ac == 2 && !ft_strendswith(av[1], ".ber"))
+	{
+		ft_printf(COLOR_RED"Error\nMap extension must be \".ber\"\n");
+		return (sl_helpmsg(av[0]));
+	}
+	fd = open(av[1], O_RDONLY);
+	if (fd <= 0)
+		return (ft_perror("Error\nFile %s not found\n", av[1]));
+	game->map = ft_readfile(fd, false);
+	game->meta = sl_parsemap(game->map);
+	close(fd);
+	if (!game->meta.map.valid)
+	{
+		tmp_printmetadata(game);
+		return (sl_errmsg(game->meta));
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_game	game;
@@ -85,11 +117,7 @@ int	main(int ac, char **av)
 	if (sl_parse(ac, av, &game))
 		return (sl_ondestroy(&game));
 	if (SL_DEBUG)
-	{
-		printf("\nLOADED MAP:\n");
-		ft_putstrmtx(game.map);
-		tmp_printmetadata(&game.meta);
-	}
+		tmp_printmetadata(&game);
 	ft_printf("\n");
 	return (sl_game_init(&game));
 }

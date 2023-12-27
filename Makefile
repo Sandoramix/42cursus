@@ -8,7 +8,6 @@ MLX_DIR=$(ROOTDIR)/minilibx
 # --------------
 SRC= main.c \
 	./src/sl_events.c \
-	./src/sl_parse.c \
 	./src/sl_parse_map.c \
 	./src/sl_textures.c \
 	./src/sl_enemies.c \

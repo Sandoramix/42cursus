@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:15:17 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 18:43:18 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 19:52:53 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ void	sl_move_enemies(t_game *game)
 		tries = 0;
 		enemy = enemy->next;
 	}
+	check_endgame(game);
 }
