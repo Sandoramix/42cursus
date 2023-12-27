@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 08:17:14 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 19:03:13 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static bool	check_endgame(t_game *game)
 	if (!game->meta.alive)
 		ft_printf(COLOR_RED"You've been overflowed by bugs.\n"CR);
 	if (game->meta.collect_cty == 0 && !game->meta.map.exits_cty)
+	{
 		ft_printf(COLOR_GREEN"You won! GG\n"CR);
+		ft_printf(COLOR_YELLOW"TOTAL MOVES: %d\n"CR, game->meta.moves);
+	}
 	if (!game->meta.alive || (game->meta.collect_cty == 0
 			&& !game->meta.map.exits_cty))
 		sl_ondestroy(game);
