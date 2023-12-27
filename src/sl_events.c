@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 19:26:27 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 20:54:18 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/27 08:05:41 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	sl_ondestroy(t_game *game)
 {
 	ft_freemtx(game->map, game->meta.map.size.y);
 	ft_lstclear(&game->meta.enemies_pos, &free);
-	if (game->mlx)
+	if (!game->mlx)
 		return (ft_perror("There was an error with connection to X server\n"));
 	mlx_clear_window(game->mlx, game->window);
 	mlx_destroy_window(game->mlx, game->window);
