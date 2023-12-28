@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 19:26:27 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/28 20:30:47 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:48:41 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	sl_onkeypressed(int key, t_game *game)
 	t_point		*currpos;
 	t_point		nextmove;
 
-	currpos = &game->meta.position;
 	if (key == SL_QUIT)
 		return (sl_ondestroy(game));
 	nextmove = get_nextmove(game, key);
+	currpos = &game->meta.position;
 	if (!sl_knownkey(key) || game->meta.dead
 		|| !sl_player_canmove(game->map, game->meta, nextmove))
 		return (0);

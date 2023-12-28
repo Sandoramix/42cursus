@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/28 18:03:03 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:48:27 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <sl_assets.h>
 # include <sl_structs.h>
 
-void		tmp_printmetadata(t_game *game);
 bool		sl_show_texts(t_game *game);
 // ! EXTRA (NEEDED FOR SPRITES RENDER LIMITING)
 void		sl_updatetexture_ids(t_game *game);

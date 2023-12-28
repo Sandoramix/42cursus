@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/28 20:45:40 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:47:55 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,7 @@ int	sl_parse(int ac, char **av, t_game *game)
 	game->meta = sl_parsemap(game->map);
 	close(fd);
 	if (!game->meta.map.valid)
-	{
-		tmp_printmetadata(game);
 		return (sl_errmsg(game->meta));
-	}
 	return (0);
 }
 
@@ -119,8 +116,6 @@ int	main(int ac, char **av)
 	game.mlx = NULL;
 	if (sl_parse(ac, av, &game))
 		return (sl_ondestroy(&game));
-	if (SL_DEBUG)
-		tmp_printmetadata(&game);
 	ft_printf("\n");
 	return (sl_game_init(&game));
 }

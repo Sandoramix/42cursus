@@ -6,36 +6,11 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:39 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 19:37:54 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:47:37 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	tmp_printmetadata(t_game *game)
-{
-	const t_meta	*meta = &game->meta;
-
-	ft_printf(COLOR_CYAN"MAP:\n");
-	ft_putstrmtx(game->map);
-	ft_printf("\nMETA:\n\trows\t\t\t[%d]\n", meta->map.size.y);
-	ft_printf("\tcols\t\t\t[%d]\n", meta->map.size.x);
-	ft_printf("\tcollect_cty\t\t[%d]\n", meta->collect_cty);
-	ft_printf("\tplayers_cty\t\t[%d]\n", meta->map.players_cty);
-	ft_printf("\t└─position\t\t{%d, %d}\n",
-		meta->position.x, meta->position.y);
-	ft_printf("\texits_cty\t\t[%d]\n", meta->map.exits_cty);
-	ft_printf("\t└─exitpoint\t\t{%d, %d}\n",
-		meta->exitpoint.x, meta->exitpoint.y);
-	ft_printf("\nMETA_CHECKS:\n");
-	ft_printf("\treached_coll_cty\t[%d]\n", meta->map.coll_cty);
-	ft_printf("\tbadborders\t\t[%d]\n", meta->map.badborders);
-	ft_printf("\tbadchars\t\t[%d]\n", meta->map.badchars);
-	ft_printf("\tbadsize\t\t\t[%s]\n", ft_boolstr(meta->map.badsize));
-	ft_printf(COLOR_CYAN"\tbadpath\t\t\t[%s]\n", ft_boolstr(meta->map.badpath));
-	ft_printf(COLOR_CYAN"\nMETA_RES:\n");
-	ft_printf("\tvalid\t\t\t[%s]\n"CR, ft_boolstr(meta->map.valid));
-}
 
 bool	sl_iswall(char c)
 {
