@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:04:03 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 19:53:32 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 18:03:03 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sl_structs.h>
 
 void		tmp_printmetadata(t_game *game);
-bool	check_endgame(t_game *game);
+bool		sl_show_texts(t_game *game);
 // ! EXTRA (NEEDED FOR SPRITES RENDER LIMITING)
 void		sl_updatetexture_ids(t_game *game);
 
@@ -114,7 +114,7 @@ void		sl_puttexture(t_game *game, char id, int x, int y);
  * @param p position of the next move.
  * @return `true` if the player can move onto the given cell, `false` otherwise
  */
-bool		sl_canmove(char **map, t_meta meta, t_point p);
+bool		sl_player_canmove(char **map, t_meta meta, t_point p);
 /**
  * @brief Check whether the enemy can mvoe onto given cell
  *

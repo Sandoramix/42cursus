@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:09:42 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 19:40:39 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:37:29 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ static bool	chk_pathdfs(char **map, t_meta *meta, t_point p)
 	bool		valid;
 	int			i;
 
-	if (!sl_canmove(map, *meta, p))
+	if (!sl_point_in_bounds(map, *meta, p))
 		return (false);
-	if (map[p.y][p.x] == COLLECTIBLE)
-		meta->map.coll_cty += 1;
 	if (map[p.y][p.x] == WALL || map[p.y][p.x] == 42)
 		return (false);
 	if (map[p.y][p.x] == EXIT)
 		return (true);
+	if (map[p.y][p.x] == COLLECTIBLE)
+		meta->map.coll_cty += 1;
 	map[p.y][p.x] = 42;
 	i = -1;
 	valid = false;

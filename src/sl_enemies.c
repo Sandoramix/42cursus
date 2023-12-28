@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 19:15:17 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 19:52:53 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:28:44 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ static bool	move_enemy(char **map, t_meta *meta, t_point *curr)
 		return (false);
 	map[curr->y][curr->x] = FLOOR;
 	*(curr) = newpos;
-	if (map[newpos.y][newpos.x] == PLAYER)
-		meta->alive = false;
 	map[newpos.y][newpos.x] = ENEMY;
 	return (true);
 }
@@ -62,8 +60,10 @@ void	sl_move_enemies(t_game *game)
 		if (!move_enemy(game->map, &game->meta, (t_point *)enemy->content)
 			&& tries++ < 3)
 			continue ;
+		if (((t_point *)enemy->content)->y == game->meta.position.y
+			&& ((t_point *)enemy->content)->x == game->meta.position.x)
+			game->meta.dead = true;
 		tries = 0;
 		enemy = enemy->next;
 	}
-	check_endgame(game);
 }

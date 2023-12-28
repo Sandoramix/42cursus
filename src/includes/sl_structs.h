@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:40:57 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 19:18:57 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 17:38:59 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ typedef struct s_mapmeta
 
 typedef struct s_meta
 {
-	bool		alive;
+	bool		game_finished;
+	bool		dead;
 	int			moves;
 
 	t_point		position;

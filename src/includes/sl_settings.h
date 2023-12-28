@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 17:27:50 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 19:38:46 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:38:52 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define FPS 4
 
 # ifndef SL_DEBUG
-#  define SL_DEBUG true
+#  define SL_DEBUG false
 # endif
 
 // KEYBINDINGS

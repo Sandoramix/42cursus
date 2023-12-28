@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 16:40:30 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 19:40:45 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:40:54 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ bool	sl_enemy_canmove(char **map, t_meta meta, t_point p)
 	return (false);
 }
 
-bool	sl_canmove(char **map, t_meta meta, t_point p)
+bool	sl_player_canmove(char **map, t_meta meta, t_point p)
 {
-	if (!sl_point_in_bounds(map, meta, p) || map[p.y][p.x] == WALL ||
-		(meta.alive && meta.collect_cty > 0 && map[p.y][p.x] == EXIT))
+	if (meta.game_finished || !sl_point_in_bounds(map, meta, p)
+		|| map[p.y][p.x] == WALL
+		|| (!meta.dead && meta.collect_cty > 0 && map[p.y][p.x] == EXIT))
 		return (false);
 	return (true);
 }

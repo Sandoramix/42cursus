@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 20:00:18 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:45:40 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,29 @@
 
 #include <so_long.h>
 
-bool	check_endgame(t_game *game)
+bool	sl_show_texts(t_game *game)
 {
+	const int		size = SL_TILESIZE;
 	const char		*moves = ft_itoa(game->meta.moves);
+	const t_point	pos = game->meta.position;
+	const t_point	cntr = {game->meta.map.size.x / 2 * size,
+		game->meta.map.size.y / 2 * size};
 	char			*msg;
-	const t_point	center = {game->meta.map.size.x / 2 * SL_TILESIZE,
-		game->meta.map.size.y / 2 * SL_TILESIZE};
 
-	if (!game->meta.alive)
-		mlx_string_put(game->mlx, game->window, center.x, center.y,
-			0xffc800, "You've been overflowed by bugs.");
-	msg = ft_strjoin("You won! GG\nTotal moves: ", (char *)moves);
-	if (game->meta.collect_cty == 0 && !game->meta.map.exits_cty)
-		mlx_string_put(game->mlx, game->window, center.x, center.y, 0xffc800,
-			msg);
-	// if (!game->meta.alive || (game->meta.collect_cty == 0
-	// 		&& !game->meta.map.exits_cty))
-		// sl_ondestroy(game);
+	if (game->meta.dead)
+		mlx_string_put(game->mlx, game->window, cntr.x, cntr.y, 0xffc800,
+			"You've been overflowed by bugs.");
+	if (!game->meta.game_finished && !game->meta.dead)
+		mlx_string_put(game->mlx, game->window, pos.x * size + (size * .5)
+			- ft_nbr_len(game->meta.moves, 10) * size * .05,
+			pos.y * size - 5, 0xffc800, (char *)moves);
+	msg = ft_strjoin("Total moves: ", (char *)moves);
+	if (game->meta.game_finished)
+	{
+		mlx_string_put(game->mlx, game->window, cntr.x, cntr.y - 15, 0xffc800,
+			"You won! GG");
+		mlx_string_put(game->mlx, game->window, cntr.x, cntr.y, 0xffc800, msg);
+	}
 	free(msg);
 	free((char *)moves);
 	return (true);
@@ -39,7 +45,6 @@ bool	check_endgame(t_game *game)
 
 int	sl_render(t_game *game)
 {
-	char	*moves;
 	int		i;
 	int		j;
 
@@ -50,20 +55,18 @@ int	sl_render(t_game *game)
 		while (++j < game->meta.map.size.x)
 			sl_puttexture(game, game->map[i][j], j, i);
 	}
-	moves = ft_itoa(game->meta.moves);
-	mlx_string_put(game->mlx, game->window,
-		game->meta.position.x * SL_TILESIZE + (SL_TILESIZE * .5)
-		- ft_nbr_len(game->meta.moves, 10) * SL_TILESIZE * .05,
-		game->meta.position.y * SL_TILESIZE - 5, 0xffc800, moves);
-	check_endgame(game);
-	free(moves);
+	mlx_string_put(game->mlx, game->window, 5, 15, 0xf08155, "ESC: exit");
+	if (!game->meta.dead && !game->meta.game_finished)
+		mlx_string_put(game->mlx, game->window, 5, 30, 0xf08155,
+			"WASD: Movement");
+	sl_show_texts(game);
 	sl_updatetexture_ids(game);
 	return (0);
 }
 
 int	sl_game_init(t_game *game)
 {
-	game->meta.alive = true;
+	game->meta.dead = false;
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (ft_perror("There was an error with connection to X server\n"));
