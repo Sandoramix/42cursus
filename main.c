@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/28 20:47:55 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/30 16:53:29 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,5 @@ int	main(int ac, char **av)
 	game.mlx = NULL;
 	if (sl_parse(ac, av, &game))
 		return (sl_ondestroy(&game));
-	ft_printf("\n");
 	return (sl_game_init(&game));
 }

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 15:22:33 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/30 15:22:11 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/30 15:48:15 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ t_img	sl_imggen(t_game *game, char *xpm_path)
 	return (res);
 }
 
-static t_img	**sl_gen_player_textures(t_game *game, const char *file_prefix,
-	t_facing facing)
+static t_img	**sl_gen_player_textures(t_game *game, char *filenames[])
 {
 	const int	len = SLA_PLAYER_COUNT;
 	int			i;
@@ -73,22 +72,24 @@ static t_img	**sl_gen_player_textures(t_game *game, const char *file_prefix,
 				"MALLOC ERROR ON PLAYER TEXTURES.\nAborting...\n"CR);
 			sl_ondestroy(game);
 		}
-		*(res[i]) = sl_imggen(game, (char *)(filenames[i]));
+		*(res[i]) = sl_imggen(game, filenames[i]);
 	}
 	return (res);
 }
 
 void	sl_loadtextures(t_game *game)
 {
-	char	*pl[SLA_PLAYER_COUNT];
-	char	*pr[SLA_PLAYER_COUNT];
+	char	**pl;
+	char	**pr;
 	char	*tmp;
 	int		i;
 
 	i = -1;
+	pl = ft_calloc(SLA_PLAYER_COUNT + 1, sizeof(char *));
+	pr = ft_calloc(SLA_PLAYER_COUNT + 1, sizeof(char *));
 	while (++i < SLA_PLAYER_COUNT)
 	{
-		tmp = ft_str_freejoin(ft_itoa(i), ".xpm");
+		tmp = ft_str_freejoin(ft_itoa(i + 1), ".xpm");
 		pl[i] = ft_strjoin(SLA_PLAYER_L_PREFIX, tmp);
 		pr[i] = ft_strjoin(SLA_PLAYER_R_PREFIX, tmp);
 		free(tmp);
@@ -98,8 +99,8 @@ void	sl_loadtextures(t_game *game)
 	game->imgs.wall = sl_imggen(game, SLA_WALL);
 	game->imgs.collectible = sl_imggen(game, SLA_COLLECTIBLE);
 	game->imgs.enemy = sl_imggen(game, SLA_ENEMY);
-	game->imgs.player_l = sl_gen_player_textures(game, pl, FACE_LEFT);
-	game->imgs.player_r = sl_gen_player_textures(game, pr, FACE_RIGHT);
+	game->imgs.player_l = sl_gen_player_textures(game, pl);
+	game->imgs.player_r = sl_gen_player_textures(game, pr);
 	ft_freemtx(pl, SLA_PLAYER_COUNT);
 	ft_freemtx(pr, SLA_PLAYER_COUNT);
 }

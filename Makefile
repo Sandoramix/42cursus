@@ -31,24 +31,24 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(MAKE) -C $(LIBFTX_DIR)
-	$(MAKE) -C $(MLX_DIR)
+	$(MAKE) -sC $(MLX_DIR) && echo "$(GREEN)[MLX]:\t\tLIBRARY CREATED"
 	$(COMPILE) $(INCLUDES) $(OBJ) -L$(LIBFTX_DIR) -lft -L$(MLX_DIR) -lmlx_$(shell uname) -lXext -lX11 -o $(NAME)
 	@echo "$(GREEN)[SO_LONG]:\tPROGRAM CREATED SUCCESSFULLY$(R)"
 
 clean:
 	@$(RM) $(OBJ)
-	$(MAKE) -C $(MLX_DIR) clean
-	$(MAKE) -C $(LIBFTX_DIR) clean
+	@$(MAKE) -iC $(MLX_DIR) clean || echo -n ""
+	@$(MAKE) -C $(LIBFTX_DIR) clean
 
 fclean: clean
 	$(MAKE) -C $(LIBFTX_DIR) fclean
-	@$(RM) $(MLX_DIR)
+	@$(RM) $(MLX_DIR) && echo "$(GREEN)[MLX]:\t\tDELETED MINILIBX FOLDER!"
 	@$(RM) $(NAME)
 	@echo "$(BLUE)[SO_LONG]:\tPROGRAM DELETED$(R)"
 
 # --------------
 
-re: fclean all
+re: fclean download all
 
 # --------------
 
