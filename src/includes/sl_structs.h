@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:40:57 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/28 17:38:59 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/30 15:21:43 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_mapmeta
 	int			badborders;
 	int			badchars;
 
-
 	int			coll_cty;
 }	t_mapmeta;
 
@@ -64,11 +63,9 @@ typedef struct s_textures
 	t_img	collectible;
 
 	t_img	**player_l;
-	int		pll_cty;
 	int		pll_idx;
 
 	t_img	**player_r;
-	int		plr_cty;
 	int		plr_idx;
 
 	t_img	enemy;

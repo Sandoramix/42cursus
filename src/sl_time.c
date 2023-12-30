@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:34:02 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/24 00:34:42 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/30 15:22:20 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ void	sl_updatetexture_ids(t_game *game)
 	prev_time = curr_time;
 	game->imgs.pll_idx++;
 	game->imgs.plr_idx++;
-	game->imgs.pll_idx = game->imgs.pll_idx % (game->imgs.pll_cty);
-	game->imgs.plr_idx = game->imgs.plr_idx % (game->imgs.plr_cty);
+	game->imgs.pll_idx = game->imgs.pll_idx % SLA_PLAYER_COUNT;
+	game->imgs.plr_idx = game->imgs.plr_idx % SLA_PLAYER_COUNT;
 }

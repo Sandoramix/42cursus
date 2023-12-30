@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 15:22:33 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 16:16:49 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/30 15:22:11 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,10 @@ t_img	sl_imggen(t_game *game, char *xpm_path)
 	return (res);
 }
 
-static t_img	**sl_gen_player_textures(t_game *game, const char **filenames,
+static t_img	**sl_gen_player_textures(t_game *game, const char *file_prefix,
 	t_facing facing)
 {
-	const int	len = ((int [2]){game->imgs.plr_cty, game->imgs.pll_cty})
-	[facing == FACE_LEFT];
+	const int	len = SLA_PLAYER_COUNT;
 	int			i;
 	t_img		**res;
 
@@ -81,11 +80,19 @@ static t_img	**sl_gen_player_textures(t_game *game, const char **filenames,
 
 void	sl_loadtextures(t_game *game)
 {
-	const char	*pl[] = {SLA_PLAYER_L};
-	const char	*pr[] = {SLA_PLAYER_R};
+	char	*pl[SLA_PLAYER_COUNT];
+	char	*pr[SLA_PLAYER_COUNT];
+	char	*tmp;
+	int		i;
 
-	game->imgs.pll_cty = ft_memmtxlen(pl);
-	game->imgs.plr_cty = ft_memmtxlen(pr);
+	i = -1;
+	while (++i < SLA_PLAYER_COUNT)
+	{
+		tmp = ft_str_freejoin(ft_itoa(i), ".xpm");
+		pl[i] = ft_strjoin(SLA_PLAYER_L_PREFIX, tmp);
+		pr[i] = ft_strjoin(SLA_PLAYER_R_PREFIX, tmp);
+		free(tmp);
+	}
 	game->imgs.floor = sl_imggen(game, SLA_FLOOR);
 	game->imgs.exit = sl_imggen(game, SLA_EXIT);
 	game->imgs.wall = sl_imggen(game, SLA_WALL);
@@ -93,6 +100,8 @@ void	sl_loadtextures(t_game *game)
 	game->imgs.enemy = sl_imggen(game, SLA_ENEMY);
 	game->imgs.player_l = sl_gen_player_textures(game, pl, FACE_LEFT);
 	game->imgs.player_r = sl_gen_player_textures(game, pr, FACE_RIGHT);
+	ft_freemtx(pl, SLA_PLAYER_COUNT);
+	ft_freemtx(pr, SLA_PLAYER_COUNT);
 }
 
 void	sl_puttexture(t_game *game, char id, int x, int y)

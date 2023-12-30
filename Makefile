@@ -42,6 +42,7 @@ clean:
 
 fclean: clean
 	$(MAKE) -C $(LIBFTX_DIR) fclean
+	@$(RM) $(MLX_DIR)
 	@$(RM) $(NAME)
 	@echo "$(BLUE)[SO_LONG]:\tPROGRAM DELETED$(R)"
 

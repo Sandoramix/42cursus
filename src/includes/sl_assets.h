@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:06:04 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/27 08:21:26 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/30 15:23:29 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,14 @@
 # include <mlx.h>
 # include <mlx_int.h>
 
-# define SLA_RDIR		"./assets/"
+# define SLA_PLAYER_COUNT	2
+# define SLA_PLAYER_L_PREFIX	"assets/player_left_"
+# define SLA_PLAYER_R_PREFIX	"assets/player_right_"
 
-# define SLA_PLAYER_L			SLA_RDIR"player_left_1.xpm", \
-								SLA_RDIR"player_left_2.xpm", NULL
-# define SLA_PLAYER_R			SLA_RDIR"player_right_1.xpm", \
-								SLA_RDIR"player_right_2.xpm", NULL
-
-# define SLA_COLLECTIBLE	SLA_RDIR"collectible.xpm"
-# define SLA_ENEMY			SLA_RDIR"enemy.xpm"
-# define SLA_FLOOR			SLA_RDIR"floor.xpm"
-# define SLA_WALL			SLA_RDIR"wall.xpm"
-# define SLA_EXIT			SLA_RDIR"exit.xpm"
+# define SLA_COLLECTIBLE	"assets/collectible.xpm"
+# define SLA_ENEMY			"assets/enemy.xpm"
+# define SLA_FLOOR			"assets/floor.xpm"
+# define SLA_WALL			"assets/wall.xpm"
+# define SLA_EXIT			"assets/exit.xpm"
 
 #endif
