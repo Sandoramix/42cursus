@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"*.html": "html",
-		".env": "dotenv",
-		"libft.h": "c"
-	},
-	"C_Cpp.errorSquiggles": "disabled"
-}
