@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 22:40:57 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/30 15:21:43 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/30 16:58:41 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ typedef struct s_textures
 	t_img	enemy;
 	t_img	floor;
 	t_img	wall;
-	t_img	exit;
+	t_img	exit_ko;
+	t_img	exit_ok;
 }	t_textures;
 
 typedef struct s_game

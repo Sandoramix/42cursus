@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 23:42:44 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/30 16:53:29 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:05:13 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	sl_show_texts(t_game *game)
 	const int		size = SL_TILESIZE;
 	const char		*moves = ft_itoa(game->meta.moves);
 	const t_point	pos = game->meta.position;
-	const t_point	cntr = {game->meta.map.size.x / 2 * size,
+	const t_point	cntr = {game->meta.map.size.x / 2 * size - 15,
 		game->meta.map.size.y / 2 * size};
 	char			*msg;
 

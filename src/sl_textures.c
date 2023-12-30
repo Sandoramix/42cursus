@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 15:22:33 by odudniak          #+#    #+#             */
-/*   Updated: 2023/12/30 15:48:15 by odudniak         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:02:57 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	sl_destroytextures(t_game *game)
 	int	i;
 
 	mlx_destroy_image(game->mlx, game->imgs.floor.image);
-	mlx_destroy_image(game->mlx, game->imgs.exit.image);
+	mlx_destroy_image(game->mlx, game->imgs.exit_ko.image);
+	mlx_destroy_image(game->mlx, game->imgs.exit_ok.image);
 	mlx_destroy_image(game->mlx, game->imgs.wall.image);
 	mlx_destroy_image(game->mlx, game->imgs.collectible.image);
 	mlx_destroy_image(game->mlx, game->imgs.enemy.image);
@@ -95,7 +96,8 @@ void	sl_loadtextures(t_game *game)
 		free(tmp);
 	}
 	game->imgs.floor = sl_imggen(game, SLA_FLOOR);
-	game->imgs.exit = sl_imggen(game, SLA_EXIT);
+	game->imgs.exit_ko = sl_imggen(game, SLA_EXIT_KO);
+	game->imgs.exit_ok = sl_imggen(game, SLA_EXIT_OK);
 	game->imgs.wall = sl_imggen(game, SLA_WALL);
 	game->imgs.collectible = sl_imggen(game, SLA_COLLECTIBLE);
 	game->imgs.enemy = sl_imggen(game, SLA_ENEMY);
@@ -115,8 +117,10 @@ void	sl_puttexture(t_game *game, char id, int x, int y)
 		img = game->imgs.player_r[game->imgs.plr_idx]->image;
 	else if (id == PLAYER && game->meta.facing == FACE_LEFT)
 		img = game->imgs.player_l[game->imgs.pll_idx]->image;
+	else if (id == EXIT && !game->meta.collect_cty)
+		img = game->imgs.exit_ok.image;
 	else if (id == EXIT)
-		img = game->imgs.exit.image;
+		img = game->imgs.exit_ko.image;
 	else if (id == WALL)
 		img = game->imgs.wall.image;
 	else if (id == FLOOR)
