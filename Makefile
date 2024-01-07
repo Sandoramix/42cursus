@@ -5,16 +5,9 @@ NAME_UPPER = $(shell echo -n ${NAME} | tr 'a-z' 'A-Z')
 ROOTDIR=./src
 
 LIBFTX_DIR=$(ROOTDIR)/libftx
-<<<<<<< HEAD
-
-# --------------
-SRC= ./main.c
-=======
-MLX_DIR=$(ROOTDIR)/minilibx
 
 # --------------
 SRC= main.c
->>>>>>> b7a48ab5163fd46e454e662275b7afa807113c0b
 
 OBJ=$(SRC:.c=.o)
 
