@@ -7,7 +7,13 @@ ROOTDIR=./src
 LIBFTX_DIR=$(ROOTDIR)/libftx
 
 # --------------
-SRC= main.c
+SRC= main.c \
+	dll_create.c \
+	dll_delete.c \
+	dll_utils.c \
+	ps_rotate.c \
+	ps_push.c \
+	ps_swap.c
 
 OBJ=$(SRC:.c=.o)
 
@@ -40,8 +46,10 @@ fclean: clean
 # --------------
 
 re: fclean all
+
+ARG=1 2 3 4
 main: all
-	@./$(NAME) $(ARG)
+	./$(NAME) $(ARG)
 # --------------
 
 %.o: %.c
