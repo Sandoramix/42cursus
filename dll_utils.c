@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:23:48 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/07 12:41:38 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/07 18:01:47 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,14 @@ void	dll_printlist(t_dllist *head)
 		ft_printf("NULL\n");
 		return ;
 	}
-	ft_printf("[%d]:\t%d\n", ++i, *(head->val));
+	ft_printf(COLOR_CYAN"[%d]:\t%d\n", ++i, *(head->val));
 	tmp = head->next;
 	while (tmp)
 	{
-		ft_printf("[%d]:\t%d\n", ++i, *(tmp->val));
+		ft_printf(COLOR_CYAN"[%d]:\t%d\n", ++i, *(tmp->val));
 		tmp = tmp->next;
 	}
+	ft_printf(""CR);
 }
 
 void	dll_printrevlist(t_dllist *head)

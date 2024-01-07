@@ -7,13 +7,13 @@ ROOTDIR=./src
 LIBFTX_DIR=$(ROOTDIR)/libftx
 
 # --------------
-SRC= main.c \
-	dll_create.c \
+SRC= dll_create.c \
 	dll_delete.c \
 	dll_utils.c \
 	ps_rotate.c \
 	ps_push.c \
-	ps_swap.c
+	ps_swap.c \
+	main.c
 
 OBJ=$(SRC:.c=.o)
 

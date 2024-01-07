@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:54:03 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/07 17:11:55 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/07 17:53:26 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ t_dllist	*ps_revrot(t_dllist **head);
  * @return head of the list
  */
 t_dllist	*ps_rot(t_dllist **head);
+
 t_dllist	*ps_swap(t_dllist **head);
+void		ps_swapall(t_dllist **h1, t_dllist **h2);
 
 void		ps_revrotall(t_dllist **h1, t_dllist **h2);
 void		ps_rotall(t_dllist **h1, t_dllist **h2);
