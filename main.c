@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: odudniak <odudniak@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/07 09:42:24 by odudniak          #+#    #+#             */
+/*   Updated: 2024/01/07 09:43:17 by odudniak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 16:27:19 by odudniak          #+#    #+#             */
@@ -169,7 +181,7 @@ int	main(int ac, char **av)
 
 	(void)ac;
 	(void)av;
-	stack_a = populate(ac, av);
+	stack_a = tmp_populate(ac, av);
 	if (!stack_a)
 		return (1);
 	dll_printlist(stack_a);
