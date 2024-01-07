@@ -1,0 +1,9 @@
+.vscode
+*.out
+*tmp*
+*.exe
+*.tmp
+push_swap
+*.o
+*.md
+*.a
