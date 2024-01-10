@@ -6,11 +6,13 @@
 /*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:41:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/07 18:13:37 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/10 16:08:50 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
+
+
 
 t_dllist	*tmp_populate(int ac, char **av)
 {
@@ -62,7 +64,6 @@ int	main(int ac, char **av)
 	(void)av;
 	stack_a = tmp_populate(ac, av);
 	stack_b = NULL;
-	//stack_a = tmp_populate(3, (char *[]){NULL, "1", "3"});
 	if (!stack_a)
 		return (1);
 	debug_print("INITIAL STACK", "A", stack_a);
@@ -79,5 +80,4 @@ int	main(int ac, char **av)
 	debug_print_both("|ROTATE A AND B OPERATION", "A", "B", stack_a, stack_b);
 	dll_clearlist(&stack_a);
 	dll_clearlist(&stack_b);
-	return (0);
 }

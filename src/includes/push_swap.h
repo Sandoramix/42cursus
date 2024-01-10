@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:54:03 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/07 17:53:26 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:44:34 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ void		ps_rotall(t_dllist **h1, t_dllist **h2);
 
 t_dllist	*ps_push(t_dllist **stack_from, t_dllist **stack_to);
 //----------------DLL STUFF----------------------------------------------------
+
 t_dllist	*dll_delhead(t_dllist **head);
 t_dllist	*dll_deltail(t_dllist **head);
 t_dllist	*dll_addtail(t_dllist **head, int *val);
 t_dllist	*dll_addhead(t_dllist **head, int *val);
 t_dllist	*dll_new(int *val);
 void		*dll_clearlist(t_dllist **head);
+
 //----------------DLL UTILS-----------------------------------------------
 /**
  * @brief get list's last node
