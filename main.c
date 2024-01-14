@@ -3,56 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:41:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/10 16:08:50 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/14 16:18:32 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
 
+t_dllist	*tmp_populate(int ac, char **av);
+int			tmp_debug(t_dllist **stack_a, t_dllist **stack_b);
 
-t_dllist	*tmp_populate(int ac, char **av)
+bool	ps_validate_input(int ac, char **av,
+	t_dllist **stack_a)
 {
-	t_dllist	*res;
-	int			*val;
-	int			i;
+	char	**iteration;
+	int		*val;
+	int		i;
+	bool	valid;
 
-	i = 0;
-	res = NULL;
-	while (++i < ac)
+	iteration = av;
+	if (ac == 2)
+		iteration = ft_strsplit(av[1], ' ');
+	i = 0 - (ac == 2);
+	valid = true;
+	while (iteration[++i] && valid)
 	{
-		val = strict_atoi(av[i]);
-		if (!val || !dll_addhead(&res, val))
-			return (dll_clearlist(&res));
+		val = strict_atoi(iteration[i]);
+		if (!val || dll_idxof(*stack_a, *val) != -1
+			|| !dll_addhead(stack_a, val))
+		{
+			free(val);
+			valid = false;
+			break ;
+		}
 	}
-	return (res);
-}
-
-
-void	debug_printlist(char *name, t_dllist *list)
-{
-	ft_printf(COLOR_GREEN"[%s]\n", name);
-	dll_printlist(list);
-	ft_printf("\n"CR);
-}
-
-void	debug_print(char *title, char *stackname, t_dllist *list)
-{
-	ft_printf("\n%s:\n", title);
-	if (list)
-		debug_printlist(stackname, list);
-}
-void	debug_print_both(char *title, char *stack1name, char *stack2name, t_dllist *stack1, t_dllist *stack2)
-{
-	if (title)
-		ft_printf("\n%s:\n", title);
-	if (stack1name)
-		debug_printlist(stack1name, stack1);
-	if (stack2name)
-		debug_printlist(stack2name, stack2);
+	if (ac == 2)
+		ft_freemtx(iteration, ft_memmtxlen(iteration));
+	return (valid);
 }
 
 int	main(int ac, char **av)
@@ -60,24 +50,16 @@ int	main(int ac, char **av)
 	t_dllist	*stack_a;
 	t_dllist	*stack_b;
 
-	(void)ac;
-	(void)av;
-	stack_a = tmp_populate(ac, av);
+	stack_a = NULL;
 	stack_b = NULL;
-	if (!stack_a)
-		return (1);
-	debug_print("INITIAL STACK", "A", stack_a);
-	debug_print("|ROTATE OPERATION", "A", ps_rot(&stack_a));
-	debug_print("|REVERSE ROTATE OPERATION", "A", ps_revrot(&stack_a));
-	debug_print("|SWAP OPERATION", "A", ps_swap(&stack_a));
-	debug_print("|POP OPERATION", "A", dll_delhead(&stack_a));
-	debug_print("|SHIFT OPERATION", "A", dll_deltail(&stack_a));
-	ps_push(&stack_a, &stack_b);
-	debug_print_both("|PUSH FROM A TO B", "A", "B", stack_a, stack_b);
-	ps_swapall(&stack_a,&stack_b);
-	debug_print_both("|SWAP A AND B OPERATION", "A", "B", stack_a, stack_b);
-	ps_rotall(&stack_a,&stack_b);
-	debug_print_both("|ROTATE A AND B OPERATION", "A", "B", stack_a, stack_b);
+	if (ps_validate_input(ac, av, &stack_a))
+	{
+		ft_printf(COLOR_GREEN"OK\n"CR);
+	}
+	else
+	{
+		ft_printf(COLOR_RED"Error\n"CR);
+	}
 	dll_clearlist(&stack_a);
 	dll_clearlist(&stack_b);
 }
