@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:41:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/14 16:18:32 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:39:31 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,40 @@ bool	ps_validate_input(int ac, char **av,
 	return (valid);
 }
 
+bool	ps_issorted(t_dllist *stack_a)
+{
+	int			*prev_val;
+	t_dllist	*stack;
+
+	stack = stack_a;
+	if (!stack || !stack->next || stack->next == stack)
+		return (true);
+	prev_val = stack->val;
+	stack = stack->next;
+	while (stack && stack != stack_a)
+	{
+		if (*(stack->val) <= (*prev_val))
+			return (false);
+		prev_val = stack->val;
+		stack = stack->next;
+	}
+	return (true);
+}
+
 int	main(int ac, char **av)
 {
-	t_dllist	*stack_a;
-	t_dllist	*stack_b;
+	t_pswap		data;
 
-	stack_a = NULL;
-	stack_b = NULL;
-	if (ps_validate_input(ac, av, &stack_a))
+	data = (t_pswap){NULL, NULL, NULL};
+	if (ps_validate_input(ac, av, &data.stack_a))
 	{
 		ft_printf(COLOR_GREEN"OK\n"CR);
+		ft_printf("IS_SORTED: %s\n",ft_boolstr(ps_issorted(data.stack_a)));
 	}
 	else
 	{
 		ft_printf(COLOR_RED"Error\n"CR);
 	}
-	dll_clearlist(&stack_a);
-	dll_clearlist(&stack_b);
+	dll_clearlist(&data.stack_a);
+	dll_clearlist(&data.stack_b);
 }

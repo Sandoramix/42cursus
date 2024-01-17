@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:54:03 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/14 15:23:08 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:29:32 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 # include <libft.h>
 # include <ft_printf.h>
+
+typedef struct s_pswap
+{
+	t_dllist	*stack_a;
+	t_dllist	*stack_b;
+
+	int			*a_moves;
+}	t_pswap;
 
 /**
  * @brief Push swap's `rr*` method
