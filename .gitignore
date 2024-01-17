@@ -7,3 +7,4 @@ push_swap
 *.o
 *.md
 *.a
+!tmp.c

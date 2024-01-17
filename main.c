@@ -6,12 +6,11 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:41:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/17 13:39:31 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:51:42 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
-
 
 t_dllist	*tmp_populate(int ac, char **av);
 int			tmp_debug(t_dllist **stack_a, t_dllist **stack_b);
@@ -73,7 +72,7 @@ int	main(int ac, char **av)
 	if (ps_validate_input(ac, av, &data.stack_a))
 	{
 		ft_printf(COLOR_GREEN"OK\n"CR);
-		ft_printf("IS_SORTED: %s\n",ft_boolstr(ps_issorted(data.stack_a)));
+		ft_printf("IS_SORTED: %s\n", ft_boolstr(ps_issorted(data.stack_a)));
 	}
 	else
 	{
