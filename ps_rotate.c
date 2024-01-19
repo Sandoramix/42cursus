@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ps_rotate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:23:41 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/07 12:51:02 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:50:51 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
-t_dllist	*ps_revrot(t_dllist **head)
+t_dllist	*ps_rot(t_dllist **head)
 {
 	void		*headval;
 	t_dllist	*tmp;
@@ -32,7 +32,7 @@ t_dllist	*ps_revrot(t_dllist **head)
 	return (*head);
 }
 
-t_dllist	*ps_rot(t_dllist **head)
+t_dllist	*ps_revrot(t_dllist **head)
 {
 	t_dllist	*tail;
 	t_dllist	*tmp;
