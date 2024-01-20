@@ -8,3 +8,4 @@ push_swap
 *.md
 *.a
 !tmp.c
+visualizer
