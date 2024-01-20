@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:41:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/20 10:47:49 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/20 11:59:57 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int	*ps_calc_moves(t_pswap *data, int totsize)
 	return (res);
 }
 
+
 bool	ps_solve(t_pswap *data)
 {
 	int		*moves;
@@ -177,13 +178,22 @@ bool	ps_solve(t_pswap *data)
 	ps_rotate_to_top(data, dll_minmax_idx(data->stack_b, false),
 		"b", &data->stack_b);
 	// debug_print("UPDATED STACK", "A", data->stack_a);
-	ps_rotate_to_top(data, dll_size(data->stack_a) - dll_minmax_idx(data->stack_a, false),
-		"a", &data->stack_a);
+	// ps_rotate_to_top(data, dll_size(data->stack_a) - dll_minmax_idx(data->stack_a, false),
+	// 	"a", &data->stack_a);
 	// debug_print("UPDATED STACK", "A", data->stack_a);
 	size = dll_size(data->stack_b);
 	move_count = -1;
 	while (++move_count < size)
+	{
+		ft_printf("FIRST_BIGGER_IDX[%d]\n", dll_first_bigger_idx(data->stack_a,
+				*(data->stack_b->val)));
+		debug_print("STACK", "B", data->stack_b);
+		ps_rotate_to_top(data, dll_first_bigger_idx(data->stack_a,
+				*(data->stack_b->val)), "a", &data->stack_a);
 		ps_print("pa", ps_push(&data->stack_b, &data->stack_a));
+		debug_print("UPDATED STACK", "A", data->stack_a);
+		debug_print("UPDATED STACK", "B", data->stack_b);
+	}
 	ps_rotate_to_top(data, dll_minmax_idx(data->stack_a, true),
 		"a", &data->stack_a);
 	return (true);
@@ -206,9 +216,9 @@ int	main(int ac, char **av)
 		// ft_printf("\nMOVES:\n");
 		ps_solve(&data);
 
-		// debug_print("\nEND STACK", "A", data.stack_a);
+		debug_print("\nEND STACK", "A", data.stack_a);
 		// debug_print("END STACK", "B", data.stack_b);
-		// ft_printf("IS_SORTED: %s\n", ft_boolstr(ps_issorted(data.stack_a)));
+		ft_printf("IS_SORTED: %s\n", ft_boolstr(ps_issorted(data.stack_a)));
 	}
 	else
 	{
