@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:54:03 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/17 13:29:32 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/20 08:25:21 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_pswap
 	t_dllist	*stack_a;
 	t_dllist	*stack_b;
 
-	int			*a_moves;
+	// int			*a_moves;
 }	t_pswap;
 
 /**
