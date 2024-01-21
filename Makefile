@@ -7,10 +7,7 @@ ROOTDIR=./src
 LIBFTX_DIR=$(ROOTDIR)/libftx
 
 # --------------
-SRC = ps_rotate.c \
-	ps_push.c \
-	ps_swap.c \
-	main.c tmp.c
+SRC = main.c
 
 OBJ = $(SRC:.c=.o)
 

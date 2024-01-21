@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ps_push.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:35:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/10 16:11:37 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:42:25 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,3 +27,5 @@ t_dllist	*ps_push(t_dllist **stack_from, t_dllist **stack_to)
 	free(oldfrom);
 	return (dll_addhead(stack_to, val));
 }
+
+
