@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:41:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/20 16:12:46 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/21 02:57:56 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #ifndef DEBUG
 # define DEBUG false
 #endif
+
 t_dllist	*tmp_populate(int ac, char **av);
 int			tmp_debug(t_dllist **stack_a, t_dllist **stack_b);
 void		debug_print(char *title, char *stackname, t_dllist *list);
@@ -137,41 +138,51 @@ void	ps_rotate_to_top(t_pswap *data, int idx,
 	free(operation);
 }
 
-int	*ps_calc_moves(t_pswap *data, int totsize)
+int	*ps_calc_moves(t_pswap *data, int size, t_dllist *list1, t_dllist *list2)
 {
-	int		i;
-	int		*res;
+	int			i;
+	int			idx;
+	int			*res;
 
-	res = ft_calloc(totsize, sizeof(int));
+	res = ft_calloc(size, sizeof(int));
 	if (!res)
 		return (ps_evacuate(data), NULL);
 	i = -1;
-	ps_rotate_to_top(data, dll_minmax_idx(data->stack_b, false),
-		"b", &data->stack_b);
-	while (++i < totsize)
+	while (++i < size)
 	{
-		res[i] = 1 + (i) * (i <= totsize / 2)
-			+ (totsize - i) * (i > totsize / 2);
+		idx = dll_next_occur_idx(list2, *(list1->val), 1);
+		if (idx == -1)
+			idx = dll_minmax_idx(list2, 0);
+		if (idx <= size / 2)
+			idx = size - idx;
+		res[i] = idx + (i) * (i <= size / 2) + (size - i) * (i > size / 2);
+		list1 = list1->next;
 	}
 	return (res);
 }
-
 
 bool	ps_solve(t_pswap *data)
 {
 	int		*moves;
 	int		size;
-	int		move_count;
+	int		moves_cnt;
+	int		idx;
 
 	size = dll_size(data->stack_a);
 	while (!ps_issorted(data->stack_a) && size > 3)
 	{
-		moves = ps_calc_moves(data, size);
-		move_count = ft_int_minmax_idx(moves, size, true);
-		ps_rotate_to_top(data, move_count, "a", &data->stack_a);
+		moves = ps_calc_moves(data, size, data->stack_a, data->stack_b);
+		moves_cnt = ft_int_minmax_idx(moves, size, true);
+		idx = dll_next_occur_idx(data->stack_b,
+				*(dll_byidx(data->stack_a, moves_cnt)->val), 1);
+		if (idx == -1)
+			idx = dll_minmax_idx(data->stack_b, 0);
+		ps_rotate_to_top(data, idx, "b", &data->stack_b);
+		ps_rotate_to_top(data, moves_cnt, "a", &data->stack_a);
 		ps_print("pb", ps_push(&data->stack_a, &data->stack_b));
 		if (DEBUG)
 		{
+			ft_int_printarr(moves, size);
 			debug_print("UPDATED STACK", "B", data->stack_b);
 			debug_print("UPDATED STACK", "A", data->stack_a);
 		}
@@ -182,24 +193,29 @@ bool	ps_solve(t_pswap *data)
 	if (dll_size(data->stack_a) <= 3 && dll_size(data->stack_b) == 0)
 		return (true);
 	size = dll_size(data->stack_b);
-	move_count = -1;
-	while (++move_count < size)
+	moves_cnt = -1;
+	if (DEBUG)
 	{
-		if (DEBUG)
-		{
-			debug_print("STACK", "A", data->stack_a);
-			debug_print("STACK", "B", data->stack_b);
-			ft_printf("FIRST_BIGGER_IDX OF[%d]->[%d]\n", *(data->stack_b->val), dll_first_bigger_idx(data->stack_a,
-					*(data->stack_b->val)));
-		}
-		ps_rotate_to_top(data, dll_first_bigger_idx(data->stack_a,
-				*(data->stack_b->val)), "a", &data->stack_a);
+		ft_printf("\n");
+		debug_print("STACK", "A", data->stack_a);
+		debug_print("STACK", "B", data->stack_b);
+	}
+	while (++moves_cnt < size)
+	{
+		moves = ps_calc_moves(data, dll_size(data->stack_b), \
+		data->stack_b, data->stack_a);
+		idx = ft_int_minmax_idx(moves, dll_size(data->stack_b), true);
+		ps_rotate_to_top(data, idx, "b", &data->stack_b);
+		ps_rotate_to_top(data, dll_next_occur_idx(data->stack_a, \
+		*(dll_byidx(data->stack_b, idx)->val), false), "a", &data->stack_a);
 		ps_print("pa", ps_push(&data->stack_b, &data->stack_a));
 		if (DEBUG)
 		{
+			ft_int_printarr(moves, dll_size(data->stack_b));
 			debug_print("UPDATED STACK", "A", data->stack_a);
 			debug_print("UPDATED STACK", "B", data->stack_b);
 		}
+		free(moves);
 	}
 	ps_rotate_to_top(data, dll_minmax_idx(data->stack_a, true),
 		"a", &data->stack_a);
@@ -220,7 +236,6 @@ int	main(int ac, char **av)
 		{
 			debug_print("INITIAL STACK", "A", data.stack_a);
 			debug_print("INITIAL STACK", "B", data.stack_b);
-			// tmp_debug(&data.stack_a, &data.stack_b);
 			ft_printf("\nMOVES:\n");
 		}
 		ps_solve(&data);

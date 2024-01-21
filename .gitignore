@@ -9,3 +9,4 @@ push_swap
 *.a
 !tmp.c
 visualizer
+visual
