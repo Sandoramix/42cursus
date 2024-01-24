@@ -8,14 +8,14 @@ LIBFTX_DIR=$(ROOTDIR)/libftx
 
 # --------------
 SRC = main.c
-
 OBJ = $(SRC:.c=.o)
 
 # ----RULES-----
 
 CC=cc
-CFLAGS=-Wall -Wextra -Werror
-COMPILE=$(CC) $(CFLAGS) -g
+CEXTRAFLAGS=
+CFLAGS=-Wall -Wextra -Werror $(CEXTRAFLAGS)
+COMPILE=$(CC) $(CFLAGS)
 RM=rm -rf
 
 INCLUDES=-I$(ROOTDIR)/includes -I$(LIBFTX_DIR)/includes
@@ -38,11 +38,14 @@ fclean: clean
 	@echo "$(BLUE)[$(NAME_UPPER)]:\tPROGRAM DELETED$(R)"
 
 # --------------
+debug:
+	$(MAKE) CEXTRAFLAGS=-g
 
 re: fclean all
+debug-re: fclean debug
+
 
 ARG=1 2 3 4
-
 main: all
 	./$(NAME) $(ARG)
 # --------------
