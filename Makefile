@@ -7,7 +7,12 @@ ROOTDIR=./src
 LIBFTX_DIR=$(ROOTDIR)/libftx
 
 # --------------
-SRC = main.c
+SRC = main.c \
+	./src/ps_push.c \
+	./src/ps_rotate.c \
+	./src/ps_swap.c \
+	./src/tmp.c
+
 OBJ = $(SRC:.c=.o)
 
 # ----RULES-----

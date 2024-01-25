@@ -19,7 +19,9 @@
 typedef struct s_pswap
 {
 	t_dllist	*stack_a;
+	int			sa_size;
 	t_dllist	*stack_b;
+	int			sb_size;
 
 	// int			*a_moves;
 }	t_pswap;

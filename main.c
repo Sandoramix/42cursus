@@ -5,72 +5,261 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/21 15:15:58 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/21 16:44:14 by odudniak         ###   ########.fr       */
+/*   Created: 2024/01/07 12:41:13 by odudniak          #+#    #+#             */
+/*   Updated: 2024/01/21 02:57:56 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <push_swap.h>
 
-// PARSING
+#ifndef DEBUG
+# define DEBUG true
+#endif
 
+t_dllist	*tmp_populate(int ac, char **av);
+int			tmp_debug(t_dllist **stack_a, t_dllist **stack_b);
+void		debug_print(char *title, char *stackname, t_dllist *list);
+void		debug_print_both(char *title, char *stack1name, char *stack2name,
+				t_dllist *stack1, t_dllist *stack2);
+void		debug_printlist(char *name, t_dllist *list);
 
-bool	ps_parseinput(int ac, char **av, t_intmtx *res)
+void	ps_evacuate(t_pswap *data)
 {
-	char	**iter;
+	dll_clearlist(&data->stack_a);
+	dll_clearlist(&data->stack_b);
+	ft_perror("MALLOC ALLOCATION ERROR.\nAborting...");
+}
+
+bool	ps_validate_input(int ac, char **av, t_dllist **st_a)
+{
+	char	**iteration;
 	int		*val;
 	int		i;
 
 	if (ac != 2)
-		iter = ft_strmtxdup(av);
+		iteration = ft_strmtxdup(av);
 	if (ac == 2)
-		iter = ft_strsplit(av[1], ' ');
-	if (ac < 2 || (ft_stridxofstr(av[1], "  ") != -1
+		iteration = ft_strsplit(av[1], ' ');
+	if (ac == 2 && (ft_stridxofstr(av[1], "  ") != -1
 			|| ft_isspace(av[1][0]) || ft_isspace(av[1][ft_strlen(av[1]) - 1])))
-		return (ft_freemtx(iter, ft_memmtxlen(iter)), false);
+		return (ft_freemtx(iteration, ft_memmtxlen(iteration)) && false);
 	i = 0 - (ac == 2);
-	while (iter[++i])
+	while (iteration[++i])
 	{
-		val = strict_atoi(iter[i]);
-		if (!val || intmtx_idxof(*res, val) != -1 || !intmtx_push(res, val))
-			return (free(val), ft_freemtx(iter, ft_memmtxlen(iter)), false);
+		val = strict_atoi(iteration[i]);
+		if (!val || dll_idxof(*st_a, *val) != -1 || !dll_addtail(st_a, val))
+		{
+			free(val);
+			return (ft_freemtx(iteration, ft_memmtxlen(iteration)), false);
+		}
 	}
-	return (ft_freemtx(iter, ft_memmtxlen(iter)), true);
+	ft_freemtx(iteration, ft_memmtxlen(iteration));
+	return (true);
 }
 
-typedef struct s_psdata
+bool	ps_issorted(t_dllist *stack_a)
 {
-	t_intmtx		stack_a;
-	t_intmtx		stack_b;
-}	t_psdata;
+	int			*prev_val;
+	t_dllist	*stack;
+
+	stack = stack_a;
+	if (!stack || !stack->next || stack->next == stack)
+		return (true);
+	prev_val = stack->val;
+	stack = stack->next;
+	while (stack && stack != stack_a)
+	{
+		if (*(stack->val) <= (*prev_val))
+			return (false);
+		prev_val = stack->val;
+		stack = stack->next;
+	}
+	return (true);
+}
+
+bool	ps_print(char *move, void *result)
+{
+	if (!result)
+		return (false);
+	ft_printf("%s\n", move);
+	return (true);
+}
+
+bool	ps_print_n(char *move, int n_times,
+	t_dllist *(*fn)(t_dllist **stack), t_dllist **stack)
+{
+	int		i;
+	bool	res;
+
+	i = -1;
+	res = true;
+	while (++i < n_times)
+		res &= ps_print(move, (*fn)(stack));
+	return (res);
+}
+
+void	ps_solve_base(t_pswap *data)
+{
+	const int		min = dll_minmax_idx(data->stack_a, true);
+	const int		max = dll_minmax_idx(data->stack_a, false);
+	const int		idx_max = dll_size(data->stack_a) - 1;
+
+	if (ps_issorted(data->stack_a) || idx_max > 2)
+		return ;
+	if (max - 1 == min || min - idx_max == max)
+		ps_print("sa", ps_swap(&data->stack_a));
+	if (ps_issorted(data->stack_a))
+		return ;
+	if (min == idx_max)
+		ps_print("rra", ps_revrot(&data->stack_a));
+	else
+		ps_print("ra", ps_rot(&data->stack_a));
+}
+
+void	ps_rotate_to_top(t_pswap *data, int idx,
+	char *stackname, t_dllist **stack)
+{
+	int			stack_size;
+	char		*operation;
+
+	if (!stack || !*stack)
+		return ;
+	stack_size = dll_size(*stack);
+	if (idx <= stack_size / 2)
+		operation = ft_strjoin("r", stackname);
+	else
+		operation = ft_strjoin("rr", stackname);
+	if (!operation)
+		return (ps_evacuate(data));
+	if (ft_strlen(operation) == 3)
+		ps_print_n(operation, stack_size - idx, ps_revrot, stack);
+	else
+		ps_print_n(operation, idx, ps_rot, stack);
+	free(operation);
+}
+void	ps_rotate_to_bottom(t_pswap *data, int idx,
+	char *stackname, t_dllist **stack)
+{
+	int			stack_size;
+	char		*operation;
+
+	if (!stack || !*stack)
+		return ;
+	stack_size = dll_size(*stack);
+	if (idx <= stack_size / 2)
+		operation = ft_strjoin("r", stackname);
+	else
+		operation = ft_strjoin("rr", stackname);
+	if (!operation)
+		return (ps_evacuate(data));
+	if (ft_strlen(operation) == 3)
+		ps_print_n(operation, idx, ps_revrot, stack);
+	else
+		ps_print_n(operation, stack_size - idx, ps_rot, stack);
+	free(operation);
+}
+
+t_intarr	ps_calc_moves(t_pswap *data, int size, t_dllist *list1, t_dllist *list2)
+{
+	t_intarr res;
+	int			i;
+	int			idx;
+
+	res.arr = ft_calloc(size, sizeof(int));
+	if (!res.arr)
+		return (ps_evacuate(data), res);
+	res.size = size;
+	i = -1;
+	while (++i < size)
+	{
+		idx = dll_next_occur_idx(list2, *(list1->val), true);
+		if (idx <= size / 2)
+			idx = size - idx - 1;
+		res.arr[i] = idx + (i) * (i <= size / 2) + (size - i) * (i > size / 2);
+		list1 = list1->next;
+	}
+	return (res);
+}
+
+bool	ps_solve(t_pswap *data)
+{
+	t_intarr			moves;
+	int					idx;
+
+	while (!ps_issorted(data->stack_a) && data->sa_size > 3)
+	{
+		ps_print("pb", ps_push(&data->stack_a, &data->stack_b));
+		(void)(data->sa_size--, data->sb_size++);
+	}
+	ps_solve_base(data);
+	if (data->sa_size <= 3 && data->sb_size == 0)
+		return (true);
+	if (DEBUG)
+	{
+		ft_printf("\n");
+		debug_print("STACK", "A", data->stack_a);
+		debug_print("STACK", "B", data->stack_b);
+	}
+	while (data->sb_size > 0)
+	{
+		moves = ps_calc_moves(data, data->sb_size, \
+		data->stack_b, data->stack_a);
+		idx = ft_int_minmax_idx(moves, true);
+		int next_max_idx = dll_next_occur_idx(data->stack_a, \
+		*(dll_byidx(data->stack_b, idx)->val), true);
+		if (DEBUG)
+		{
+			ft_printf("MIN_IDX[%d]\nnext_idx[%d]\n", idx, next_max_idx);
+		}
+		ps_rotate_to_top(data, idx, "b", &data->stack_b);
+		ps_rotate_to_top(data, next_max_idx, "a", &data->stack_a);
+		ps_print("pa", ps_push(&data->stack_b, &data->stack_a));
+		//if (next_max_idx == data->sa_size - 1)
+			//ps_print("sa", ps_swap(&data->stack_a));
+		if (DEBUG)
+		{
+			int_printarr(moves);
+			debug_print("UPDATED STACK", "A", data->stack_a);
+			debug_print("UPDATED STACK", "B", data->stack_b);
+		}
+		free(moves.arr);
+		(void)(data->sa_size++, data->sb_size--);
+	}
+	ps_rotate_to_top(data, dll_minmax_idx(data->stack_a, true),
+		"a", &data->stack_a);
+	return (true);
+}
 
 int	main(int ac, char **av)
 {
-	t_psdata		data;
+	t_pswap		data;
 
-	data.stack_a = (t_intmtx){NULL, 0};
-	data.stack_b = (t_intmtx){NULL, 0};
-	if (ps_parseinput(ac, av, &data.stack_a))
+
+	data = (t_pswap){NULL, 0, NULL, 0};
+	if (ps_validate_input(ac, av, &data.stack_a))
 	{
-		ft_printf(COLOR_GREEN"OK\n"CR);
-		intp_printarr(data.stack_a);
-		ft_printf("\n");
-		t_intarr arr = (t_intarr){NULL, 0};
-		intarr_push(&arr, 1);
-		intarr_push(&arr, 2);
-		intarr_push(&arr, 3);
-		intarr_push(&arr, 4);
-		int_printarr(arr);
-		ft_printf("IDX{%d}:[%d]\n", 3, intarr_idxof(arr, 3));
-		ft_printf("\n");
-		free(arr.arr);
-		ft_freemtx(data.stack_a.mtx, data.stack_a.size);
-		ft_freemtx(data.stack_b.mtx, data.stack_b.size);
-		return (0);
+		if (!ps_issorted(data.stack_a) && dll_size(data.stack_a) > 3)
+			ps_print("pb", ps_push(&data.stack_a, &data.stack_b));
+		if (DEBUG)
+		{
+			debug_print("INITIAL STACK", "A", data.stack_a);
+			debug_print("INITIAL STACK", "B", data.stack_b);
+			ft_printf("\nMOVES:\n");
+		}
+		data.sa_size = dll_size(data.stack_a);
+		data.sb_size = dll_size(data.stack_b);
+		ps_solve(&data);
+		if (DEBUG)
+		{
+			debug_print("\nEND STACK", "A", data.stack_a);
+			debug_print("END STACK", "B", data.stack_b);
+			ft_printf("IS_SORTED: %s\n", ft_boolstr(ps_issorted(data.stack_a)));
+		}
 	}
 	else
-	{
-		ft_printf(COLOR_RED"KO\n");
-	}
-	return (1);
+		return (dll_clearlist(&data.stack_a), dll_clearlist(&data.stack_b),
+			ft_perror("Error\n"));
+
+	dll_clearlist(&data.stack_a);
+	dll_clearlist(&data.stack_b);
 }
