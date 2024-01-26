@@ -3,25 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/07 12:41:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/21 02:57:56 by odudniak         ###   ########.fr       */
+/*   Created: 2024/01/26 09:40:54 by odudniak          #+#    #+#             */
+/*   Updated: 2024/01/26 21:04:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
 #ifndef DEBUG
-# define DEBUG true
+# define DEBUG false
 #endif
-
-t_dllist	*tmp_populate(int ac, char **av);
-int			tmp_debug(t_dllist **stack_a, t_dllist **stack_b);
-void		debug_print(char *title, char *stackname, t_dllist *list);
-void		debug_print_both(char *title, char *stack1name, char *stack2name,
-				t_dllist *stack1, t_dllist *stack2);
-void		debug_printlist(char *name, t_dllist *list);
 
 void	ps_evacuate(t_pswap *data)
 {
@@ -53,21 +46,19 @@ bool	ps_validate_input(int ac, char **av, t_dllist **st_a)
 			return (ft_freemtx(iteration, ft_memmtxlen(iteration)), false);
 		}
 	}
-	ft_freemtx(iteration, ft_memmtxlen(iteration));
+	ft_freemtx(iteration, i);
 	return (true);
 }
 
-bool	ps_issorted(t_dllist *stack_a)
+bool	ps_issorted_sub(t_dllist *stack, int from,
+						int to_excluded, int *prev_val)
 {
-	int			*prev_val;
-	t_dllist	*stack;
+	const int		size = dll_size(stack);
 
-	stack = stack_a;
-	if (!stack || !stack->next || stack->next == stack)
-		return (true);
-	prev_val = stack->val;
-	stack = stack->next;
-	while (stack && stack != stack_a)
+	if (from < 0 || from > to_excluded || to_excluded > size)
+		return (false);
+	stack = dll_byidx(stack, from);
+	while (stack && from++ < to_excluded)
 	{
 		if (*(stack->val) <= (*prev_val))
 			return (false);
@@ -75,6 +66,16 @@ bool	ps_issorted(t_dllist *stack_a)
 		stack = stack->next;
 	}
 	return (true);
+}
+
+bool	ps_issorted(t_dllist *stack_a)
+{
+	const int	min_idx = dll_minmax_idx(stack_a, true);
+	const int	size = dll_size(stack_a);
+	const int	*min_val = dll_byidx(stack_a, min_idx)->val;
+	const int	*last_val = dll_gettail(stack_a)->val;
+	return (ps_issorted_sub(stack_a, min_idx + 1, size, (int *)min_val)
+		&& ps_issorted_sub(stack_a, 0, min_idx, (int *)last_val));
 }
 
 bool	ps_print(char *move, void *result)
@@ -104,8 +105,6 @@ void	ps_solve_base(t_pswap *data)
 	const int		max = dll_minmax_idx(data->stack_a, false);
 	const int		idx_max = dll_size(data->stack_a) - 1;
 
-	if (ps_issorted(data->stack_a) || idx_max > 2)
-		return ;
 	if (max - 1 == min || min - idx_max == max)
 		ps_print("sa", ps_swap(&data->stack_a));
 	if (ps_issorted(data->stack_a))
@@ -137,6 +136,7 @@ void	ps_rotate_to_top(t_pswap *data, int idx,
 		ps_print_n(operation, idx, ps_rot, stack);
 	free(operation);
 }
+
 void	ps_rotate_to_bottom(t_pswap *data, int idx,
 	char *stackname, t_dllist **stack)
 {
@@ -146,47 +146,81 @@ void	ps_rotate_to_bottom(t_pswap *data, int idx,
 	if (!stack || !*stack)
 		return ;
 	stack_size = dll_size(*stack);
-	if (idx <= stack_size / 2)
+	if (idx < stack_size / 2)
 		operation = ft_strjoin("r", stackname);
 	else
 		operation = ft_strjoin("rr", stackname);
 	if (!operation)
 		return (ps_evacuate(data));
 	if (ft_strlen(operation) == 3)
-		ps_print_n(operation, idx, ps_revrot, stack);
+		ps_print_n(operation, stack_size - idx - 1, ps_revrot, stack);
 	else
-		ps_print_n(operation, stack_size - idx, ps_rot, stack);
+		ps_print_n(operation, idx + 1, ps_rot, stack);
 	free(operation);
 }
 
-t_intarr	ps_calc_moves(t_pswap *data, int size, t_dllist *list1, t_dllist *list2)
+int	ps_count_moves(int idx, int size, t_wheretogo where)
 {
-	t_intarr res;
-	int			i;
-	int			idx;
+	if (where == PS_GOTOP)
+	{
+		if (idx <= size / 2)
+			return idx;
+		return size - idx;
+	}
+	if (idx < size / 2)
+		return idx + 1;
+	return size - 1 - idx;
+}
 
-	res.arr = ft_calloc(size, sizeof(int));
+t_intarr	ps_calc_min(t_pswap *data,
+						t_intarr res, t_wheretogo *where, int *next_idx)
+{
+	const int	res_minidx = ft_int_minmax_idx(res, true);
+	const int	b_idxval = *(dll_byidx(data->stack_b, res_minidx)->val);
+
+	*where = PS_GOTOP;
+	*next_idx = dll_next_occur_idx(data->stack_a, b_idxval, false);
+	if (*next_idx == -1)
+		*where = PS_GOBOTTOM;
+	if (*next_idx == -1)
+		*next_idx = dll_minmax_idx(data->stack_a, false);
+	return (res);
+}
+
+t_intarr	ps_calc_moves(t_pswap *data, t_wheretogo *where, int *next_idx)
+{
+	t_intarr	res;
+	t_dllist	*list;
+	int			i;
+
+	res.size = data->sb_size;
+	res.arr = ft_calloc(data->sb_size, sizeof(int));
 	if (!res.arr)
 		return (ps_evacuate(data), res);
-	res.size = size;
 	i = -1;
-	while (++i < size)
+	list = data->stack_b;
+	*where = PS_GOTOP;
+	while (++i < data->sb_size)
 	{
-		idx = dll_next_occur_idx(list2, *(list1->val), true);
-		if (idx <= size / 2)
-			idx = size - idx - 1;
-		res.arr[i] = idx + (i) * (i <= size / 2) + (size - i) * (i > size / 2);
-		list1 = list1->next;
+		*next_idx = dll_next_occur_idx(data->stack_a, *(list->val), false);
+		if (*next_idx == -1)
+			*where = PS_GOBOTTOM;
+		if (*next_idx == -1)
+			*next_idx = dll_minmax_idx(data->stack_a, false);
+		res.arr[i] = 1 + ps_count_moves(*next_idx, data->sa_size, *where)
+				+ ps_count_moves(i, data->sb_size, PS_GOTOP);
+		list = list->next;
 	}
-	return (res);
+	return (ps_calc_min(data, res, where, next_idx));
 }
 
 bool	ps_solve(t_pswap *data)
 {
 	t_intarr			moves;
-	int					idx;
+	int					next_idx;
+	t_wheretogo			wheretogo;
 
-	while (!ps_issorted(data->stack_a) && data->sa_size > 3)
+	while (data->sa_size > 3 && !ps_issorted(data->stack_a))
 	{
 		ps_print("pb", ps_push(&data->stack_a, &data->stack_b));
 		(void)(data->sa_size--, data->sb_size++);
@@ -194,32 +228,27 @@ bool	ps_solve(t_pswap *data)
 	ps_solve_base(data);
 	if (data->sa_size <= 3 && data->sb_size == 0)
 		return (true);
-	if (DEBUG)
-	{
-		ft_printf("\n");
-		debug_print("STACK", "A", data->stack_a);
-		debug_print("STACK", "B", data->stack_b);
-	}
 	while (data->sb_size > 0)
 	{
-		moves = ps_calc_moves(data, data->sb_size, \
-		data->stack_b, data->stack_a);
-		idx = ft_int_minmax_idx(moves, true);
-		int next_max_idx = dll_next_occur_idx(data->stack_a, \
-		*(dll_byidx(data->stack_b, idx)->val), true);
-		if (DEBUG)
-		{
-			ft_printf("MIN_IDX[%d]\nnext_idx[%d]\n", idx, next_max_idx);
-		}
-		ps_rotate_to_top(data, idx, "b", &data->stack_b);
-		ps_rotate_to_top(data, next_max_idx, "a", &data->stack_a);
-		ps_print("pa", ps_push(&data->stack_b, &data->stack_a));
-		//if (next_max_idx == data->sa_size - 1)
-			//ps_print("sa", ps_swap(&data->stack_a));
+		moves = ps_calc_moves(data, &wheretogo, &next_idx);
 		if (DEBUG)
 		{
 			int_printarr(moves);
+			ft_printf("\n");
+			debug_print("STACK", "A", data->stack_a);
+			debug_print("STACK", "B", data->stack_b);
+		}
+		ps_rotate_to_top(data, ft_int_minmax_idx(moves, true),
+						 "b",&data->stack_b);
+		if (wheretogo == PS_GOTOP)
+			ps_rotate_to_top(data, next_idx, "a", &data->stack_a);
+		else
+			ps_rotate_to_bottom(data, next_idx, "a", &data->stack_a);
+		ps_print("pa", ps_push(&data->stack_b, &data->stack_a));
+		if (DEBUG)
+		{
 			debug_print("UPDATED STACK", "A", data->stack_a);
+			ft_printf("SORTED[%s]\n", ft_boolstr(ps_issorted(data->stack_a)));
 			debug_print("UPDATED STACK", "B", data->stack_b);
 		}
 		free(moves.arr);
@@ -238,8 +267,8 @@ int	main(int ac, char **av)
 	data = (t_pswap){NULL, 0, NULL, 0};
 	if (ps_validate_input(ac, av, &data.stack_a))
 	{
-		if (!ps_issorted(data.stack_a) && dll_size(data.stack_a) > 3)
-			ps_print("pb", ps_push(&data.stack_a, &data.stack_b));
+		//if (!ps_issorted(data.stack_a) && dll_size(data.stack_a) > 3)
+		//	ps_print("pb", ps_push(&data.stack_a, &data.stack_b));
 		if (DEBUG)
 		{
 			debug_print("INITIAL STACK", "A", data.stack_a);
@@ -249,6 +278,7 @@ int	main(int ac, char **av)
 		data.sa_size = dll_size(data.stack_a);
 		data.sb_size = dll_size(data.stack_b);
 		ps_solve(&data);
+		//3 5 8 10 2 7 4 6 1 9
 		if (DEBUG)
 		{
 			debug_print("\nEND STACK", "A", data.stack_a);
@@ -262,4 +292,5 @@ int	main(int ac, char **av)
 
 	dll_clearlist(&data.stack_a);
 	dll_clearlist(&data.stack_b);
+	(void)0;
 }

@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: odudniak <odudniak@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/26 21:08:58 by odudniak          #+#    #+#             */
+/*   Updated: 2024/01/26 21:08:58 by odudniak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:54:03 by odudniak          #+#    #+#             */
@@ -26,6 +38,12 @@ typedef struct s_pswap
 	// int			*a_moves;
 }	t_pswap;
 
+typedef enum e_wheretogo
+{
+	PS_GOTOP,
+	PS_GOBOTTOM
+}	t_wheretogo;
+
 /**
  * @brief Push swap's `rr*` method
  * @param head head to the list.
@@ -47,6 +65,6 @@ void		ps_revrotall(t_dllist **h1, t_dllist **h2);
 void		ps_rotall(t_dllist **h1, t_dllist **h2);
 
 t_dllist	*ps_push(t_dllist **stack_from, t_dllist **stack_to);
-//----------------DLL STUFF----------------------------------------------------
-
+//----------------UTILS STUFF--------------------------------------------------
+void		debug_print(char *title, char *stackname, t_dllist *list);
 #endif

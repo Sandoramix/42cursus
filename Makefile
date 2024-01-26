@@ -11,7 +11,7 @@ SRC = main.c \
 	./src/ps_push.c \
 	./src/ps_rotate.c \
 	./src/ps_swap.c \
-	./src/tmp.c
+	./src/ps_utils.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -48,7 +48,6 @@ debug:
 
 re: fclean all
 debug-re: fclean debug
-
 
 ARG=1 2 3 4
 main: all
