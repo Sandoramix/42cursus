@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ps_rotate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: odudniak <odudniak@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/27 14:28:44 by odudniak          #+#    #+#             */
+/*   Updated: 2024/01/27 14:36:53 by odudniak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ps_rotate.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:23:41 by odudniak          #+#    #+#             */
@@ -12,41 +24,53 @@
 
 #include <push_swap.h>
 
-t_dllist	*ps_rot(t_dllist **head)
+t_dllist	*ps_rot(t_pswap *data, t_psmove move, bool print)
 {
 	void		*headval;
+	t_dllist	**stack;
 	t_dllist	*tmp;
 
-	if (!head)
+	stack = &data->stack_a;
+	if (move == ROTB)
+		stack = &data->stack_b;
+	if (!stack || !*stack || (move != ROTB && move != ROTA))
 		return (NULL);
-	if (!*head || !(*head)->next)
-		return (*head);
-	tmp = *head;
+	if (!(*stack)->next)
+		return (*stack);
+	if (print)
+		ft_printf("r%c\n", (char [2]){'a', 'b'}[move == ROTB]);
+	tmp = *stack;
 	headval = tmp->val;
-	while (tmp->next && tmp->next != *head)
+	while (tmp->next && tmp->next != *stack)
 	{
 		tmp->val = tmp->next->val;
 		tmp = tmp->next;
 	}
 	tmp->val = headval;
-	return (*head);
+	return (*stack);
 }
 
-t_dllist	*ps_revrot(t_dllist **head)
+t_dllist	*ps_revrot(t_pswap *data, t_psmove move, bool print)
 {
+	t_dllist	**stack;
 	t_dllist	*tail;
 	t_dllist	*tmp;
 	void		*tailval;
 
-	if (!head)
+	stack = &data->stack_a;
+	if (move == REVROTB)
+		stack = &data->stack_b;
+	if (!stack || !*stack || (move != REVROTB && move != REVROTA))
 		return (NULL);
-	if (!*head || !(*head)->next)
-		return (*head);
-	tail = dll_gettail(*head);
+	if (!(*stack)->next)
+		return (*stack);
+	if (print)
+		ft_printf("rr%c\n", (char [2]){'a', 'b'}[move == REVROTB]);
+	tail = dll_gettail(*stack);
 	tmp = tail->prev;
 	tailval = tail->val;
 	if (!tmp)
-		return (*head);
+		return (*stack);
 	tail->val = tmp->val;
 	while (tmp->prev && tmp->prev != tail)
 	{
@@ -54,17 +78,21 @@ t_dllist	*ps_revrot(t_dllist **head)
 		tmp = tmp->prev;
 	}
 	tmp->val = tailval;
-	return (*head);
+	return (*stack);
 }
 
-void	ps_rotall(t_dllist **h1, t_dllist **h2)
+void	ps_rotall(t_pswap *data, bool print)
 {
-	ps_rot(h1);
-	ps_rot(h2);
+	ps_rot(data, ROTA, false);
+	ps_rot(data, ROTB, false);
+	if (print)
+		ft_printf("rr\n");
 }
 
-void	ps_revrotall(t_dllist **h1, t_dllist **h2)
+void	ps_revrotall(t_pswap *data, bool print)
 {
-	ps_revrot(h1);
-	ps_revrot(h2);
+	ps_revrot(data, REVROTA, false);
+	ps_revrot(data, REVROTB, false);
+	if (print)
+		ft_printf("rrr\n");
 }

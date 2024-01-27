@@ -6,23 +6,34 @@
 /*   By: odudniak <odudniak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:13:54 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/26 21:05:54 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/27 14:37:11 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
-t_dllist	*ps_push(t_dllist **stack_from, t_dllist **stack_to)
+t_dllist	*ps_push(t_pswap *data, t_psmove move, bool print)
 {
-	t_dllist	*oldfrom;
+	t_dllist	**from;
+	t_dllist	**to;
+	t_dllist	*node;
 
-	if (dll_size(*stack_from) == 0)
+	if (move != PUSHA && move != PUSHB)
 		return (NULL);
-	oldfrom = *stack_from;
-	*stack_from = oldfrom->next;
-	if (*stack_from)
-		(*stack_from)->prev = NULL;
-	return (dll_addnode_head(stack_to, oldfrom));
+	from = &data->stack_a;
+	to = &data->stack_b;
+	if (move == PUSHA)
+	{
+		from = &data->stack_b;
+		to = &data->stack_a;
+	}
+	if (dll_size(*from) == 0)
+		return (NULL);
+	node = *from;
+	*from = node->next;
+	if (*from)
+		(*from)->prev = NULL;
+	if (print)
+		ft_printf("p%c\n", (char [2]){'a', 'b'}[move == PUSHB]);
+	return (dll_addnode_head(to, node));
 }
-
-

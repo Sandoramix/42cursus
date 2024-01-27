@@ -28,43 +28,72 @@
 # include <libft.h>
 # include <ft_printf.h>
 
+typedef enum e_finalpos
+{
+	TOP,
+	BOTTOM
+}	t_finalpos;
+
+typedef enum s_rottype
+{
+	ROT,
+	REVROT
+}	t_rottype;
+
+typedef enum s_psmove
+{
+	ROTA,
+	ROTB,
+	REVROTA,
+	REVROTB,
+	ROTALL,
+	REVROTALL,
+	PUSHA,
+	PUSHB,
+	SWAPA,
+	SWAPB,
+	SWAPALL
+}	t_psmove;
+
+typedef struct s_pscalcmove
+{
+	int				n_rotations;
+	t_finalpos		finalpos;
+	t_rottype		rot;
+}	t_pscalcmove;
+
 typedef struct s_pswap
 {
-	t_dllist	*stack_a;
-	int			sa_size;
-	t_dllist	*stack_b;
-	int			sb_size;
+	t_dllist		*stack_a;
+	int				sa_size;
+	t_dllist		*stack_b;
+	int				sb_size;
 
-	// int			*a_moves;
+	t_pscalcmove	sa_move;
+	t_pscalcmove	sb_move;
 }	t_pswap;
 
-typedef enum e_wheretogo
-{
-	PS_GOTOP,
-	PS_GOBOTTOM
-}	t_wheretogo;
+/**
+ * @brief Push swap's `rr*` method
+ * @param head head to the list.
+ * @return head of the list
+ */
+t_dllist	*ps_revrot(t_pswap *data, t_psmove move, bool print);
 
 /**
  * @brief Push swap's `rr*` method
  * @param head head to the list.
  * @return head of the list
  */
-t_dllist	*ps_revrot(t_dllist **head);
+t_dllist	*ps_rot(t_pswap *data, t_psmove move, bool print);
 
-/**
- * @brief Push swap's `rr*` method
- * @param head head to the list.
- * @return head of the list
- */
-t_dllist	*ps_rot(t_dllist **head);
+t_dllist	*ps_swap(t_pswap *data, t_psmove move, bool print);
+void		ps_swapall(t_pswap *data, bool print);
 
-t_dllist	*ps_swap(t_dllist **head);
-void		ps_swapall(t_dllist **h1, t_dllist **h2);
+void		ps_revrotall(t_pswap *data, bool print);
+void		ps_rotall(t_pswap *data, bool print);
 
-void		ps_revrotall(t_dllist **h1, t_dllist **h2);
-void		ps_rotall(t_dllist **h1, t_dllist **h2);
-
-t_dllist	*ps_push(t_dllist **stack_from, t_dllist **stack_to);
+t_dllist	*ps_push(t_pswap *data, t_psmove move, bool print);
 //----------------UTILS STUFF--------------------------------------------------
 void		debug_print(char *title, char *stackname, t_dllist *list);
 #endif
