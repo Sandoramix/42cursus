@@ -49,7 +49,7 @@ debug:
 re: fclean all
 debug-re: fclean debug
 
-ARG=1 2 3 4
+ARG=100 -4 5 2 3 1 4 -9 0 7 6 -5
 main: all
 	./$(NAME) $(ARG)
 # --------------

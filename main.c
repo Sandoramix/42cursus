@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 09:40:54 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/27 18:51:20 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/01/30 22:48:33 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,9 @@ void	ps_rotate_to_top(t_pswap *data, int idx, bool is_b)
 		stack_size = dll_size(data->stack_b);
 	else
 		stack_size = dll_size(data->stack_a);
-	operation = ((uint [2]){REVROTA, REVROTB}[is_b]);
+	operation = ((t_uint [2]){REVROTA, REVROTB}[is_b]);
 	if (idx <= stack_size / 2)
-		operation = ((uint [2]){ROTA, ROTB}[is_b]);
+		operation = ((t_uint [2]){ROTA, ROTB}[is_b]);
 	if (operation == REVROTA || operation == REVROTB)
 		ps_call_n(data, operation, stack_size - idx, ps_revrot);
 	else
@@ -140,9 +140,9 @@ void	ps_rotate_to_bottom(t_pswap *data, int idx, bool is_b)
 		stack_size = dll_size(data->stack_b);
 	else
 		stack_size = dll_size(data->stack_a);
-	operation = ((uint [2]){REVROTA, REVROTB}[is_b]);
+	operation = ((t_uint [2]){REVROTA, REVROTB}[is_b]);
 	if (idx < stack_size / 2)
-		operation = ((uint [2]){ROTA, ROTB}[is_b]);
+		operation = ((t_uint [2]){ROTA, ROTB}[is_b]);
 	if (operation == REVROTA || operation == REVROTB)
 		ps_call_n(data, operation, stack_size - idx - 1, ps_revrot);
 	else
