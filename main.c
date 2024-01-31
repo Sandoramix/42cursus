@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 09:40:54 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/30 22:48:33 by odudniak         ###   ########.fr       */
+/*   Created: 2024/01/31 11:56:53 by odudniak          #+#    #+#             */
+/*   Updated: 2024/01/31 18:28:56 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	ps_evacuate(t_pswap *data)
 {
 	dll_clearlist(&data->stack_a);
 	dll_clearlist(&data->stack_b);
-	ft_perror("MALLOC ALLOCATION ERROR.\nAborting...");
+	ft_perror("ERROR.\nAborting...");
+	exit(2);
 }
 
 bool	ps_validate_input(int ac, char **av, t_dllist **st_a)
@@ -51,7 +52,7 @@ bool	ps_validate_input(int ac, char **av, t_dllist **st_a)
 }
 
 bool	ps_issorted_sub(t_dllist *stack, int from,
-						int to_excluded, int *prev_val)
+	int to_excluded, int *prev_val)
 {
 	const int		size = dll_size(stack);
 
@@ -79,14 +80,6 @@ bool	ps_issorted(t_dllist *stack_a)
 		&& ps_issorted_sub(stack_a, 0, min_idx, (int *)last_val));
 }
 
-bool	ps_print(char *move, void *result)
-{
-	if (!result)
-		return (false);
-	ft_printf("%s\n", move);
-	return (true);
-}
-
 bool	ps_call_n(t_pswap *data, t_psmove move, int n_times,
 	t_dllist *(*fn)(t_pswap *data, t_psmove move, bool print))
 {
@@ -99,56 +92,44 @@ bool	ps_call_n(t_pswap *data, t_psmove move, int n_times,
 		res &= ((*fn)(data, move, true) != NULL);
 	return (res);
 }
-
-int	ps_count_moves(int idx, int size, t_finalpos where)
+void	ps_call2_n(t_pswap *data, int n_times,
+				  void (*fn)(t_pswap *data, bool print))
 {
+	int		i;
+
+	i = -1;
+	while (++i < n_times)
+		(*fn)(data, true);
+}
+
+int	idx_to_count(int idx, int size, t_finalpos where, t_rottype *rot)
+{
+	*rot = ROT;
 	if (where == TOP)
 	{
 		if (idx <= size / 2)
 			return idx;
+		*rot = REVROT;
 		return size - idx;
 	}
 	if (idx < size / 2)
 		return idx + 1;
+	*rot = REVROT;
 	return size - 1 - idx;
 }
 
-void	ps_rotate_to_top(t_pswap *data, int idx, bool is_b)
+void	ps_rotate_to(t_pswap *data, t_bestmove *move, bool is_b)
 {
-	int			stack_size;
 	t_psmove	operation;
 
-	if (is_b)
-		stack_size = dll_size(data->stack_b);
-	else
-		stack_size = dll_size(data->stack_a);
-	operation = ((t_uint [2]){REVROTA, REVROTB}[is_b]);
-	if (idx <= stack_size / 2)
-		operation = ((t_uint [2]){ROTA, ROTB}[is_b]);
+	operation = ((t_uint [2]){ROTA, ROTB}[is_b]);
+	if (move->rot == REVROT)
+		operation = ((t_uint [2]){REVROTA, REVROTB}[is_b]);
 	if (operation == REVROTA || operation == REVROTB)
-		ps_call_n(data, operation, stack_size - idx, ps_revrot);
+		ps_call_n(data, operation, move->n_rotations, ps_revrot);
 	else
-		ps_call_n(data, operation, idx, ps_rot);
+		ps_call_n(data, operation, move->n_rotations, ps_rot);
 }
-
-void	ps_rotate_to_bottom(t_pswap *data, int idx, bool is_b)
-{
-	int			stack_size;
-	t_psmove	operation;
-
-	if (is_b)
-		stack_size = dll_size(data->stack_b);
-	else
-		stack_size = dll_size(data->stack_a);
-	operation = ((t_uint [2]){REVROTA, REVROTB}[is_b]);
-	if (idx < stack_size / 2)
-		operation = ((t_uint [2]){ROTA, ROTB}[is_b]);
-	if (operation == REVROTA || operation == REVROTB)
-		ps_call_n(data, operation, stack_size - idx - 1, ps_revrot);
-	else
-		ps_call_n(data, operation, idx + 1, ps_rot);
-}
-
 
 void	ps_solve_base(t_pswap *data)
 {
@@ -164,61 +145,68 @@ void	ps_solve_base(t_pswap *data)
 		ps_revrot(data, REVROTA, true);
 	else
 		ps_rot(data, ROTA, true);
+	data->sa_move.finalpos = TOP;
+	data->sa_move.n_rotations = idx_to_count(
+		dll_minmax_idx(data->stack_a, true),
+			data->sa_size, TOP, &data->sa_move.rot);
 	if (data->sa_size <= 3 && !data->sb_size)
-		ps_rotate_to_top(data, dll_minmax_idx(data->stack_a, true), false);
+		ps_rotate_to(data, &data->sa_move, false);
 }
 
-t_intarr	ps_calc_min(t_pswap *data,
-						t_intarr res, t_finalpos *where, int *next_idx)
+void	ps_calc_min(t_pswap *data)
 {
-	const int	res_minidx = ft_int_minmax_idx(res, true);
-	const int	b_idxval = *(dll_byidx(data->stack_b, res_minidx)->val);
+	const int	min_idx = ft_int_minmax_idx(data->bmoves, true);
+	const int	b_val = *(dll_byidx(data->stack_b, min_idx)->val);
 
-	*where = TOP;
-	*next_idx = dll_next_occur_idx(data->stack_a, b_idxval, false);
-	if (*next_idx == -1)
+	data->sa_move.finalpos = TOP;
+	data->sa_move.best_idx = dll_next_occur_idx(data->stack_a, b_val, false);
+	if (data->sa_move.best_idx == -1)
 	{
-		*next_idx = dll_minmax_idx(data->stack_a, false);
-		if (*(dll_byidx(data->stack_a, *next_idx)->val) < b_idxval)
-			*where = BOTTOM;
+		data->sa_move.best_idx = dll_minmax_idx(data->stack_a, false);
+		if (*(dll_byidx(data->stack_a, data->sa_move.best_idx)->val) < b_val)
+			data->sa_move.finalpos = BOTTOM;
 	}
-	return (res);
+	data->sb_move.finalpos = TOP;
+	data->sb_move.best_idx = min_idx;
+	data->sb_move.n_rotations = idx_to_count(min_idx, data->sb_size, TOP,
+		&data->sb_move.rot);
+	data->sa_move.n_rotations = idx_to_count(data->sa_move.best_idx,
+		data->sa_size, data->sa_move.finalpos, &data->sa_move.rot);
 }
 
-t_intarr	ps_calc_moves(t_pswap *data, t_finalpos *where, int *next_idx)
+void	*calc_rotmoves(t_pswap *data)
 {
-	t_intarr	res;
 	t_dllist	*list;
 	int			i;
 
-	res.size = data->sb_size;
-	res.arr = ft_calloc(data->sb_size, sizeof(int));
-	if (!res.arr)
-		return (ps_evacuate(data), res);
+	data->bmoves.size = data->sb_size;
+	data->bmoves.arr = ft_calloc(data->sb_size, sizeof(int));
+	if (!data->bmoves.arr)
+		return (ps_evacuate(data), NULL);
 	i = -1;
 	list = data->stack_b;
-	*where = TOP;
+	data->sa_move.finalpos = TOP;
 	while (++i < data->sb_size)
 	{
-		*next_idx = dll_next_occur_idx(data->stack_a, *(list->val), false);
-		if (*next_idx == -1)
+		data->sa_move.best_idx = dll_next_occur_idx(data->stack_a,
+			*(list->val), false);
+		if (data->sa_move.best_idx == -1)
 		{
-			*next_idx = dll_minmax_idx(data->stack_a, false);
-			if (*(dll_byidx(data->stack_a, *next_idx)->val) < *(list->val) )
-				*where = BOTTOM;
+			data->sa_move.best_idx = dll_minmax_idx(data->stack_a, false);
+			if (*(dll_byidx(data->stack_a, data->sa_move.best_idx)->val) < *(list->val))
+				data->sa_move.finalpos = BOTTOM;
 		}
-		res.arr[i] = 1 + ps_count_moves(*next_idx, data->sa_size, *where)
-			+ ps_count_moves(i, data->sb_size, TOP);
+		data->bmoves.arr[i] = idx_to_count(data->sa_move.best_idx, \
+		data->sa_size, data->sa_move.finalpos, &data->sa_move.rot) \
+		+ idx_to_count(i, data->sb_size, TOP, &data->sb_move.rot);
 		list = list->next;
 	}
-	return (ps_calc_min(data, res, where, next_idx));
+	return (ps_calc_min(data), NULL);
 }
 
 bool	ps_solve(t_pswap *data)
 {
-	t_intarr			moves;
-	int					next_idx;
-	t_finalpos			wheretogo;
+	int				diff;
 
 	while (data->sa_size > 3 && !ps_issorted(data->stack_a) && data->sa_size--)
 	{
@@ -230,20 +218,29 @@ bool	ps_solve(t_pswap *data)
 		return (true);
 	while (data->sb_size > 0)
 	{
-		moves = ps_calc_moves(data, &wheretogo, &next_idx);
+		calc_rotmoves(data);
 		if (DEBUG)
 		{
 			ft_printf("\n");
 			debug_print("STACK", "A", data->stack_a);
+			ft_printf("SORTED[%s]\n", ft_boolstr(ps_issorted(data->stack_a)));
 			debug_print("STACK", "B", data->stack_b);
-			int_printarr(moves);
+			int_printarr(data->bmoves);
 		}
-		ps_rotate_to_top(data, ft_int_minmax_idx(moves, true), true);
 
-		if (wheretogo == TOP)
-			ps_rotate_to_top(data, next_idx, false);
-		else
-			ps_rotate_to_bottom(data, next_idx, false);
+		if (data->sb_move.rot == data->sa_move.rot)
+		{
+			diff = int_imin(data->sb_move.n_rotations, data->sa_move.n_rotations);
+			if (data->sa_move.rot == ROT)
+				ps_call2_n(data, diff, ps_rotall);
+			else
+				ps_call2_n(data, diff, ps_revrotall);
+			data->sa_move.n_rotations = data->sa_move.n_rotations - diff;
+			data->sb_move.n_rotations = data->sb_move.n_rotations - diff;
+		}
+		ps_rotate_to(data, &data->sa_move, false);
+
+		ps_rotate_to(data, &data->sb_move, true);
 		ps_push(data, PUSHA, true);
 		if (DEBUG)
 		{
@@ -251,10 +248,20 @@ bool	ps_solve(t_pswap *data)
 			ft_printf("SORTED[%s]\n", ft_boolstr(ps_issorted(data->stack_a)));
 			debug_print("UPDATED STACK", "B", data->stack_b);
 		}
-		free(moves.arr);
+		free(data->bmoves.arr);
+		if (!ps_issorted(data->stack_a))
+		{
+			ft_fprintf(2, "BAD PUSH TO A HAPPENED :/\n");
+			ps_evacuate(data);
+		}
 		(void)(data->sa_size++, data->sb_size--);
 	}
-	ps_rotate_to_top(data, dll_minmax_idx(data->stack_a, true), false);
+	data->sa_move.finalpos = TOP;
+	data->sa_move.best_idx = dll_minmax_idx(data->stack_a,true);
+	data->sa_move.n_rotations = idx_to_count( \
+	data->sa_move.best_idx , \
+	data->sa_size, TOP, &data->sa_move.rot);
+	ps_rotate_to(data, &data->sa_move, false);
 	return (true);
 }
 
@@ -277,8 +284,8 @@ int	main(int ac, char **av)
 			ft_printf("\nMOVES:\n");
 		}
 		ps_solve(&data);
-		ps_rotate_to_top(&data, dll_minmax_idx(data.stack_a, true), false);
-		//3 5 8 10 2 7 4 6 1 9
+		//7 8 1 4 9 3 2 6 10 5 11
+		//25 8 5 20 12 10 18 17 11 23 6 2 19 15 1 24 14 3 9 4 21 22 7 16 13
 		if (DEBUG)
 		{
 			debug_print("\nEND STACK", "A", data.stack_a);

@@ -55,12 +55,13 @@ typedef enum s_psmove
 	SWAPALL
 }	t_psmove;
 
-typedef struct s_pscalcmove
+typedef struct s_bestmove
 {
 	int				n_rotations;
+	int				best_idx;
 	t_finalpos		finalpos;
 	t_rottype		rot;
-}	t_pscalcmove;
+}	t_bestmove;
 
 typedef struct s_pswap
 {
@@ -69,8 +70,10 @@ typedef struct s_pswap
 	t_dllist		*stack_b;
 	int				sb_size;
 
-	t_pscalcmove	sa_move;
-	t_pscalcmove	sb_move;
+	t_intarr	bmoves;
+
+	t_bestmove	sa_move;
+	t_bestmove	sb_move;
 }	t_pswap;
 
 /**
