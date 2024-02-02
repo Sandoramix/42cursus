@@ -65,6 +65,10 @@ valgrind: all
 	@$(VALGRIND) ./$(NAME) $(ARG)
 valgrindre: re valgrind
 
+download-checker:
+	@wget https://cdn.intra.42.fr/document/document/23552/checker_linux
+	@mv checker_linux checker
+	@chmod +x checker
 # ----OTHER-----
 .PHONY: all clean fclean re valgrind
 .SILENT:
