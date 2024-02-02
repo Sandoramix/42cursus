@@ -28,7 +28,8 @@ void	ps_evacuate(t_pswap *data)
 	exit(2);
 }
 
-bool	ps_call_n(t_pswap *data, t_psmove move, int n_times, t_dllist *(*fn)(t_pswap *data, t_psmove move, bool print))
+bool	ps_call_n(t_pswap *data, t_psmove move, int n_times,
+	t_dllist *(*fn)(t_pswap *data, t_psmove move, bool print))
 {
 	int		i;
 	bool	res;
@@ -40,7 +41,8 @@ bool	ps_call_n(t_pswap *data, t_psmove move, int n_times, t_dllist *(*fn)(t_pswa
 	return (res);
 }
 
-void	ps_call2_n(t_pswap *data, int n_times, void (*fn)(t_pswap *data, bool print))
+void	ps_call2_n(t_pswap *data, int n_times,
+	void (*fn)(t_pswap *data, bool print))
 {
 	int		i;
 

@@ -53,15 +53,13 @@ debug:
 re: fclean all
 debug-re: fclean debug
 
-ARG=100 -4 5 2 3 1 4 -9 0 7 6 -5
-main: all
-	./$(NAME) $(ARG)
 # --------------
 
 %.o: %.c
 	@$(COMPILE) $(INCLUDES) -c $< -o $@
 
 # ----UTILS-----
+ARG=100 -4 5 2 3 1 4 -9 0 7 6 -5
 VALGRIND=@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
 valgrind: all
 	@$(VALGRIND) ./$(NAME) $(ARG)

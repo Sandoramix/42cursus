@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ps_solve.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 12:00:29 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/02 12:01:37 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/02 14:54:41 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	ps_solve3(t_pswap *data)
 {
-	const int min = dll_minmax_idx(data->stack_a, true);
-	const int max = dll_minmax_idx(data->stack_a, false);
-	const int idx_max = dll_size(data->stack_a) - 1;
+	const int	min = dll_minmax_idx(data->stack_a, true);
+	const int	max = dll_minmax_idx(data->stack_a, false);
+	const int	idx_max = dll_size(data->stack_a) - 1;
 
 	if (ps_issorted(data->stack_a))
 		return ;
@@ -28,8 +28,8 @@ static void	ps_solve3(t_pswap *data)
 		ps_rot(data, ROTA, true);
 	data->sa_move.finalpos = TOP;
 	data->sa_move.n_rotations = idx_to_count(
-		dll_minmax_idx(data->stack_a, true),
-		data->sa_size, TOP, &data->sa_move.rot);
+			dll_minmax_idx(data->stack_a, true),
+			data->sa_size, TOP, &data->sa_move.rot);
 	if (data->sa_size <= 3 && !data->sb_size)
 		ps_rotate_to(data, &data->sa_move, false);
 }
@@ -63,6 +63,9 @@ void	ps_mergemoves(t_pswap *data)
 
 bool	ps_solve(t_pswap *data)
 {
+	data->bmoves.arr = ft_calloc(data->sa_size, sizeof(int));
+	if (!data->bmoves.arr)
+		return (ps_evacuate(data), NULL);
 	ps_presolve(data);
 	while (data->sb_size > 0)
 	{
@@ -71,17 +74,16 @@ bool	ps_solve(t_pswap *data)
 		ps_rotate_to(data, &data->sa_move, false);
 		ps_rotate_to(data, &data->sb_move, true);
 		ps_push(data, PUSHA, true);
-		free(data->bmoves.arr);
 		if (!ps_issorted(data->stack_a))
 			ps_evacuate(data);
 		data->sa_size++;
 		data->sb_size--;
 	}
+	free(data->bmoves.arr);
 	data->sa_move.finalpos = TOP;
-	data->sa_move.best_idx = dll_minmax_idx(data->stack_a,true);
-	data->sa_move.n_rotations = idx_to_count( \
-	data->sa_move.best_idx , \
-	data->sa_size, TOP, &data->sa_move.rot);
+	data->sa_move.best_idx = dll_minmax_idx(data->stack_a, true);
+	data->sa_move.n_rotations = idx_to_count(data->sa_move.best_idx,
+			data->sa_size, TOP, &data->sa_move.rot);
 	ps_rotate_to(data, &data->sa_move, false);
 	return (true);
 }

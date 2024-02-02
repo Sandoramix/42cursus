@@ -12,53 +12,60 @@
 
 #include <push_swap.h>
 
+static t_dllist	*ps_rotcommon(t_pswap *data, t_psmove move, bool print)
+{
+	const bool	isrevrot = (move == REVROTA || move == REVROTB);
+	t_dllist	*stack;
+
+	stack = NULL;
+	if (move == ROTB || move == REVROTB)
+		stack = data->stack_b;
+	else if (move == ROTA || move == REVROTA)
+		stack = data->stack_a;
+	if (!stack || !stack->next)
+		return (stack);
+	if (print && isrevrot)
+		ft_printf("rr%c\n", (char [2]){'a', 'b'}[move == REVROTB]);
+	else if (print && !isrevrot)
+		ft_printf("r%c\n", (char [2]){'a', 'b'}[move == ROTB]);
+	return (stack);
+}
+
 t_dllist	*ps_rot(t_pswap *data, t_psmove move, bool print)
 {
 	void		*headval;
-	t_dllist	**stack;
+	t_dllist	*stack;
 	t_dllist	*tmp;
 
-	stack = &data->stack_a;
-	if (move == ROTB)
-		stack = &data->stack_b;
-	if (!stack || !*stack || (move != ROTB && move != ROTA))
-		return (NULL);
-	if (!(*stack)->next)
-		return (*stack);
-	if (print)
-		ft_printf("r%c\n", (char [2]){'a', 'b'}[move == ROTB]);
-	tmp = *stack;
+	stack = ps_rotcommon(data, move, print);
+	if (!stack || !stack->next)
+		return (stack);
+	tmp = stack;
 	headval = tmp->val;
-	while (tmp->next && tmp->next != *stack)
+	while (tmp->next && tmp->next != stack)
 	{
 		tmp->val = tmp->next->val;
 		tmp = tmp->next;
 	}
 	tmp->val = headval;
-	return (*stack);
+	return (stack);
 }
 
 t_dllist	*ps_revrot(t_pswap *data, t_psmove move, bool print)
 {
-	t_dllist	**stack;
+	t_dllist	*stack;
 	t_dllist	*tail;
 	t_dllist	*tmp;
 	void		*tailval;
 
-	stack = &data->stack_a;
-	if (move == REVROTB)
-		stack = &data->stack_b;
-	if (!stack || !*stack || (move != REVROTB && move != REVROTA))
-		return (NULL);
-	if (!(*stack)->next)
-		return (*stack);
-	if (print)
-		ft_printf("rr%c\n", (char [2]){'a', 'b'}[move == REVROTB]);
-	tail = dll_gettail(*stack);
+	stack = ps_rotcommon(data, move, print);
+	if (!stack || !stack->next)
+		return (stack);
+	tail = dll_gettail(stack);
 	tmp = tail->prev;
 	tailval = tail->val;
 	if (!tmp)
-		return (*stack);
+		return (stack);
 	tail->val = tmp->val;
 	while (tmp->prev && tmp->prev != tail)
 	{
@@ -66,7 +73,7 @@ t_dllist	*ps_revrot(t_pswap *data, t_psmove move, bool print)
 		tmp = tmp->prev;
 	}
 	tmp->val = tailval;
-	return (*stack);
+	return (stack);
 }
 
 void	ps_rotall(t_pswap *data, bool print)

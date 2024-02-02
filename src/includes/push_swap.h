@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:09:50 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/02 12:03:10 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/02 12:39:55 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 
 # include <libft.h>
 # include <ft_printf.h>
-
 
 # ifndef DEBUG
 #  define DEBUG false
@@ -75,10 +74,10 @@ typedef struct s_pswap
 	t_dllist		*stack_b;
 	int				sb_size;
 
-	t_intarr	bmoves;
+	t_intarr		bmoves;
 
-	t_bestmove	sa_move;
-	t_bestmove	sb_move;
+	t_bestmove		sa_move;
+	t_bestmove		sb_move;
 }	t_pswap;
 
 /**
@@ -103,21 +102,27 @@ void		ps_rotall(t_pswap *data, bool print);
 
 t_dllist	*ps_push(t_pswap *data, t_psmove move, bool print);
 
-
 //----------------VALIDAZION STUFF-------------------------------------------
 bool		ps_validate_input(int ac, char **av, t_dllist **st_a);
-bool		ps_issorted_sub(t_dllist *stack, int from, int to_excluded, int *prev_val);
+bool		ps_issorted_sub(t_dllist *stack, int from,
+				int to_excluded, int *prev_val);
 bool		ps_issorted(t_dllist *stack_a);
+
 //----------------CALCULATION STUFF--------------------------------------------
 void		ps_calc_min(t_pswap *data);
 void		*calc_rotmoves(t_pswap *data);
 int			idx_to_count(int idx, int size, t_finalpos where, t_rottype *rot);
+
 //----------------SOLVE STUFF -------------------------------------------------
 bool		ps_solve(t_pswap *data);
+
 //----------------UTILS STUFF--------------------------------------------------
 void		debug_print(char *title, char *stackname, t_dllist *list);
 void		ps_evacuate(t_pswap *data);
 void		ps_rotate_to(t_pswap *data, t_bestmove *move, bool is_b);
-bool		ps_call_n(t_pswap *data, t_psmove move, int n_times, t_dllist *(*fn)(t_pswap *data, t_psmove move, bool print));
-void		ps_call2_n(t_pswap *data, int n_times, void (*fn)(t_pswap *data, bool print));
+bool		ps_call_n(t_pswap *data, t_psmove move, int n_times,
+				t_dllist *(*fn)(t_pswap *data, t_psmove move, bool print));
+void		ps_call2_n(t_pswap *data, int n_times,
+				void (*fn)(t_pswap *data, bool print));
+
 #endif

@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ps_validation.c                                    :+:      :+:    :+:   */
+/*   ps_validate.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:07:43 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/01 17:08:06 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/02 14:55:51 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
-
 
 bool	ps_validate_input(int ac, char **av, t_dllist **st_a)
 {
@@ -23,8 +22,9 @@ bool	ps_validate_input(int ac, char **av, t_dllist **st_a)
 		iteration = ft_strmtxdup(av);
 	if (ac == 2)
 		iteration = ft_strsplit(av[1], ' ');
-	if (ac == 2 && (ft_stridxofstr(av[1], "  ") != -1
-					|| ft_isspace(av[1][0]) || ft_isspace(av[1][ft_strlen(av[1]) - 1])))
+	if (ac == 2
+		&& (ft_stridxofstr(av[1], "  ") != -1 || ft_isspace(av[1][0])
+		|| ft_isspace(av[1][ft_strlen(av[1]) - 1])))
 		return (ft_freemtx(iteration, ft_memmtxlen(iteration)) && false);
 	i = 0 - (ac == 2);
 	while (iteration[++i])
@@ -66,5 +66,5 @@ bool	ps_issorted(t_dllist *stack_a)
 	const int	*last_val = dll_gettail(stack_a)->val;
 
 	return (ps_issorted_sub(stack_a, min_idx + 1, size, (int *)min_val)
-			&& ps_issorted_sub(stack_a, 0, min_idx, (int *)last_val));
+		&& ps_issorted_sub(stack_a, 0, min_idx, (int *)last_val));
 }
