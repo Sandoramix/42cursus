@@ -8,10 +8,14 @@ LIBFTX_DIR=$(ROOTDIR)/libftx
 
 # --------------
 SRC = main.c \
-	./src/ps_push.c \
-	./src/ps_rotate.c \
-	./src/ps_swap.c \
-	./src/ps_utils.c
+	./src/moves/ps_push.c \
+	./src/moves/ps_rotate.c \
+	./src/moves/ps_swap.c \
+	./src/ps_calc.c \
+	./src/ps_solve.c \
+	./src/ps_utils.c \
+	./src/ps_validate.c
+
 
 OBJ = $(SRC:.c=.o)
 
