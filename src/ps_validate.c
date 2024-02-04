@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:07:43 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/02 14:55:51 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 19:36:58 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ bool	ps_issorted_sub(t_dllist *stack, int from,
 	return (true);
 }
 
-bool	ps_issorted(t_dllist *stack_a)
+bool	ps_issorted(t_dllist *sa)
 {
-	const int	min_idx = dll_minmax_idx(stack_a, true);
-	const int	size = dll_size(stack_a);
-	const int	*min_val = dll_byidx(stack_a, min_idx)->val;
-	const int	*last_val = dll_gettail(stack_a)->val;
+	const int	min_idx = dll_minmax_idx(sa, true);
+	const int	size = dll_size(sa);
+	const int	*min_val = dll_byidx(sa, min_idx)->val;
+	const int	*last_val = dll_gettail(sa)->val;
 
-	return (ps_issorted_sub(stack_a, min_idx + 1, size, (int *)min_val)
-		&& ps_issorted_sub(stack_a, 0, min_idx, (int *)last_val));
+	return (ps_issorted_sub(sa, min_idx + 1, size, (int *)min_val)
+		&& ps_issorted_sub(sa, 0, min_idx, (int *)last_val));
 }

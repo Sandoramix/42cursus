@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ps_calculate.c                                     :+:      :+:    :+:   */
+/*   ps_calc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:13:45 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/01 17:13:45 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 19:37:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int	idx_to_count(int idx, int size, t_finalpos where, t_rottype *rot)
 void	ps_calc_min(t_pswap *data)
 {
 	const int	min_idx = ft_int_minmax_idx(data->bmoves, true);
-	const int	b_val = *(dll_byidx(data->stack_b, min_idx)->val);
+	const int	b_val = *(dll_byidx(data->sb, min_idx)->val);
 
 	data->sa_move.finalpos = TOP;
-	data->sa_move.best_idx = dll_next_occur_idx(data->stack_a, b_val, false);
+	data->sa_move.best_idx = dll_next_occur_idx(data->sa, b_val, false);
 	if (data->sa_move.best_idx == -1)
 	{
-		data->sa_move.best_idx = dll_minmax_idx(data->stack_a, false);
-		if (*(dll_byidx(data->stack_a, data->sa_move.best_idx)->val) < b_val)
+		data->sa_move.best_idx = dll_minmax_idx(data->sa, false);
+		if (*(dll_byidx(data->sa, data->sa_move.best_idx)->val) < b_val)
 			data->sa_move.finalpos = BOTTOM;
 	}
 	data->sb_move.finalpos = TOP;
@@ -57,16 +57,16 @@ void	*calc_rotmoves(t_pswap *data)
 
 	data->bmoves.size = data->sb_size;
 	i = -1;
-	list = data->stack_b;
+	list = data->sb;
 	data->sa_move.finalpos = TOP;
 	while (++i < data->sb_size)
 	{
-		data->sa_move.best_idx = dll_next_occur_idx(data->stack_a,
+		data->sa_move.best_idx = dll_next_occur_idx(data->sa,
 				*(list->val), false);
 		if (data->sa_move.best_idx == -1)
 		{
-			data->sa_move.best_idx = dll_minmax_idx(data->stack_a, false);
-			bestval = *(dll_byidx(data->stack_a, data->sa_move.best_idx)->val);
+			data->sa_move.best_idx = dll_minmax_idx(data->sa, false);
+			bestval = *(dll_byidx(data->sa, data->sa_move.best_idx)->val);
 			if (bestval < *(list->val))
 				data->sa_move.finalpos = BOTTOM;
 		}

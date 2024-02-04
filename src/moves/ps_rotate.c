@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ps_rotate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:57:30 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/31 11:57:30 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 19:37:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static t_dllist	*ps_rotcommon(t_pswap *data, t_psmove move, bool print)
 
 	stack = NULL;
 	if (move == ROTB || move == REVROTB)
-		stack = data->stack_b;
+		stack = data->sb;
 	else if (move == ROTA || move == REVROTA)
-		stack = data->stack_a;
+		stack = data->sa;
 	if (!stack || !stack->next)
 		return (stack);
 	if (print && isrevrot)

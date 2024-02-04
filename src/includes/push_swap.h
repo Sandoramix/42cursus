@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:09:50 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/02 12:39:55 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 19:36:58 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ typedef struct s_bestmove
 
 typedef struct s_pswap
 {
-	t_dllist		*stack_a;
+	t_dllist		*sa;
 	int				sa_size;
-	t_dllist		*stack_b;
+	t_dllist		*sb;
 	int				sb_size;
 
 	t_intarr		bmoves;
@@ -106,7 +106,7 @@ t_dllist	*ps_push(t_pswap *data, t_psmove move, bool print);
 bool		ps_validate_input(int ac, char **av, t_dllist **st_a);
 bool		ps_issorted_sub(t_dllist *stack, int from,
 				int to_excluded, int *prev_val);
-bool		ps_issorted(t_dllist *stack_a);
+bool		ps_issorted(t_dllist *sa);
 
 //----------------CALCULATION STUFF--------------------------------------------
 void		ps_calc_min(t_pswap *data);

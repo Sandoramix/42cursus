@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ps_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 12:51:51 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/31 11:57:23 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 19:37:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ t_dllist	*ps_swap(t_pswap *data, t_psmove move, bool print)
 	void		*tmpval;
 	t_dllist	*tmp;
 
-	stack = &data->stack_a;
+	stack = &data->sa;
 	if (move == SWAPB)
-		stack = &data->stack_b;
+		stack = &data->sb;
 	if (!stack || !*stack || !(*stack)->next
 		|| (move != SWAPA && move != SWAPB))
 		return (*stack);

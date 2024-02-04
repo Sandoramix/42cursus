@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ps_push.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:13:54 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/27 14:37:11 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 19:37:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ t_dllist	*ps_push(t_pswap *data, t_psmove move, bool print)
 
 	if (move != PUSHA && move != PUSHB)
 		return (NULL);
-	from = &data->stack_a;
-	to = &data->stack_b;
+	from = &data->sa;
+	to = &data->sb;
 	if (move == PUSHA)
 	{
-		from = &data->stack_b;
-		to = &data->stack_a;
+		from = &data->sb;
+		to = &data->sa;
 	}
 	if (dll_size(*from) == 0)
 		return (NULL);

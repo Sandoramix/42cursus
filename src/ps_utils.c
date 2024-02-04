@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ps_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odudniak <odudniak@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 21:09:18 by odudniak          #+#    #+#             */
-/*   Updated: 2024/01/27 14:40:04 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 19:37:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	debug_print(char *title, char *stackname, t_dllist *list)
 
 void	ps_evacuate(t_pswap *data)
 {
-	dll_clearlist(&data->stack_a);
-	dll_clearlist(&data->stack_b);
+	dll_clearlist(&data->sa);
+	dll_clearlist(&data->sb);
 	ft_perror("ERROR.\nAborting...");
 	exit(2);
 }
