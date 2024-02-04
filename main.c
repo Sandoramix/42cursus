@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:56:53 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/04 19:37:04 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 21:49:30 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ int	main(int ac, char **av)
 			ft_perror("Error\n"));
 	dll_clearlist(&data.sa);
 	dll_clearlist(&data.sb);
+	return (0);
 }

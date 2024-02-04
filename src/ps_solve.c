@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 12:00:29 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/04 20:13:01 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 22:18:29 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,35 @@ void	ps_mergemoves(t_pswap *data)
 	}
 }
 
-static void	ps_presolve(t_pswap *data)
+static void	*ps_presolve(t_pswap *data)
 {
-	while (data->sa_size > 3 && !ps_issorted(data->sa))
+	if (!data->bmoves.arr || !data->amoves.arr)
+		return (free(data->amoves.arr), free(data->bmoves.arr),
+			ps_evacuate(data), NULL);
+	if (data->sa_size > 3 && !ps_issorted(data->sa))
 	{
 		ps_push(data, PUSHB, true);
 		data->sb_size++;
 		data->sa_size--;
+		while (data->sa_size > 3 && !ps_issorted(data->sa))
+		{
+			calc_brotmoves(data);
+			ps_mergemoves(data);
+			ps_rotate_to(data, &data->sa_move, false);
+			ps_rotate_to(data, &data->sb_move, true);
+			ps_push(data, PUSHB, true);
+			data->sb_size++;
+			data->sa_size--;
+		}
 	}
 	ps_solve3(data);
+	return (NULL);
 }
 
 bool	ps_solve(t_pswap *data)
 {
 	data->bmoves.arr = ft_calloc(data->sa_size, sizeof(int));
-	if (!data->bmoves.arr)
-		return (ps_evacuate(data), NULL);
+	data->amoves.arr = ft_calloc(data->sa_size, sizeof(int));
 	ps_presolve(data);
 	while (data->sb_size > 0)
 	{
@@ -74,12 +87,11 @@ bool	ps_solve(t_pswap *data)
 		ps_rotate_to(data, &data->sa_move, false);
 		ps_rotate_to(data, &data->sb_move, true);
 		ps_push(data, PUSHA, true);
-		if (!ps_issorted(data->sa))
-			ps_evacuate(data);
 		data->sa_size++;
 		data->sb_size--;
 	}
 	free(data->bmoves.arr);
+	free(data->amoves.arr);
 	data->sa_move.finalpos = TOP;
 	data->sa_move.best_idx = dll_minmax_idx(data->sa, true);
 	data->sa_move.n_rotations = idx_to_count(data->sa_move.best_idx,

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:09:50 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/04 19:36:58 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/04 22:16:20 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_pswap
 	int				sb_size;
 
 	t_intarr		bmoves;
+	t_intarr		amoves;
 
 	t_bestmove		sa_move;
 	t_bestmove		sb_move;
@@ -111,6 +112,7 @@ bool		ps_issorted(t_dllist *sa);
 //----------------CALCULATION STUFF--------------------------------------------
 void		ps_calc_min(t_pswap *data);
 void		*calc_rotmoves(t_pswap *data);
+void		*calc_brotmoves(t_pswap *data);
 int			idx_to_count(int idx, int size, t_finalpos where, t_rottype *rot);
 
 //----------------SOLVE STUFF -------------------------------------------------
