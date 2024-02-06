@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:13:45 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/04 21:47:31 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/06 20:06:28 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ void	*calc_rotmoves(t_pswap *data)
 	}
 	return (ps_calc_min(data), NULL);
 }
-
-
 
 void	ps_calcb_min(t_pswap *data)
 {
