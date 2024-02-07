@@ -6,7 +6,15 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:38:22 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/07 17:38:23 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/07 18:19:12 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <pipex.h>
+
+int	main(int ac, char **av)
+{
+	(void)ac;
+	(void)av;
+	return (0);
+}
