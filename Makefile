@@ -5,12 +5,10 @@ ROOTDIR = ./src
 LIBFTX_DIR = $(ROOTDIR)/libftx
 
 
-# ----RULES-----
 CC = cc
 INCLUDES = -I$(ROOTDIR)/includes -I$(LIBFTX_DIR)/includes
 CFLAGS = -Wall -Wextra -Werror $(INCLUDES) $(EXTRAFLAGS)
 RM = rm -rf
-
 
 # --------------
 
@@ -18,6 +16,7 @@ SRC = main.c
 
 OBJ = $(SRC:.c=.o)
 
+# ----RULES-----
 all: $(NAME)
 
 $(NAME): $(OBJ)
