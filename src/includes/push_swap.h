@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:09:50 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/04 22:16:20 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:33:26 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct s_pswap
 
 	t_bestmove		sa_move;
 	t_bestmove		sb_move;
+
+	int				best_lis_count;
 }	t_pswap;
 
 /**

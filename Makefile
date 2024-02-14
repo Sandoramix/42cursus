@@ -33,7 +33,7 @@ LIB_INCLUDES=-L$(LIBFTX_DIR)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(MAKE) -C $(LIBFTX_DIR)
+	$(MAKE) -C $(LIBFTX_DIR) CEXTRAFLAGS=$(CEXTRAFLAGS)
 	$(COMPILE) $(INCLUDES) $(OBJ) -o $(NAME) $(LIB_INCLUDES) -lft
 	@echo "$(GREEN)[$(NAME_UPPER)]:\tPROGRAM CREATED SUCCESSFULLY$(R)"
 
@@ -59,7 +59,7 @@ debug-re: fclean debug
 	@$(COMPILE) $(INCLUDES) -c $< -o $@
 
 # ----UTILS-----
-ARG=100 -4 5 2 3 1 4 -9 0 7 6 -5
+ARG="100 -4 5 2 3 1 4 -9 0 7 6 -5"
 VALGRIND=@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --tool=memcheck --keep-debuginfo=yes
 valgrind: debug
 	@$(VALGRIND) ./$(NAME) $(ARG)

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 21:09:18 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/04 22:01:51 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:55:03 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ps_evacuate(t_pswap *data)
 {
 	dll_clearlist(&data->sa);
 	dll_clearlist(&data->sb);
-	ft_perror("ERROR.");
+	ft_perror("Error.");
 	exit(2);
 }
 

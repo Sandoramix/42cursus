@@ -6,23 +6,23 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 11:57:30 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/04 19:37:04 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/14 21:56:55 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
-static t_dllist	*ps_rotcommon(t_pswap *data, t_psmove move, bool print)
+static t_dllist	**ps_rotcommon(t_pswap *data, t_psmove move, bool print)
 {
 	const bool	isrevrot = (move == REVROTA || move == REVROTB);
-	t_dllist	*stack;
+	t_dllist	**stack;
 
 	stack = NULL;
 	if (move == ROTB || move == REVROTB)
-		stack = data->sb;
+		stack = &data->sb;
 	else if (move == ROTA || move == REVROTA)
-		stack = data->sa;
-	if (!stack || !stack->next)
+		stack = &data->sa;
+	if (!stack || !*stack || !(*stack)->next)
 		return (stack);
 	if (print && isrevrot)
 		ft_printf("rr%c\n", (char [2]){'a', 'b'}[move == REVROTB]);
@@ -33,47 +33,41 @@ static t_dllist	*ps_rotcommon(t_pswap *data, t_psmove move, bool print)
 
 t_dllist	*ps_rot(t_pswap *data, t_psmove move, bool print)
 {
-	void		*headval;
-	t_dllist	*stack;
-	t_dllist	*tmp;
+	t_dllist	*head;
+	t_dllist	*tail;
+	t_dllist	**stack;
 
 	stack = ps_rotcommon(data, move, print);
-	if (!stack || !stack->next)
-		return (stack);
-	tmp = stack;
-	headval = tmp->val;
-	while (tmp->next && tmp->next != stack)
-	{
-		tmp->val = tmp->next->val;
-		tmp = tmp->next;
-	}
-	tmp->val = headval;
-	return (stack);
+	if (!stack || !*stack || !(*stack)->next)
+		return (*stack);
+	head = *stack;
+	tail = dll_gettail(head);
+	tail->next = head;
+	*stack = (*stack)->next;
+	head->next = NULL;
+	head->prev = tail;
+	(*stack)->prev = NULL;
+	return (*stack);
 }
 
 t_dllist	*ps_revrot(t_pswap *data, t_psmove move, bool print)
 {
-	t_dllist	*stack;
+	t_dllist	*head;
 	t_dllist	*tail;
-	t_dllist	*tmp;
-	void		*tailval;
+	t_dllist	**stack;
 
 	stack = ps_rotcommon(data, move, print);
-	if (!stack || !stack->next)
-		return (stack);
-	tail = dll_gettail(stack);
-	tmp = tail->prev;
-	tailval = tail->val;
-	if (!tmp)
-		return (stack);
-	tail->val = tmp->val;
-	while (tmp->prev && tmp->prev != tail)
-	{
-		tmp->val = tmp->prev->val;
-		tmp = tmp->prev;
-	}
-	tmp->val = tailval;
-	return (stack);
+	if (!stack || !*stack || !(*stack)->next)
+		return (*stack);
+	head = *stack;
+	tail = dll_gettail(head);
+	if (tail->prev)
+		tail->prev->next = NULL;
+	tail->prev = NULL;
+	tail->next = head;
+	head->prev = tail;
+	*stack = tail;
+	return (*stack);
 }
 
 void	ps_rotall(t_pswap *data, bool print)
