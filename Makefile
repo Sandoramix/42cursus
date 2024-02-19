@@ -7,7 +7,7 @@ LIBFTX_DIR = $(ROOTDIR)/libftx
 
 CC = cc
 INCLUDES = -I$(ROOTDIR)/includes -I$(LIBFTX_DIR)/includes
-CFLAGS = -Wall -Wextra -Werror $(INCLUDES) $(EXTRAFLAGS)
+CFLAGS = -Wall -Wextra -Werror $(INCLUDES) $(DEBUGFLAGS)
 RM = rm -rf
 
 # --------------
@@ -20,9 +20,11 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(MAKE) -C $(LIBFTX_DIR)
+	$(MAKE) -C $(LIBFTX_DIR) DEBUGFLAGS=$(DEBUGFLAGS)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -L$(LIBFTX_DIR) -lft
 	@echo "$(GREEN)[$(PNAME)]:\tPROGRAM CREATED$(R)"
+	[ -z "$(strip $(DEBUGFLAGS))" ] || echo "$(RED)[$(PNAME)]:\tDEBUG MODE ENABLED$(R)"
+
 
 clean:
 	@$(RM) $(OBJ)
@@ -37,7 +39,7 @@ re: fclean all
 
 # ----UTILS-----
 debug:
-	$(MAKE) EXTRAFLAGS=-g
+	$(MAKE) DEBUGFLAGS=-g
 
 debug-re: fclean debug
 ARG=""
