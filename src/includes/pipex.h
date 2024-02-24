@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 18:19:17 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/21 21:26:30 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/24 18:31:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ typedef struct s_pipex
 	// ORIGINAL AC/V VALUES. DO NOT FREE THESE
 	int			ac;
 	char		**av;
+	char		**envp;
 
-	char		**env;
+	t_list		*env;
 
 	int			input_fd;
 	char		**input;
