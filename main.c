@@ -6,35 +6,37 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:38:22 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/24 19:01:16 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:56:30 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pipex.h>
 
-void	px_exit(t_pipex *data)
+int	px_exit(t_pipex *data, int exitcode)
 {
-	(void)data;
 	lst_free(&data->env, free);
+	ft_freemtx(data->paths, ft_memmtxlen(data->paths));
+	exit(exitcode);
+	return (exitcode);
 }
-
 
 int	pipex(t_pipex *data)
 {
-	data->env = env_load(data->envp);
+	data->env = env_load(data->_envp);
 	if (!data->env)
-		return (ft_fprintf(2, "ENV Error.\n"), px_exit(data), 1);
+		return (ft_fprintf(2, "ENV Error.\n"), px_exit(data, 1));
 	lst_printstr(data->env);
-	px_exit(data);
-	return (0);
+	data->paths = env_load_paths(data->env);
+	if (!data->paths)
+		return (ft_printf("'PATH' env NOT FOUND"), px_exit(data, 1));
+	ft_printf("PATH:\n");
+	ft_putstrmtx(data->paths);
+	return (px_exit(data, 0));
 }
 
 //void	load_files_data(t_pipex *data, bool is_bonus)
 //{
-	
 //}
-
-
 
 #ifndef BONUS
 
@@ -43,9 +45,9 @@ int	main(int ac, char **av, char **envp)
 	t_pipex	data;
 
 	data = (t_pipex){0};
-	data.ac = ac;
-	data.av = av;
-	data.envp = envp;
+	data._ac = ac;
+	data._av = av;
+	data._envp = envp;
 	ft_printf("MANDATORY\n");
 	if (ac != 5)
 		return (ft_perror("Error.\n %s (%d instead of 5)\n",
