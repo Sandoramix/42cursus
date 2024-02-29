@@ -21,6 +21,13 @@ Checked: *`done`*
 
 ### Utilities
 
+#### VSCode settings
+
+I've rearranged some useful settings for making the user experience a little better on C projects in vscode.
+
+All you need to do is to copy the [`.vscode`](.vscode) folder into your project.
+
+#### Scripts
 I made some simple but yet useful scripts to speed up the workflow:
 
 - [`proToC.py`]("./utils/proToC.py"): convert every prototype inside a header file to it's own `.c` file with it's implemented function
