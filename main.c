@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:38:22 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/28 19:56:30 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/02/29 08:37:49 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,18 @@ int	main(int ac, char **av, char **envp)
 
 #else
 // TODO
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
 	t_pipex	data;
 
 	data = (t_pipex){0};
+	data._ac = ac;
+	data._av = av;
+	data._envp = envp;
 	ft_printf("BONUS\n");
 	if (ac < 5)
 		return (ft_perror("Error.\nInvalid number of arguments\n"), 1);
-	return (pipex(&data, ac, av, env));
+	return (pipex(&data));
 }
 
 #endif
