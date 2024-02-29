@@ -1,5 +1,6 @@
-.vscode
 *.out
 *tmp*
 *.exe
 *.tmp
+
+!.vscode/c_cpp_properties.json
