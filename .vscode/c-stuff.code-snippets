@@ -1,4 +1,5 @@
 {
+	// GENERATE HEADER FILE GUARDS WITH THIS SNIPPET BY WRITING `inc-guard`
 	"Include guard": {
 		"scope": "c, cpp, h, hpp, tpp",
 		"prefix": "inc-guard",
@@ -9,6 +10,7 @@
 		  "#endif",
 		  ""
 		],
-		"description": "Adds include guards around the selection, regarding to the filename"
+		"description": "Adds include guards around the selection, regarding to the filename",
+		"author":"https://github.com/fsandel/snippets/blob/master/include_guard.code-snippets"
 	  }
 }

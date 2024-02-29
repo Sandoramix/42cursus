@@ -5,29 +5,27 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "(gdb) Launch",
+			"name": "C DEBUG (gdb)",
 			"type": "cppdbg",
+			// "launch" OR "attach" (SUDO PERMISSION NEEDED FOR THE LATTER ONE).
 			"request": "launch",
-			"program": "${workspaceFolder}/pipex",
-			"args": ["in", "ls -l", "grep 4096", "out"],
+			// PROGRAM'S ABSOLUTE PATH (LEAVE ${workspaceFolder} FOR SIMPLICITY)
+			"program": "${workspaceFolder}/<PROGRAM_NAME>",
+			// PROGRAM ARGUMENTS SEPARATED BY COMMA
+			"args": ["<ARGUMENTS>"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
-			"environment": [],
+			// IF YOU NEED ADD SOME EXTRA `ENV` VARIABLES
+			"environment": [
+			],
 			"externalConsole": false,
 			"MIMode": "gdb",
 			"setupCommands": [
-				{
-					"description": "Enable pretty-printing for gdb",
-					"text": "-enable-pretty-printing",
-					"ignoreFailures": true
-				},
-				{
-					"description": "Set Disassembly Flavor to Intel",
-					"text": "-gdb-set disassembly-flavor intel",
-					"ignoreFailures": true
-				}
-			]
+				// DEFAULT `setupCommands` GIVEN BY VSCODE
+				{ "description": "Enable pretty-printing for gdb", "text": "-enable-pretty-printing", "ignoreFailures": true },
+				{ "description": "Set Disassembly Flavor to Intel", "text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true },
+			],
+			"preLaunchTask": "Makefile" // THIS IS FOR LAUNCHING `MAKE` BEFORE YOUR DEBUGGER. EDIT IN `TASKS.JSON` IF YOU WANT TO `MAKE RE`.
 		}
-
 	]
 }
