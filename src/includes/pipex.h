@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 18:19:17 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/28 19:44:21 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:45:34 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,30 @@
 # define PIPEX_H
 # include <libft.h>
 
-typedef struct s_pipex
+# define FILE_HEREDOC ".heredoc"
+
+typedef struct s_main
 {
 	// ORIGINAL AC/V VALUES. DO NOT FREE THESE
-	int			_ac;
-	char		**_av;
-	char		**_envp;
+	int			ac;
+	char		**av;
+	char		**envp;
+}	t_main;
+
+typedef struct s_pipex
+{
+	t_main		_main;
 
 	t_list		*env;
 
 	char		**paths;
 
+	int			fdpipe[2];
+
+	char		*inputpath;
 	int			input_fd;
-	char		**input;
 
 	int			output_fd;
-	char		*output;
 }	t_pipex;
 
 #endif

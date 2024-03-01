@@ -38,6 +38,7 @@ $(NAME): $(SRC)
 
 clean:
 	@$(MAKE) -C $(LIBFTX_DIR) clean
+	$(RM) .heredoc*
 
 fclean: clean
 	$(MAKE) -C $(LIBFTX_DIR) fclean
