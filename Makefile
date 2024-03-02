@@ -58,7 +58,7 @@ debug:
 debug-bonus:
 	$(MAKE) bonus DEBUGFLAGS=-g
 
-debug-re: fclean debug
+re-debug: fclean debug
 ARG=""
 valgrind: all
 	@$(VALGRIND) ./$(NAME) $(ARG)

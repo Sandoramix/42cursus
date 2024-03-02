@@ -6,15 +6,13 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 18:19:17 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/01 17:45:34 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/02 15:37:43 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 # include <libft.h>
-
-# define FILE_HEREDOC ".heredoc"
 
 typedef struct s_main
 {
@@ -26,11 +24,14 @@ typedef struct s_main
 
 typedef struct s_pipex
 {
+	bool		isbonus;
+	bool		isheredoc;
 	t_main		_main;
+	char		**paths;
 
 	t_list		*env;
 
-	char		**paths;
+	t_list		*cmds;
 
 	int			fdpipe[2];
 
