@@ -6,13 +6,14 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 18:19:17 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/03 21:57:34 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/04 00:30:03 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 # include <libft.h>
+# include <sys/wait.h>
 
 typedef struct s_main
 {
@@ -35,7 +36,7 @@ typedef struct s_pipex
 	char		***cmds_args;
 	t_list		*cmds;
 
-	int			fdpipe[2];
+	int			**fdpipes;
 
 	char		*inputpath;
 	int			input_fd;
@@ -67,4 +68,6 @@ t_status		px_load_inout(t_pipex *data);
 int				px_exit(t_pipex *data, int exitcode);
 
 t_status		px_load_cmds(t_pipex *data);
+
+int				px_cleanup(t_pipex *data);
 #endif
