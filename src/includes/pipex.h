@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 18:19:17 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/02 15:37:43 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:11:22 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_pipex
 
 	t_list		*env;
 
+	int			totcmds;
+	char		***cmds_args;
 	t_list		*cmds;
 
 	int			fdpipe[2];
@@ -40,5 +42,28 @@ typedef struct s_pipex
 
 	int			output_fd;
 }	t_pipex;
+
+/**
+ * @brief Parse the heredoc
+ * @param filename temporary file where to put the heredoc data.
+ * @param eof String which determines when the heredoc should be closed
+ * @return fd of the opened heredoc's temporary file.
+ */
+int				parse_heredoc(char *filename, char *eof);
+/**
+ * @brief Open input and output files.
+ * If the program executed is the bonus one then it'll parse even heredoc.
+ *
+ * @param data program's data.
+ * @return `OK` if everything is ok, `KO` if not.
+ */
+t_status		px_load_inout(t_pipex *data);
+/**
+ * @brief Clear everything and gtfo.
+ * @param data program's data
+ * @param exitcode exit code to exit with.
+ * @return `exitcode`
+ */
+int				px_exit(t_pipex *data, int exitcode);
 
 #endif
