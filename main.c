@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:38:22 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/02 16:29:18 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:04:01 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	px_exit(t_pipex *data, int exitcode)
 
 /**
  * @brief Parse the heredoc
+ * @param filename temporary file where to put the heredoc data.
  * @param eof String which determines when the heredoc should be closed
  * @return fd of the opened heredoc's temporary file.
  */
@@ -81,7 +82,7 @@ int	px_load_cmds(t_pipex *data)
 	int			i;
 	int			j;
 
-	i = 1 + data->isheredoc + data->isbonus;
+	i = 2 + (data->isheredoc && data->isbonus);
 	cmds = ft_calloc(data->_main.ac - (data->isbonus + data->isheredoc - 1),
 			sizeof(char *));
 	if (!cmds)
