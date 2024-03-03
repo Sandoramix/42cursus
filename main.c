@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:38:22 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/03 18:12:00 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/03 22:51:33 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_status	px_genchild(t_pipex *data, pid_t *pid)
 	return (OK);
 }
 
+
 int	pipex(t_pipex *data)
 {
 	data->env = env_load(data->_main.envp);
@@ -28,7 +29,7 @@ int	pipex(t_pipex *data)
 	if (data->isbonus && str_equals(data->_main.av[1], "heredoc"))
 		data->isheredoc = true;
 	data->paths = env_load_paths(data->env);
-	data->totcmds = data->_main.ac - 2 - data->isheredoc;
+	data->totcmds = data->_main.ac - 3 - data->isheredoc;
 	data->cmds_args = ft_calloc(data->totcmds + 1, sizeof(char *));
 	if (!data->cmds_args)
 		return (pf_errcode(ERR_MALLOC), px_exit(data, KO));
@@ -36,7 +37,7 @@ int	pipex(t_pipex *data)
 	if (!data->paths)
 		return (pf_errcode(ERR_PATH_LOAD), px_exit(data, KO));
 	px_load_inout(data);
-
+	lst_printstr(data->cmds);
 	return (px_exit(data, OK));
 }
 
