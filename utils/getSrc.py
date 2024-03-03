@@ -23,9 +23,28 @@ OUTFILE = args.output if 'output' in args else 'makefile.srcs'
 srcs = []
 bonuses = []
 
+def updateExcludedPaths():
+	to_exclude = set()
+	"""Find excluded path (every subfolder folder that is a part of another repository)
+	"""
+	for x in os.walk(PATH):
+		if x[0].startswith("./.git"): continue
+		if (".git" in x[0]):
+			split = x[0].split(".git")[0]
+			if (split.endswith("/")):
+				split = split[:len(split) - 1]
+			to_exclude.add(split)
+			continue
+	return (list(to_exclude))
+
+
+
+to_exclude = updateExcludedPaths()
+is_excluded = lambda x: len([i for i in to_exclude if i in x]) > 0
+
 for x in os.walk(PATH):
-	if (x == '.git'): continue
 	for y in glob.glob(os.path.join(x[0], '*.c')):
+		if is_excluded(y): continue
 		if (y.endswith("_bonus.c")): bonuses.append(y)
 		elif y.endswith(".c"): srcs.append(y)
 
@@ -33,8 +52,9 @@ with open(OUTFILE, "w") as file:
 	out = "SRC = "
 	for i, v in enumerate(sorted(srcs)):
 		out += ("" if i == 0 else "\t") + v + (" \\" if i < len(srcs) - 1 else "") + "\n"
-	out += "\nSRC_BONUS = "
-	for i, v in enumerate(sorted(bonuses)):
-		out += ("" if i == 0 else "\t") + v + (" \\" if i < len(bonuses) - 1 else "") + "\n"
+	if len(bonuses) > 0:
+		out += "\nSRC_BONUS = "
+		for i, v in enumerate(sorted(bonuses)):
+			out += ("" if i == 0 else "\t") + v + (" \\" if i < len(bonuses) - 1 else "") + "\n"
 	file.write(out)
 	print(out)
