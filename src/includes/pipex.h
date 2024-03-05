@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 18:19:17 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/04 00:30:03 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:49:46 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ typedef struct s_pipex
 	t_list		*env;
 
 	int			totcmds;
+	int			*childpids;
 	char		***cmds_args;
 	t_list		*cmds;
 
-	int			**fdpipes;
+	int			fdpipe[2];
 
 	char		*inputpath;
 	int			input_fd;

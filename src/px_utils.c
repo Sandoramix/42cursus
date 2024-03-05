@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 18:10:15 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/04 00:28:20 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:54:32 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ int	px_cleanup(t_pipex *data)
 		unlink(data->inputpath);
 	file_close((int [2]){data->input_fd, data->output_fd}, 2);
 	free(data->inputpath);
-	ft_freemtx(data->fdpipes, data->totcmds);
+	file_close(data->fdpipe, 2);
 	lst_free(&data->env, free);
 	lst_free(&data->cmds, free);
 	ft_freemtx_cubes(data->cmds_args, data->totcmds);
+	free(data->childpids);
 	return (OK);
 }
 
