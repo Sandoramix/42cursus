@@ -6,33 +6,11 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 18:10:15 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/05 19:54:32 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:27:50 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pipex.h>
-
-int	px_cleanup(t_pipex *data)
-{
-	ft_freemtx(data->paths, ft_memmtxlen(data->paths));
-	if (data->inputpath && data->isheredoc && data->isbonus)
-		unlink(data->inputpath);
-	file_close((int [2]){data->input_fd, data->output_fd}, 2);
-	free(data->inputpath);
-	file_close(data->fdpipe, 2);
-	lst_free(&data->env, free);
-	lst_free(&data->cmds, free);
-	ft_freemtx_cubes(data->cmds_args, data->totcmds);
-	free(data->childpids);
-	return (OK);
-}
-
-int	px_exit(t_pipex *data, int exitcode)
-{
-	px_cleanup(data);
-	exit(exitcode);
-	return (exitcode);
-}
 
 t_status	px_load_cmds(t_pipex *data)
 {
@@ -59,4 +37,43 @@ t_status	px_load_cmds(t_pipex *data)
 	if (!data->cmds)
 		return (pf_errcode(ERR_MALLOC), px_exit(data, KO));
 	return (OK);
+}
+
+t_status	px_dup2(t_pipex *data, int fd1, int fd2)
+{
+	if (dup2(fd1, fd2) == -1)
+		return (pf_errcode(ERR_DUP2), px_exit(data, KO));
+	return (OK);
+}
+
+t_status	px_close(t_pipex *data, int fd)
+{
+	if (close(fd) == -1)
+		return (ft_perror("Close failure."), px_exit(data, KO));
+	return (OK);
+}
+
+t_status	px_pipe(t_pipex *data, int pipes[2])
+{
+	if (pipe(pipes) == -1)
+		return (pf_errcode(ERR_PIPE), px_exit(data, KO));
+	return (OK);
+}
+
+void	px_redirect(t_pipex *data, int idx)
+{
+	if (idx > 0)
+	{
+		if (idx == data->totcmds - 1)
+			px_dup2(data, data->output_fd, STDOUT_FILENO);
+		px_dup2(data, data->fdpipes[1 - (idx % 2)][0], STDIN_FILENO);
+		px_close(data, data->fdpipes[1 - (idx % 2)][1]);
+	}
+	if (idx < data->totcmds - 1)
+	{
+		if (idx == 0)
+			px_dup2(data, data->input_fd, STDIN_FILENO);
+		px_dup2(data, data->fdpipes[idx % 2][1], STDOUT_FILENO);
+		close(data->fdpipes[idx % 2][0]);
+	}
 }

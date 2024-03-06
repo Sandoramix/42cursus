@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 18:07:09 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/03 22:51:29 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:05:00 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,6 @@ t_status	px_load_inout(t_pipex *data)
 {
 	char		*f;
 
-	f = data->_main.av[data->_main.ac -1];
-	if (data->isheredoc && data->isbonus)
-		data->output_fd = file_open_or_create(f, O_TRUNC | O_WRONLY);
-	else
-		data->output_fd = file_open_or_create(f, O_APPEND | O_WRONLY);
 	if (data->isbonus && data->isheredoc)
 	{
 		if (data->_main.ac < 6)
@@ -56,7 +51,14 @@ t_status	px_load_inout(t_pipex *data)
 	}
 	else
 		data->input_fd = file_open(data->_main.av[1], O_RDONLY);
-	if (data->output_fd == -1 || data->input_fd == -1)
+	if (data->input_fd == -1)
+		return (px_exit(data, KO));
+	f = data->_main.av[data->_main.ac -1];
+	if (data->isheredoc && data->isbonus)
+		data->output_fd = file_open_or_create(f, O_APPEND | O_WRONLY);
+	else
+		data->output_fd = file_open_or_create(f, O_TRUNC | O_WRONLY);
+	if (data->output_fd == -1)
 		return (px_exit(data, KO));
 	return (OK);
 }

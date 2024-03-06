@@ -1,4 +1,4 @@
 #!/usr/bin/zsh
 source ~/.zshrc
 make
-val ./pipex in cat cat out
+valgrind --show-leak-kinds=all --leak-check=full ./pipex in cat "grep c" out

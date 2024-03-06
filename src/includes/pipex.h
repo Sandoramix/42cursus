@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 18:19:17 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/05 19:49:46 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:27:24 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ typedef struct s_pipex
 	t_list		*env;
 
 	int			totcmds;
-	int			*childpids;
 	char		***cmds_args;
 	t_list		*cmds;
 
-	int			fdpipe[2];
+	pid_t		childpid[2];
+	int			fdpipes[2][2];
+	int			**pipes;
 
 	char		*inputpath;
 	int			input_fd;
@@ -67,8 +68,15 @@ t_status		px_load_inout(t_pipex *data);
  * @return `exitcode`
  */
 int				px_exit(t_pipex *data, int exitcode);
-
-t_status		px_load_cmds(t_pipex *data);
-
 int				px_cleanup(t_pipex *data);
+
+
+void			px_makechilds(t_pipex *data);
+
+// UTILS
+void			px_redirect(t_pipex *data, int idx);
+t_status		px_load_cmds(t_pipex *data);
+t_status		px_close(t_pipex *data, int fd);
+t_status		px_pipe(t_pipex *data, int pipes[2]);
+t_status		px_dup2(t_pipex *data, int fd1, int fd2);
 #endif

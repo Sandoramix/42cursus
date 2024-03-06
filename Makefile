@@ -25,9 +25,10 @@ RM = rm -rf
 
 #SRCS
 SRC = ./main.c \
+	./src/px_child.c \
+	./src/px_exit.c \
 	./src/px_files.c \
 	./src/px_utils.c
-
 # ----RULES-----
 all: $(NAME)
 
