@@ -1,3 +1,4 @@
+NAME=pipex
 _MANDATORY=pipex
 _BONUS=pipex_bonus
 
