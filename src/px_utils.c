@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 18:10:15 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/09 12:25:20 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/09 18:00:13 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 t_status	px_load_cmds(t_pipex *data)
 {
-	char		**cmds;
+	char		**res;
 	int			i;
 	int			j;
 
 	i = 2 + (data->isheredoc && data->isbonus);
-	cmds = ft_calloc(data->_main.ac - (data->isbonus + data->isheredoc - 1),
+	res = ft_calloc(data->_main.ac - (data->isbonus + data->isheredoc - 1),
 			sizeof(char *));
-	if (!cmds)
+	if (!res)
 		return (pf_errcode(ERR_MALLOC), px_exit(data, KO));
 	j = 0;
 	while (j < data->totcmds)
 	{
-		if (str_isblank(data->_main.av[i++]))
-			return (pf_errcode(ERR_INVALID_ARGC), free(cmds), px_exit(data, KO));
-		data->cmds_args[j] = cmd_parse(data->_main.av[i]);
+		if (str_isblank(data->_main.av[i]))
+			return (pf_errcode(ERR_INVALID_ARGC), free(res), px_exit(data, KO));
+		data->cmds_args[j] = cmd_parse(data->_main.av[i++]);
 		if (!data->cmds_args[j])
-			return (pf_errcode(ERR_MALLOC), free(cmds), px_exit(data, KO));
-		cmds[j] = data->cmds_args[j][0];
+			return (pf_errcode(ERR_MALLOC), free(res), px_exit(data, KO));
+		res[j] = data->cmds_args[j][0];
 		j++;
 	}
-	data->cmds = sys_loadcmds(cmds, data->paths);
-	free(cmds);
+	data->cmds = sys_loadcmds(res, data->paths);
+	free(res);
 	if (!data->cmds)
 		return (pf_errcode(ERR_MALLOC), px_exit(data, KO));
 	return (OK);

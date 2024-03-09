@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 18:19:17 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/06 12:27:24 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/09 18:00:48 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ t_status		px_load_inout(t_pipex *data);
  */
 int				px_exit(t_pipex *data, int exitcode);
 int				px_cleanup(t_pipex *data);
-
 
 void			px_makechilds(t_pipex *data);
 
