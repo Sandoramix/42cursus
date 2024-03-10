@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 18:07:09 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/06 12:05:00 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/10 09:24:00 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_status	px_load_inout(t_pipex *data)
 	{
 		if (data->_main.ac < 6)
 			return (pf_errcode(ERR_INVALID_ARGC), px_exit(data, KO));
-		data->inputpath = file_gen_name(FILE_HEREDOC, O_TRUNC | O_RDWR);
+		data->inputpath = file_gen_name(FILE_HEREDOC, W_OK | R_OK);
 		data->input_fd = parse_heredoc(data->inputpath, data->_main.av[2]);
 	}
 	else
