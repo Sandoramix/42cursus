@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 17:38:22 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/13 15:01:21 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:01:26 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	main(int ac, char **av, char **envp)
 
 	data = (t_pipex){0};
 	data._main = (t_main){ac, av, envp};
-	if (ac != 5)
-		return (ft_perror("Error.\n %s (%d instead of 5)\n",
-				"Invalid number of arguments", ac), 1);
+	data.isbonus = true;
+	if (ac < 5)
+		return (pf_errcode(ERR_INVALID_ARGC), 1);
 	if (data.isbonus && str_equals(data._main.av[1], "heredoc"))
 		data.isheredoc = true;
 	data.totcmds = data._main.ac - 3 - data.isheredoc;

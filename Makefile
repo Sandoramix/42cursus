@@ -1,14 +1,10 @@
-NAME=pipex
 _MANDATORY=pipex
 _BONUS=pipex_bonus
 
-# EXECUTABLE NAME
-ifeq ($(BONUS_FLAGS), )
 NAME=$(_MANDATORY)
-else
-NAME=$(_BONUS)
-endif
+
 PNAME = $(shell echo -n ${NAME} | tr 'a-z' 'A-Z')
+PBONUSNAME = $(shell echo -n ${NAME} | tr 'a-z' 'A-Z')
 
 # SRCS PATH
 ROOTDIR = ./src
@@ -17,28 +13,41 @@ LIBFTX_DIR = $(ROOTDIR)/libftx
 # COMPILATION SETTINGS
 CC = cc
 INCLUDES = -I$(ROOTDIR)/includes -I$(LIBFTX_DIR)/includes
-CFLAGS = -Wall -Wextra -Werror $(INCLUDES) $(DEBUGFLAGS) $(BONUS_FLAGS)
+CFLAGS = -Wall -Wextra -Werror $(INCLUDES) $(DEBUGFLAGS)
 
 # UTILS COMMANDS
 RM = rm -rf
 
 # --------------
 
-#SRCS
-SRC = ./main.c \
-	./src/px_child.c \
+SRC = ./src/px_child.c \
 	./src/px_exit.c \
 	./src/px_files.c \
 	./src/px_utils.c
+
+SRC_MANDATORY = $(SRC) ./main.c
+
+SRC_BONUS = $(SRC) ./main_bonus.c
+
 # ----RULES-----
 all: $(NAME)
 
-$(NAME): $(SRC)
+$(NAME): $(SRC_MANDATORY)
 	$(MAKE) -C $(LIBFTX_DIR) DEBUGFLAGS=$(DEBUGFLAGS)
+	$(CC) $(CFLAGS) $(SRC_MANDATORY) -o $(_MANDATORY) -L$(LIBFTX_DIR) -lft
+
 	@echo "$(GREEN)[$(PNAME)]:\tPROGRAM CREATED$(R)"
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME) -L$(LIBFTX_DIR) -lft
-	[ -z "$(strip $(BONUS_FLAGS))" ] || echo "$(RED)[$(PNAME)]:\tBONUS!$(R)"
 	[ -z "$(strip $(DEBUGFLAGS))" ] || echo "$(RED)[$(PNAME)]:\tDEBUG MODE ENABLED$(R)"
+
+bonus: $(_BONUS)
+
+$(_BONUS): $(SRC_BONUS)
+	$(MAKE) -C $(LIBFTX_DIR) DEBUGFLAGS=$(DEBUGFLAGS)
+	$(CC) $(CFLAGS) $(SRC_MANDATORY) -o $(_BONUS) -L$(LIBFTX_DIR) -lft
+
+	@echo "$(GREEN)[$(PBONUSNAME)]:\tPROGRAM CREATED:\t$(RED)BONUS!$(R)"
+	[ -z "$(strip $(DEBUGFLAGS))" ] || echo "$(RED)[$(PNAME)]:\tDEBUG MODE ENABLED$(R)"
+
 
 clean:
 	@$(MAKE) -C $(LIBFTX_DIR) clean
@@ -49,9 +58,6 @@ fclean: clean
 	@$(RM) $(_MANDATORY)
 	@$(RM) $(_BONUS)
 	@echo "$(BLUE)[$(PNAME)]:\tPROGRAM DELETED$(R)"
-
-bonus:
-	make BONUS_FLAGS="-DBONUS=1" DEBUGFLAGS=$(DEBUGFLAGS)
 
 re: fclean all
 bonus-re: fclean bonus
