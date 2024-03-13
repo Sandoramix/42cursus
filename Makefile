@@ -43,7 +43,7 @@ bonus: $(_BONUS)
 
 $(_BONUS): $(SRC_BONUS)
 	$(MAKE) -C $(LIBFTX_DIR) DEBUGFLAGS=$(DEBUGFLAGS)
-	$(CC) $(CFLAGS) $(SRC_MANDATORY) -o $(_BONUS) -L$(LIBFTX_DIR) -lft
+	$(CC) $(CFLAGS) $(SRC_BONUS) -o $(_BONUS) -L$(LIBFTX_DIR) -lft
 
 	@echo "$(GREEN)[$(PBONUSNAME)]:\tPROGRAM CREATED:\t$(RED)BONUS!$(R)"
 	[ -z "$(strip $(DEBUGFLAGS))" ] || echo "$(RED)[$(PNAME)]:\tDEBUG MODE ENABLED$(R)"
