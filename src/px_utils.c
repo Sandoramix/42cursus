@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 18:10:15 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/13 11:45:42 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/15 16:37:40 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_status	px_load_cmds(t_pipex *data)
 	int			j;
 
 	i = 2 + (data->isheredoc && data->isbonus);
-	res = ft_calloc(data->_main.ac - (data->isbonus + data->isheredoc - 1),
+	res = ft_calloc(data->_main.ac - 2 - (data->isbonus + data->isheredoc - 1),
 			sizeof(char *));
 	if (!res)
 		return (pf_errcode(ERR_MALLOC), px_exit(data, KO));
