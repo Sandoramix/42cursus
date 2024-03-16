@@ -1,0 +1,34 @@
+{
+	/** EXTENSION NAMES FOR C:
+	- jbenden.c-cpp-flylint
+	- ms-vscode.cpptools
+	*/
+	"c-cpp-flylint.debug": true,
+	"c-cpp-flylint.language": "c",
+	"c-cpp-flylint.ignoreParseErrors": true,
+	"c-cpp-flylint.clang.severityLevels": {
+		"fatal": "Error",
+		"error": "Error",
+		"warning": "Error",
+		"note": "Information"
+	},
+	"c-cpp-flylint.clang.standard": [
+		"c11"
+	],
+	"c-cpp-flylint.flexelint.enable": false,
+	"c-cpp-flylint.flawfinder.enable": false,
+	"c-cpp-flylint.lizard.enable": false,
+	"c-cpp-flylint.cppcheck.enable": false,
+	"C_Cpp.default.compilerPath": "/usr/bin/clang",
+	"c-cpp-flylint.includePaths": [
+		"${workspaceFolder}",
+		"${workspaceFolder}/src/includes",
+		"${workspaceFolder}/src/libftx/includes"
+	],
+	"C_Cpp.default.includePath": [
+		"${workspaceFolder}",
+		"${workspaceFolder}/src/includes",
+		"${workspaceFolder}/src/libftx/includes"
+	],
+	"C_Cpp.default.intelliSenseMode": "linux-clang-x64",
+}

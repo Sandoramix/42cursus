@@ -1,0 +1,16 @@
+{
+	// GENERATE HEADER FILE GUARDS WITH THIS SNIPPET BY WRITING `inc-guard`
+	"Include guard": {
+		"scope": "c, cpp, h, hpp, tpp",
+		"prefix": "inc-guard",
+		"body": [
+		  "#ifndef ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_${TM_FILENAME/(.*\\.)(.*)/${2:/upcase}/}",
+		  "# define ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_${TM_FILENAME/(.*\\.)(.*)/${2:/upcase}/}",
+		  "${TM_SELECTED_TEXT}",
+		  "#endif",
+		  ""
+		],
+		"description": "Adds include guards around the selection, regarding to the filename",
+		"author":"https://github.com/fsandel/snippets/blob/master/include_guard.code-snippets"
+	  }
+}
