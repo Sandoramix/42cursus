@@ -21,14 +21,26 @@
 	"c-cpp-flylint.cppcheck.enable": false,
 	"C_Cpp.default.compilerPath": "/usr/bin/clang",
 	"c-cpp-flylint.includePaths": [
-		"${workspaceFolder}",
-		"${workspaceFolder}/src/includes",
-		"${workspaceFolder}/src/libftx/includes"
+		"${workspaceFolder}/philo",
+		"${workspaceFolder}/philo/includes",
+
+
+		"${workspaceFolder}/philo_bonus",
+		"${workspaceFolder}/philo_bonus/includes",
 	],
 	"C_Cpp.default.includePath": [
-		"${workspaceFolder}",
-		"${workspaceFolder}/src/includes",
-		"${workspaceFolder}/src/libftx/includes"
+		"${workspaceFolder}/philo",
+		"${workspaceFolder}/philo/includes",
+
+		"${workspaceFolder}/philo_bonus",
+		"${workspaceFolder}/philo_bonus/includes",
 	],
 	"C_Cpp.default.intelliSenseMode": "linux-clang-x64",
+	"files.associations": {
+		"philo.h": "c",
+		"philo_common.h": "c",
+		"time.h": "c",
+		"pthread.h": "c",
+		"stdbool.h": "c"
+	},
 }

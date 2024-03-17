@@ -10,11 +10,11 @@
 			// "launch" OR "attach" (SUDO PERMISSION NEEDED FOR THE LATTER ONE).
 			"request": "launch",
 			// PROGRAM'S ABSOLUTE PATH (LEAVE ${workspaceFolder} FOR SIMPLICITY)
-			"program": "${workspaceFolder}/<PROGRAM_NAME>",
+			"program": "${workspaceFolder}/philo/philo",
 			// PROGRAM ARGUMENTS SEPARATED BY COMMA
-			"args": ["<ARGUMENTS>"],
+			"args": ["5", "800", "200", "200"],
 			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}",
+			"cwd": "${workspaceFolder}/philo",
 			// IF YOU NEED ADD SOME EXTRA `ENV` VARIABLES
 			"environment": [
 			],
@@ -25,7 +25,6 @@
 				{ "description": "Enable pretty-printing for gdb", "text": "-enable-pretty-printing", "ignoreFailures": true },
 				{ "description": "Set Disassembly Flavor to Intel", "text": "-gdb-set disassembly-flavor intel", "ignoreFailures": true },
 			],
-			"preLaunchTask": "Makefile" // THIS IS FOR LAUNCHING `MAKE` BEFORE YOUR DEBUGGER. EDIT IN `TASKS.JSON` IF YOU WANT TO `MAKE RE`.
 		}
 	]
 }
