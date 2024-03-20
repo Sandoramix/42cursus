@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/17 12:30:28 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:54:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <pthread.h>
 # include <time.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 typedef struct timeval	t_time;
 typedef pthread_mutex_t	t_mutex;
@@ -40,11 +41,14 @@ typedef struct s_phargs
 	int			tts;
 
 	int			lte;
+
+	bool		should_decrease;
 }	t_phargs;
 
 typedef struct s_mutval
 {
-	void	*val;
+	bool	someone_dead;
+	bool	should_stop;
 	t_mutex	mutex;
 }	t_mutval;
 
@@ -53,13 +57,14 @@ typedef struct s_philo
 	pthread_t		whoami;
 	int				id;
 
+
 	t_time			started_at;
 	t_phargs		args;
 
 	t_mutex			*lfork;
 	t_mutex			*rfork;
 
-	t_mutval		*all_alive;
+	t_mutval		*gstate;
 }	t_philo;
 
 

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 15:57:07 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/17 12:32:26 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:47:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,46 @@ void	philo_cleanup(t_phargs arg, t_philo *philos, t_mutex *forks, t_mutval gst)
 	free(forks);
 }
 
+void	philo_take_forks(t_philo *philo)
+{
+	pthread_mutex_lock(philo->lfork);
+	pthread_mutex_lock(philo->rfork);
+}
+
+void	philo_release_forks(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->lfork);
+	pthread_mutex_unlock(philo->rfork);
+}
+
 void	*philo_thread(t_philo *philo)
 {
 	printf("Philosopher [%d] is BORN\n", philo->id);
+	while (true)
+	{
+		pthread_mutex_lock(&philo->gstate->mutex);
+		if (philo->gstate->someone_dead || philo->gstate->should_stop)
+		{
+			pthread_mutex_unlock(&philo->gstate->mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->gstate->mutex);
+		philo_take_forks(philo);
+		
+		printf("Philo %d is eating\n", philo->id);
+		usleep(philo->args.tte * 1000);
+		philo_release_forks(philo);
+		if (philo->args.should_decrease && !(--philo->args.lte))
+		{
+			pthread_mutex_lock(&philo->gstate->mutex);
+			printf("Philo %d has finished his theory\n", philo->id);
+			philo->gstate->should_stop = true;
+			pthread_mutex_unlock(&philo->gstate->mutex);
+			break ;
+		}
+		printf("Philo %d is sleeping\n", philo->id);
+		usleep(philo->args.tts * 1000);
+	}
 	return (NULL);
 }
 
@@ -39,10 +76,8 @@ bool	start_threads(int philo_count, t_philo *philos)
 
 	i = -1;
 	while (++i < philo_count)
-	{
 		pthread_create(&(philos[i].whoami), NULL,
 			(void *)philo_thread, &philos[i]);
-	}
 	i = -1;
 	while (++i < philo_count)
 		pthread_join(philos[i].whoami, NULL);
@@ -57,7 +92,6 @@ bool	gen_philos(
 
 	i = -1;
 	*status = (t_mutval){0};
-	status->val = (void *)(true);
 	if (pthread_mutex_init(&status->mutex, NULL) != 0)
 		return (printf("Mutex for life status failed to init.\n"), 1);
 	*philos = malloc(sizeof(t_philo) * args.pc);
@@ -68,7 +102,7 @@ bool	gen_philos(
 		philo = &(*philos)[i];
 		philo->id = i + 1;
 		philo->args = args;
-		philo->all_alive = status;
+		philo->gstate = status;
 		philo->rfork = &(frks[i % (args.pc - 1)]);
 		if (i == 0)
 			philo->lfork = &(frks[args.pc - 1]);
@@ -99,7 +133,10 @@ bool	parse_args(t_phargs *args, int ac, char **av)
 	args->tte = ft_atoi(av[3]);
 	args->tts = ft_atoi(av[4]);
 	if (ac == 6)
+	{
+		args->should_decrease = true;
 		args->lte = ft_atoi(av[5]);
+	}
 	return (!(args->pc < 1 || args->ttd < 1
 			|| args->tte < 1 || args->tts < 1 || args->lte < 0));
 }
