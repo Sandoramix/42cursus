@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/22 07:52:37 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:13:56 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,28 @@
 # include <unistd.h>
 # include <stdint.h>
 
+# define CDGREY "\e[90m"
+# define CR "\e[39m"
+
 typedef struct timeval	t_time;
 typedef pthread_mutex_t	t_mutex;
 typedef struct timeval	t_timeval;
 
+# ifndef DEBUG
+#  define DEBUG false
+# endif
+
 # define PH_EATING "is eating."
-# define PH_FORKTAKE "took a fork."
-# define PH_FORKRELEASE "released a fork."
+
+# define PH_FORKLTAKE "took left fork."
+# define PH_FORKRTAKE "took right fork."
+
+# define PH_FORKLRELEASE "released left fork."
+# define PH_FORKRRELEASE "released right fork."
+
 # define PH_ISDONE "has finished his theory."
 # define PH_ISDEAD "is dead."
+# define PH_SLEEPING "is sleeping."
 
 /**
  * @brief Parsed program's input.
@@ -55,9 +68,14 @@ typedef struct s_phargs
 
 typedef struct s_mutval
 {
+	t_phargs	args;
+	pthread_t	bigbro_id;
+
 	bool	dude_dead;
 	bool	everyone_ate;
-	t_mutex	mutex;
+	t_mutex	eattime;
+	t_mutex	print_time;
+	t_mutex	check;
 }	t_shared;
 
 typedef struct s_philo
@@ -65,18 +83,27 @@ typedef struct s_philo
 	pthread_t		whoami;
 	int				id;
 
+	t_phargs		args;
+
 
 	uint64_t		last_action;
-	t_phargs		args;
+	t_mutex			la_mutex;
 
 	t_mutex			*lfork;
 	t_mutex			*rfork;
-	t_mutex			print_time;
+
 
 	t_shared		*gstate;
 }	t_philo;
 
-void				ph_sleeptime(t_philo *philo);
+typedef struct s_bigbro
+{
+	t_philo		*philos;
+	t_shared	*shared;
+}	t_bigbro;
+
+void				*ph_bigbro(t_bigbro *data);
+
 void				*philo_thread(t_philo *philo);
 bool				gen_philos(\
 t_phargs args, t_philo **philos, t_mutex *frks, t_shared *status);

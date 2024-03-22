@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 07:37:08 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/22 07:56:10 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/22 10:03:07 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void	philo_take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->lfork);
-	philo_trace(philo, PH_FORKTAKE);
 	pthread_mutex_lock(philo->rfork);
-	philo_trace(philo, PH_FORKTAKE);
+	philo_trace(philo, PH_FORKRTAKE);
+	pthread_mutex_lock(philo->lfork);
+	philo_trace(philo, PH_FORKLTAKE);
 }
 
 void	philo_release_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(philo->lfork);
-	philo_trace(philo, PH_FORKRELEASE);
 	pthread_mutex_unlock(philo->rfork);
-	philo_trace(philo, PH_FORKRELEASE);
+	philo_trace(philo, PH_FORKRRELEASE);
+	pthread_mutex_unlock(philo->lfork);
+	philo_trace(philo, PH_FORKLRELEASE);
 }
 
 bool	forge_forks(t_phargs args, t_mutex **forks)

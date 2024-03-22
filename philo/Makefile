@@ -36,10 +36,13 @@ fclean: clean
 re: fclean all
 
 # ----UTILS-----
+re-debug-log: fclean debug-log
 re-debug: fclean debug
 
 debug:
-	$(MAKE) DEBUGFLAGS=-g
+	$(MAKE) DEBUGFLAGS="-g"
+debug-log:
+	$(MAKE) DEBUGFLAGS="-g -DDEBUG=true"
 # --------------
 .PHONY: all clean fclean re valgrind
 .SILENT:

@@ -6,24 +6,28 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 15:57:07 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/22 07:48:57 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:31:30 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 
-bool	start_threads(int philo_count, t_philo *philos)
+bool	start_threads(int philo_count, t_philo *philos, t_shared *shared)
 {
-	int		i;
+	int			i;
+	t_bigbro	data;
 
 	i = -1;
+	data = (t_bigbro){philos, shared};
 	while (++i < philo_count)
 		pthread_create(&(philos[i].whoami), NULL,
 			(void *)philo_thread, &philos[i]);
 	i = -1;
+	pthread_create(&shared->bigbro_id, NULL, (void *)(void *)ph_bigbro,(void *)(&data));
 	while (++i < philo_count)
 		pthread_join(philos[i].whoami, NULL);
+	pthread_join(shared->bigbro_id, NULL);
 	return (true);
 }
 
@@ -60,6 +64,6 @@ int	main(int ac, char **av)
 		return (printf("Forks init error.\n"), 1);
 	if (!gen_philos(args, &philos, forks, &gstate))
 		return (free(forks), printf("Philos init error..\n"), 1);
-	start_threads(args.pc, philos);
+	start_threads(args.pc, philos, &gstate);
 	return (philo_cleanup(args, philos, forks, gstate), 0);
 }
