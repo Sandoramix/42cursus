@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/20 12:54:04 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/22 07:52:37 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,17 @@
 # include <time.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <stdint.h>
 
 typedef struct timeval	t_time;
 typedef pthread_mutex_t	t_mutex;
+typedef struct timeval	t_timeval;
+
+# define PH_EATING "is eating."
+# define PH_FORKTAKE "took a fork."
+# define PH_FORKRELEASE "released a fork."
+# define PH_ISDONE "has finished his theory."
+# define PH_ISDEAD "is dead."
 
 /**
  * @brief Parsed program's input.
@@ -47,10 +55,10 @@ typedef struct s_phargs
 
 typedef struct s_mutval
 {
-	bool	someone_dead;
-	bool	should_stop;
+	bool	dude_dead;
+	bool	everyone_ate;
 	t_mutex	mutex;
-}	t_mutval;
+}	t_shared;
 
 typedef struct s_philo
 {
@@ -58,18 +66,33 @@ typedef struct s_philo
 	int				id;
 
 
-	t_time			started_at;
+	uint64_t		last_action;
 	t_phargs		args;
 
 	t_mutex			*lfork;
 	t_mutex			*rfork;
+	t_mutex			print_time;
 
-	t_mutval		*gstate;
+	t_shared		*gstate;
 }	t_philo;
 
+void				ph_sleeptime(t_philo *philo);
+void				*philo_thread(t_philo *philo);
+bool				gen_philos(\
+t_phargs args, t_philo **philos, t_mutex *frks, t_shared *status);
 
 // UTILS
 
-int			ft_atoi(const char *nptr);
+void				philo_cleanup(\
+t_phargs arg, t_philo *philos, t_mutex *forks, t_shared gst);
+void				philo_trace(t_philo *philo, char *action);
+
+int					ft_atoi(const char *nptr);
+uint64_t			get_timestamp(void);
+
+void				philo_take_forks(t_philo *philo);
+void				philo_release_forks(t_philo *philo);
+
+bool				forge_forks(t_phargs args, t_mutex **forks);
 
 #endif

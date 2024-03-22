@@ -9,7 +9,11 @@ RM = rm -rf
 
 # --------------
 
-COMMON_SRC= ./utils/ft_atoi.c
+COMMON_SRC = ./utils/ft_atoi.c \
+	./utils/ph_forks.c \
+	./utils/ph_philos.c \
+	./utils/ph_time.c \
+	./utils/ph_utils.c
 
 SRC = $(COMMON_SRC) ./main.c
 
