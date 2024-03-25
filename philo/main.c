@@ -6,64 +6,62 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 15:57:07 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/22 11:31:30 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:05:53 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 
-bool	start_threads(int philo_count, t_philo *philos, t_shared *shared)
+bool	start_threads(int philo_count, t_table *t)
 {
 	int			i;
-	t_bigbro	data;
 
 	i = -1;
-	data = (t_bigbro){philos, shared};
 	while (++i < philo_count)
-		pthread_create(&(philos[i].whoami), NULL,
-			(void *)philo_thread, &philos[i]);
+		pth_wrapper(t, PTH_CREATE, &(t->philos[i].whoami),
+			(t_pthdeclare){(void *)(*philo_thread), (void *)&(t->philos[i])});
 	i = -1;
-	pthread_create(&shared->bigbro_id, NULL, (void *)(void *)ph_bigbro,(void *)(&data));
+	pth_wrapper(t, PTH_CREATE, &t->bb_id,
+		(t_pthdeclare){(void *)(*ph_bigbro), t});
 	while (++i < philo_count)
-		pthread_join(philos[i].whoami, NULL);
-	pthread_join(shared->bigbro_id, NULL);
+		pth_wrapper(t, PTH_JOIN, &(t->philos[i].whoami),
+			(t_pthdeclare){0});
+	pth_wrapper(t, PTH_JOIN, &t->bb_id, (t_pthdeclare){0});
 	return (true);
 }
 
-bool	parse_args(t_phargs *args, int ac, char **av)
+bool	parse_args(t_table *table, int ac, char **av)
 {
-	args->pc = ft_atoi(av[1]);
-	args->ttd = ft_atoi(av[2]);
-	args->tte = ft_atoi(av[3]);
-	args->tts = ft_atoi(av[4]);
+	table->args.pc = ft_atoi(av[1]);
+	table->args.ttd = ft_atoi(av[2]);
+	table->args.tte = ft_atoi(av[3]);
+	table->args.tts = ft_atoi(av[4]);
 	if (ac == 6)
 	{
-		args->should_decrease = true;
-		args->lte = ft_atoi(av[5]);
+		table->args.is_finite = true;
+		table->args.lte = ft_atoi(av[5]);
 	}
-	return (!(args->pc < 1 || args->ttd < 1
-			|| args->tte < 1 || args->tts < 1 || args->lte < 0));
+	return (!(table->args.pc < 1 || table->args.ttd < 1
+			|| table->args.tte < 1 || table->args.tts < 1
+			|| (ac == 6 && table->args.lte < 1)));
 }
 
 int	main(int ac, char **av)
 {
-	t_phargs			args;
-	t_philo				*philos;
-	t_mutex				*forks;
-	t_shared			gstate;
+	t_table			table;
 
-	philos = NULL;
-	forks = NULL;
+	table = (t_table){0};
 	if (ac < 5 || ac > 6)
 		return (printf("Usage: %s <ttd> <tte> <tts> [lte]\n", av[0]), 2);
-	args = (t_phargs){0};
-	if (!parse_args(&args, ac, av))
+	if (!parse_args(&table, ac, av))
 		return (printf("Invalid arguments.\n"), 1);
-	if (!forge_forks(args, &forks))
+	pmut_wrapper(&table, PMUT_INIT, &table.print_mutex);
+	pmut_wrapper(&table, PMUT_INIT, &table.table_mutex);
+	if (!forge_forks(&table))
 		return (printf("Forks init error.\n"), 1);
-	if (!gen_philos(args, &philos, forks, &gstate))
-		return (free(forks), printf("Philos init error..\n"), 1);
-	start_threads(args.pc, philos, &gstate);
-	return (philo_cleanup(args, philos, forks, gstate), 0);
+	if (!gen_philos(&table))
+		return (free(table.forks), printf("Philos init error..\n"), 1);
+	start_threads(table.args.pc, &table);
+	return (philo_cleanup(&table), 0);
 }

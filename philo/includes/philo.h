@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/22 11:13:56 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:45:44 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # define CR "\e[39m"
 
 typedef struct timeval	t_time;
-typedef pthread_mutex_t	t_mutex;
 typedef struct timeval	t_timeval;
 
 # ifndef DEBUG
@@ -44,6 +43,9 @@ typedef struct timeval	t_timeval;
 # define PH_ISDONE "has finished his theory."
 # define PH_ISDEAD "is dead."
 # define PH_SLEEPING "is sleeping."
+
+
+typedef pthread_mutex_t	t_mutex;
 
 /**
  * @brief Parsed program's input.
@@ -63,63 +65,116 @@ typedef struct s_phargs
 
 	int			lte;
 
-	bool		should_decrease;
+	bool		is_finite;
 }	t_phargs;
 
-typedef struct s_mutval
-{
-	t_phargs	args;
-	pthread_t	bigbro_id;
-
-	bool	dude_dead;
-	bool	everyone_ate;
-	t_mutex	eattime;
-	t_mutex	print_time;
-	t_mutex	check;
-}	t_shared;
+typedef struct s_table	t_table;
 
 typedef struct s_philo
 {
 	pthread_t		whoami;
 	int				id;
 
-	t_phargs		args;
+	int				times_eaten;
+	bool			full;
 
 
-	uint64_t		last_action;
-	t_mutex			la_mutex;
+	long			last_meal;
+	t_mutex			mutex;
 
 	t_mutex			*lfork;
 	t_mutex			*rfork;
 
 
-	t_shared		*gstate;
+	t_table			*table;
 }	t_philo;
 
-typedef struct s_bigbro
+typedef struct s_table
 {
-	t_philo		*philos;
-	t_shared	*shared;
-}	t_bigbro;
+	pthread_t		bb_id;
 
-void				*ph_bigbro(t_bigbro *data);
+	t_phargs		args;
+
+	bool			shouldstop;
+	t_mutex			table_mutex;
+	t_mutex			print_mutex;
+
+	t_philo			*philos;
+	t_mutex			*forks;
+}	t_table;
+
+typedef enum e_phaction
+{
+	PH_EAT,
+	PH_TAKE_LFORK,
+	PH_TAKE_RFORK,
+	PH_RELEASE_LFORK,
+	PH_RELEASE_RFORK,
+	PH_SLEEP,
+	PH_THINK,
+	PH_FINISH
+}	t_phaction;
+
+//------------------------------------------------------------------------------
+
+typedef enum e_pmut_action
+{
+	PMUT_INIT,
+	PMUT_LOCK,
+	PMUT_UNLOCK,
+	PMUT_DESTROY
+}					t_pmut_action;
+
+int					pmut_wrapper(t_table *table,
+						t_pmut_action action, t_mutex *mutex);
+
+long				pmut_getlong(t_table *table, t_mutex *mutex, long *val);
+int					pmut_getint(t_table *table, t_mutex *mutex, int *val);
+bool				pmut_getbool(t_table *table, t_mutex *mutex, bool *val);
+
+long				pmut_setlong(t_table *table,
+						t_mutex *mutex, long *val, long newval);
+bool				pmut_setbool(t_table *table,
+						t_mutex *mutex, bool *val, bool newval);
+long				pmut_long_inc(t_table *table, t_mutex *mutex, long *val);
+int					pmut_int_inc(t_table *table, t_mutex *mutex, int *val);
+//------------------------------------------------------------------------------
+typedef enum e_pth_action
+{
+	PTH_CREATE,
+	PTH_JOIN
+}	t_pth_action;
+
+typedef void			*(*t_pth_routine)(void *);
+
+typedef struct s_pthdeclare
+{
+	t_pth_routine	routine;
+	void			*arg;
+}					t_pthdeclare;
+
+int					pth_wrapper(t_table *table, \
+t_pth_action action, pthread_t *pth_id, t_pthdeclare declaration);
+//------------------------------------------------------------------------------
+
+void				*ph_bigbro(t_table *table);
 
 void				*philo_thread(t_philo *philo);
-bool				gen_philos(\
-t_phargs args, t_philo **philos, t_mutex *frks, t_shared *status);
+bool				gen_philos(t_table *table);
 
 // UTILS
 
-void				philo_cleanup(\
-t_phargs arg, t_philo *philos, t_mutex *forks, t_shared gst);
+void				philo_cleanup(t_table *table);
 void				philo_trace(t_philo *philo, char *action);
 
 int					ft_atoi(const char *nptr);
 uint64_t			get_timestamp(void);
+void				time_sleep(t_table *table, uint64_t ms);
 
 void				philo_take_forks(t_philo *philo);
 void				philo_release_forks(t_philo *philo);
 
-bool				forge_forks(t_phargs args, t_mutex **forks);
-
+bool				forge_forks(t_table *table);
+bool				ph_philo_dead(t_philo *philo);
+bool				ph_isfinished(t_table *table);
 #endif
