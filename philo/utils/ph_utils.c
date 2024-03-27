@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 07:38:19 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/25 22:35:51 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:54:09 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,13 @@
 
 bool	ph_isfinished(t_table *table)
 {
-	return (pmut_getbool(table, &table->table_mutex, &table->shouldstop));
+	return (mutex_getbool(table, &table->table_mutex, &table->shouldstop));
+}
+
+void	philo_exit(t_table *table, int statuscode)
+{
+	philo_cleanup(table);
+	exit(statuscode);
 }
 
 void	philo_cleanup(t_table *table)
@@ -47,11 +53,13 @@ void	philo_trace(t_philo *philo, char *action)
 	uint64_t	timestamp;
 	long		id;
 
-	if (pmut_getbool(philo->table, &philo->mutex, &philo->full))
+	if (mutex_getbool(philo->table, &philo->mutex, &philo->full)
+		|| mutex_getbool(philo->table, &philo->table->table_mutex,
+			&philo->table->shouldstop))
 		return ;
-	timestamp = get_timestamp();
-	id = pmut_getint(philo->table, &philo->mutex, &philo->id);
-	pmut_wrapper(philo->table, PMUT_LOCK, &philo->table->print_mutex);
+	timestamp = get_timestamp() - philo->table->started_at;
+	id = mutex_getint(philo->table, &philo->mutex, &philo->id);
+	mutex_lock(philo->table, &philo->table->print_mutex);
 	printf("%ld %ld %s\n", timestamp, id, action);
-	pmut_wrapper(philo->table, PMUT_UNLOCK, &philo->table->print_mutex);
+	mutex_unlock(philo->table, &philo->table->print_mutex);
 }

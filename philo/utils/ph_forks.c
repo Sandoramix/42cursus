@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 07:37:08 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/25 22:37:09 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:56:32 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	philo_take_forks(t_philo *philo)
 {
-	pmut_wrapper(philo->table, PMUT_LOCK, philo->rfork);
+	mutex_lock(philo->table, philo->rfork);
 	philo_trace(philo, PH_FORKRTAKE);
-	pmut_wrapper(philo->table, PMUT_LOCK, philo->lfork);
+	mutex_lock(philo->table, philo->lfork);
 	philo_trace(philo, PH_FORKLTAKE);
 }
 
 void	philo_release_forks(t_philo *philo)
 {
-	pmut_wrapper(philo->table, PMUT_UNLOCK, philo->rfork);
+	mutex_unlock(philo->table, philo->rfork);
 	philo_trace(philo, PH_FORKRRELEASE);
-	pmut_wrapper(philo->table, PMUT_UNLOCK, philo->lfork);
+	mutex_unlock(philo->table, philo->lfork);
 	philo_trace(philo, PH_FORKLRELEASE);
 }

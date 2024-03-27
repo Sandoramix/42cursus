@@ -1,45 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pmut_getters.c                                     :+:      :+:    :+:   */
+/*   mutex_getters.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:42:50 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/25 22:33:49 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:57:32 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-long	pmut_getlong(t_table *table, t_mutex *mutex, long *val)
+long	mutex_getlong(t_table *table, t_mutex *mutex, long *val)
 {
 	long	res;
 
-	pmut_wrapper(table, PMUT_LOCK, mutex);
+	mutex_lock(table, mutex);
 	res = *val;
-	pmut_wrapper(table, PMUT_UNLOCK, mutex);
+	mutex_unlock(table, mutex);
 	return (res);
 }
 
-int	pmut_getint(t_table *table, t_mutex *mutex, int *val)
+int	mutex_getint(t_table *table, t_mutex *mutex, int *val)
 {
 	int	res;
 
-	pmut_wrapper(table, PMUT_LOCK, mutex);
+	mutex_lock(table, mutex);
 	res = *val;
-	pmut_wrapper(table, PMUT_UNLOCK, mutex);
+	mutex_unlock(table, mutex);
 	return (res);
 }
 
-bool	pmut_getbool(t_table *table, t_mutex *mutex, bool *val)
+bool	mutex_getbool(t_table *table, t_mutex *mutex, bool *val)
 {
 	bool	res;
 
-	pmut_wrapper(table, PMUT_LOCK, mutex);
+	mutex_lock(table, mutex);
 	res = *val;
-	pmut_wrapper(table, PMUT_UNLOCK, mutex);
+	mutex_unlock(table, mutex);
 	return (res);
 }
-
-

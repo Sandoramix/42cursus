@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/25 22:45:44 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:57:16 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ typedef struct s_table
 	t_mutex			table_mutex;
 	t_mutex			print_mutex;
 
+	uint64_t		started_at;
+	int				threads_started;
+
 	t_philo			*philos;
 	t_mutex			*forks;
 }	t_table;
@@ -117,27 +120,27 @@ typedef enum e_phaction
 
 //------------------------------------------------------------------------------
 
-typedef enum e_pmut_action
+typedef enum e_mutex_handle
 {
-	PMUT_INIT,
-	PMUT_LOCK,
-	PMUT_UNLOCK,
-	PMUT_DESTROY
-}					t_pmut_action;
+	MUTEX_UNLOCK,
+	MUTEX_LOCK
+}					t_mutex_handle;
 
-int					pmut_wrapper(t_table *table,
-						t_pmut_action action, t_mutex *mutex);
+int					mutex_init(t_table *table, t_mutex *mutex);
+int					mutex_destroy(t_table *table, t_mutex *mutex);
+int 				mutex_lock(t_table *table, t_mutex *mutex);
+int 				mutex_unlock(t_table *table, t_mutex *mutex);
 
-long				pmut_getlong(t_table *table, t_mutex *mutex, long *val);
-int					pmut_getint(t_table *table, t_mutex *mutex, int *val);
-bool				pmut_getbool(t_table *table, t_mutex *mutex, bool *val);
+long				mutex_getlong(t_table *table, t_mutex *mutex, long *val);
+int					mutex_getint(t_table *table, t_mutex *mutex, int *val);
+bool				mutex_getbool(t_table *table, t_mutex *mutex, bool *val);
 
-long				pmut_setlong(t_table *table,
+long				mutex_setlong(t_table *table,
 						t_mutex *mutex, long *val, long newval);
-bool				pmut_setbool(t_table *table,
+bool				mutex_setbool(t_table *table,
 						t_mutex *mutex, bool *val, bool newval);
-long				pmut_long_inc(t_table *table, t_mutex *mutex, long *val);
-int					pmut_int_inc(t_table *table, t_mutex *mutex, int *val);
+long				mutex_long_inc(t_table *table, t_mutex *mutex, long *val);
+int					mutex_int_inc(t_table *table, t_mutex *mutex, int *val);
 //------------------------------------------------------------------------------
 typedef enum e_pth_action
 {
@@ -147,14 +150,9 @@ typedef enum e_pth_action
 
 typedef void			*(*t_pth_routine)(void *);
 
-typedef struct s_pthdeclare
-{
-	t_pth_routine	routine;
-	void			*arg;
-}					t_pthdeclare;
-
-int					pth_wrapper(t_table *table, \
-t_pth_action action, pthread_t *pth_id, t_pthdeclare declaration);
+int					thread_create(t_table *table, pthread_t *id,
+						t_pth_routine routine, void *arg);
+int					thread_join(t_table *table, pthread_t *id);
 //------------------------------------------------------------------------------
 
 void				*ph_bigbro(t_table *table);
@@ -164,6 +162,7 @@ bool				gen_philos(t_table *table);
 
 // UTILS
 
+void				philo_exit(t_table *table, int statuscode);
 void				philo_cleanup(t_table *table);
 void				philo_trace(t_philo *philo, char *action);
 

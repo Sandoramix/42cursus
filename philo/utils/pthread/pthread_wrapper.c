@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pth_wrapper.c                                      :+:      :+:    :+:   */
+/*   pthread_wrapper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:14:28 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/25 22:45:48 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:24:56 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-static int	pth_handle(t_table *table, t_pth_action action, int ret_status)
+int	thread_join(t_table *table, pthread_t *id)
 {
-	if (ret_status == 0)
-		return (ret_status);
-	if (action == PTH_CREATE)
-		printf("Error: thread creation failed.\n");
-	if (action == PTH_JOIN)
+	int	res;
+
+	res = pthread_join(*id, NULL);
+	if (res != 0)
+	{
 		printf("Error: thread join failed.\n");
-	philo_cleanup(table);
-	return (0);
+		philo_exit(table, 1);
+	}
+	return (res);
 }
 
-int	pth_wrapper(t_table *table, t_pth_action action,
-	pthread_t *pth_id, t_pthdeclare d)
+int	thread_create(t_table *table, pthread_t *id,
+	t_pth_routine routine, void *arg)
 {
-	if (action == PTH_CREATE)
-		return (pth_handle(table, action,
-				pthread_create(pth_id, NULL, d.routine, d.arg)));
-	if (action == PTH_JOIN)
-		return (pth_handle(table, action, pthread_join(*pth_id, NULL)));
-	return (-1);
+	int	res;
+
+	res = pthread_create(id, NULL, routine, arg);
+	if (res != 0)
+	{
+		printf("Error: thread creation failed.\n");
+		philo_exit(table, 1);
+	}
+	return (res);
 }

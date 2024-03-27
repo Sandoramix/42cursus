@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 20:29:30 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/25 22:47:41 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:54:51 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	forge_forks(t_table *table)
 	if (!table->forks)
 		return (printf("Allocation failed.\n"), false);
 	while (++i < table->args.pc)
-		pmut_wrapper(table, PMUT_INIT, &((table->forks)[i]));
+		mutex_init(table, &((table->forks)[i]));
 	i = -1;
 	if (DEBUG)
 	{
@@ -47,7 +47,7 @@ bool	gen_philos(t_table *table)
 	{
 		philo = &table->philos[i];
 		*philo = (t_philo){0};
-		pmut_wrapper(table, PMUT_INIT, &philo->mutex);
+		mutex_init(table, &philo->mutex);
 		philo->id = i + 1;
 		philo->table = table;
 		philo->rfork = &(table->forks[i % (table->args.pc - 1)]);

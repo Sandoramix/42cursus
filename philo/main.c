@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 15:57:07 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/25 23:05:53 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:49:31 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ bool	start_threads(int philo_count, t_table *t)
 
 	i = -1;
 	while (++i < philo_count)
-		pth_wrapper(t, PTH_CREATE, &(t->philos[i].whoami),
-			(t_pthdeclare){(void *)(*philo_thread), (void *)&(t->philos[i])});
+		thread_create(t, &(t->philos[i].whoami),
+			(void *)(*philo_thread), &(t->philos[i]));
 	i = -1;
-	pth_wrapper(t, PTH_CREATE, &t->bb_id,
-		(t_pthdeclare){(void *)(*ph_bigbro), t});
+	thread_create(t, &t->bb_id, (void *)(ph_bigbro), t);
+	t->started_at = get_timestamp();
 	while (++i < philo_count)
-		pth_wrapper(t, PTH_JOIN, &(t->philos[i].whoami),
-			(t_pthdeclare){0});
-	pth_wrapper(t, PTH_JOIN, &t->bb_id, (t_pthdeclare){0});
+		thread_join(t, &(t->philos[i].whoami));
+	thread_join(t, &t->bb_id);
 	return (true);
 }
 
@@ -56,8 +55,8 @@ int	main(int ac, char **av)
 		return (printf("Usage: %s <ttd> <tte> <tts> [lte]\n", av[0]), 2);
 	if (!parse_args(&table, ac, av))
 		return (printf("Invalid arguments.\n"), 1);
-	pmut_wrapper(&table, PMUT_INIT, &table.print_mutex);
-	pmut_wrapper(&table, PMUT_INIT, &table.table_mutex);
+	mutex_init(&table, &table.print_mutex);
+	mutex_init(&table, &table.table_mutex);
 	if (!forge_forks(&table))
 		return (printf("Forks init error.\n"), 1);
 	if (!gen_philos(&table))
