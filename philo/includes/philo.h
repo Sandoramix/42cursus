@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/27 15:57:16 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:39:05 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,6 @@ typedef struct timeval	t_timeval;
 # ifndef DEBUG
 #  define DEBUG false
 # endif
-
-# define PH_EATING "is eating."
-
-# define PH_FORKLTAKE "took left fork."
-# define PH_FORKRTAKE "took right fork."
-
-# define PH_FORKLRELEASE "released left fork."
-# define PH_FORKRRELEASE "released right fork."
-
-# define PH_ISDONE "has finished his theory."
-# define PH_ISDEAD "is dead."
-# define PH_SLEEPING "is sleeping."
-
 
 typedef pthread_mutex_t	t_mutex;
 
@@ -96,6 +83,7 @@ typedef struct s_table
 	t_phargs		args;
 
 	bool			shouldstop;
+	bool			someone_dead;
 	t_mutex			table_mutex;
 	t_mutex			print_mutex;
 
@@ -108,14 +96,17 @@ typedef struct s_table
 
 typedef enum e_phaction
 {
-	PH_EAT,
-	PH_TAKE_LFORK,
-	PH_TAKE_RFORK,
-	PH_RELEASE_LFORK,
-	PH_RELEASE_RFORK,
-	PH_SLEEP,
-	PH_THINK,
-	PH_FINISH
+	PH_EAT = 0,
+	PH_SLEEP = 1,
+	PH_THINK = 2,
+	PH_DIE = 3,
+	PH_SURVIVE = 4,
+	PH_TAKE_FORK = 5,
+	PH_RELEASE_FORK = 6,
+	PH_TAKE_LFORK = 47,
+	PH_TAKE_RFORK = 48,
+	PH_RELEASE_LFORK = 49,
+	PH_RELEASE_RFORK = 50,
 }	t_phaction;
 
 //------------------------------------------------------------------------------
@@ -162,16 +153,15 @@ bool				gen_philos(t_table *table);
 
 // UTILS
 
-void				philo_exit(t_table *table, int statuscode);
-void				philo_cleanup(t_table *table);
-void				philo_trace(t_philo *philo, char *action);
+void				philo_cleanup(t_table *table, bool doexit, int statuscode);
+bool				philo_trace(t_philo *philo, t_phaction action);
 
 int					ft_atoi(const char *nptr);
 uint64_t			get_timestamp(void);
 void				time_sleep(t_table *table, uint64_t ms);
 
-void				philo_take_forks(t_philo *philo);
-void				philo_release_forks(t_philo *philo);
+bool				philo_take_forks(t_philo *philo);
+bool				philo_release_forks(t_philo *philo);
 
 bool				forge_forks(t_table *table);
 bool				ph_philo_dead(t_philo *philo);

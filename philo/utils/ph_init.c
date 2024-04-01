@@ -6,11 +6,39 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 20:29:30 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/27 14:54:51 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:50:46 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+void	*philo_thread(t_philo *philo)
+{
+	while (!ph_isfinished(philo->table))
+	{
+		if (mutex_getbool(philo->table, &philo->mutex, &philo->full)
+			|| !philo_take_forks(philo))
+			break ;
+		if (!philo_trace(philo, PH_EAT) && philo_release_forks(philo))
+			break ;
+		mutex_setlong(philo->table, &philo->mutex,
+			&philo->last_meal, get_timestamp());
+		time_sleep(philo->table, philo->table->args.tte);
+		philo_release_forks(philo);
+		if (philo->table->args.is_finite
+			&& mutex_int_inc(philo->table, &philo->mutex, &philo->times_eaten)
+			== philo->table->args.lte
+			&& mutex_setbool(philo->table, &philo->mutex, &philo->full, true))
+			break ;
+		if (!philo_trace(philo, PH_SLEEP))
+			break ;
+		time_sleep(philo->table, philo->table->args.tts);
+		if (!philo_trace(philo, PH_THINK))
+			break ;
+	}
+	philo_trace(philo, PH_SURVIVE);
+	return (NULL);
+}
 
 bool	forge_forks(t_table *table)
 {

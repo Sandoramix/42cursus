@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 15:57:07 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/27 15:49:31 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/01 13:00:57 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ bool	start_threads(int philo_count, t_table *t)
 			(void *)(*philo_thread), &(t->philos[i]));
 	i = -1;
 	thread_create(t, &t->bb_id, (void *)(ph_bigbro), t);
-	t->started_at = get_timestamp();
 	while (++i < philo_count)
 		thread_join(t, &(t->philos[i].whoami));
 	thread_join(t, &t->bb_id);
@@ -61,6 +60,7 @@ int	main(int ac, char **av)
 		return (printf("Forks init error.\n"), 1);
 	if (!gen_philos(&table))
 		return (free(table.forks), printf("Philos init error..\n"), 1);
+	table.started_at = get_timestamp();
 	start_threads(table.args.pc, &table);
-	return (philo_cleanup(&table), 0);
+	return (philo_cleanup(&table, 1, 0), 0);
 }

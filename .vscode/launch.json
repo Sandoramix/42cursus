@@ -12,7 +12,7 @@
 			// PROGRAM'S ABSOLUTE PATH (LEAVE ${workspaceFolder} FOR SIMPLICITY)
 			"program": "${workspaceFolder}/philo/philo",
 			// PROGRAM ARGUMENTS SEPARATED BY COMMA
-			"args": ["5", "800", "200", "200"],
+			"args": ["2", "800", "200", "200", "1"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}/philo",
 			// IF YOU NEED ADD SOME EXTRA `ENV` VARIABLES

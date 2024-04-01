@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_forks.c                                         :+:      :+:    :+:   */
+/*   sys_time.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 07:37:08 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/27 14:56:32 by odudniak         ###   ########.fr       */
+/*   Created: 2024/03/22 07:32:06 by odudniak          #+#    #+#             */
+/*   Updated: 2024/04/01 12:54:13 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+#include <unistd.h>
 
-void	philo_take_forks(t_philo *philo)
+uint64_t	get_timestamp(void)
 {
-	mutex_lock(philo->table, philo->rfork);
-	philo_trace(philo, PH_FORKRTAKE);
-	mutex_lock(philo->table, philo->lfork);
-	philo_trace(philo, PH_FORKLTAKE);
+	t_timeval		time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + (time.tv_usec / 1000));
 }
 
-void	philo_release_forks(t_philo *philo)
+
+void	time_sleep(t_table *table, uint64_t ms)
 {
-	mutex_unlock(philo->table, philo->rfork);
-	philo_trace(philo, PH_FORKRRELEASE);
-	mutex_unlock(philo->table, philo->lfork);
-	philo_trace(philo, PH_FORKLRELEASE);
+	uint64_t	start;
+
+	start = get_timestamp();
+	while (get_timestamp() - start < ms - 5e2)
+	{
+		if (ph_isfinished(table))
+			break ;
+		usleep(100);
+	}
+	while (get_timestamp() - start < ms)
+		;
 }

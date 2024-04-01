@@ -9,19 +9,17 @@ RM = rm -rf
 
 # --------------
 
-COMMON_SRC =	./utils/ft_atoi.c \
-	./utils/ph_forks.c \
+SRC = ./main.c \
+	./utils/ft_atoi.c \
+	./utils/ph_checks.c \
 	./utils/ph_init.c \
-	./utils/ph_philos.c \
-	./utils/ph_time.c \
+	./utils/ph_trace.c \
 	./utils/ph_utils.c \
 	./utils/pth_mutex/mutex_getters.c \
 	./utils/pth_mutex/mutex_setters.c \
 	./utils/pth_mutex/mutex_wrapper.c \
 	./utils/pthread/pthread_wrapper.c \
-	./utils/trace.c
-
-SRC = $(COMMON_SRC) ./main.c
+	./utils/sys_time.c
 
 
 # ----RULES-----
