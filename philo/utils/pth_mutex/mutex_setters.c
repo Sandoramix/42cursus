@@ -6,14 +6,21 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:51:46 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/27 14:58:49 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:26:32 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-
 long	mutex_setlong(t_table *table, t_mutex *mutex, long *val, long newval)
+{
+	mutex_lock(table, mutex);
+	*val = newval;
+	mutex_unlock(table, mutex);
+	return (newval);
+}
+
+uint64_t	mutex_setulong(t_table *table, t_mutex *mutex, uint64_t *val, uint64_t newval)
 {
 	mutex_lock(table, mutex);
 	*val = newval;

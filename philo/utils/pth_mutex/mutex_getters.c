@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:42:50 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/27 14:57:32 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:24:42 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 long	mutex_getlong(t_table *table, t_mutex *mutex, long *val)
 {
 	long	res;
+
+	mutex_lock(table, mutex);
+	res = *val;
+	mutex_unlock(table, mutex);
+	return (res);
+}
+
+uint64_t	mutex_getulong(t_table *table, t_mutex *mutex, uint64_t *val)
+{
+	uint64_t	res;
 
 	mutex_lock(table, mutex);
 	res = *val;

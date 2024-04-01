@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 07:38:19 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/01 12:57:28 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:53:09 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	philo_cleanup(t_table *table, bool should_exit, int statuscode)
 	i = -1;
 	if (DEBUG)
 		printf(CDGREY"CLEANUP STARTED\n"CR);
-	while (++i < table->args.pc)
+	while (++i < table->pc)
 	{
 		pthread_mutex_destroy(&table->philos[i].mutex);
 		if (DEBUG)
@@ -78,7 +78,7 @@ void	philo_cleanup(t_table *table, bool should_exit, int statuscode)
 		exit(statuscode);
 }
 
-void	print_philo_action(t_table *t, long id, uint64_t ts, t_phaction act)
+void	print_philo_action(t_table *t, t_philo *p, uint64_t ts, t_phaction act)
 {
 	const char	*d[] = {PH_EATS, PH_SLEEPS, PH_THINKS, PH_DEAD, PH_SURVIVES,
 		PH_LFTAKE, PH_RFTAKE, PH_LFREL, PH_RFREL};
@@ -100,14 +100,13 @@ void	print_philo_action(t_table *t, long id, uint64_t ts, t_phaction act)
 	else
 		print = (char *)d[act];
 	mutex_lock(t, &t->print_mutex);
-	printf("%ld %ld %s\n", ts, id, print);
+	printf("%ld %d %s\n", ts, mutex_getint(t, &p->mutex, &p->id), print);
 	mutex_unlock(t, &t->print_mutex);
 }
 
 bool	philo_trace(t_philo *philo, t_phaction action)
 {
 	uint64_t	timestamp;
-	long		id;
 
 	if (ph_philo_dead(philo) && action != PH_DIE)
 		return (false);
@@ -116,9 +115,8 @@ bool	philo_trace(t_philo *philo, t_phaction action)
 			|| mutex_getbool(philo->table, &philo->table->table_mutex,
 				&philo->table->shouldstop)))
 		return (false);
-	timestamp = get_timestamp() - mutex_getlong(philo->table,
-			&philo->table->table_mutex, (long *)&philo->table->started_at);
-	id = mutex_getint(philo->table, &philo->mutex, &philo->id);
-	print_philo_action(philo->table, id, timestamp, action);
+	timestamp = get_usectimestamp();
+	timestamp -= mutex_getulong(philo->table, &philo->table->table_mutex, &philo->table->started_at);
+	print_philo_action(philo->table, philo, timestamp / 1e3, action);
 	return (true);
 }

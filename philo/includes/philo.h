@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/01 12:39:05 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:39:19 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,10 @@ typedef struct timeval	t_timeval;
 
 typedef pthread_mutex_t	t_mutex;
 
-/**
- * @brief Parsed program's input.
- * @param pc philosophers count
- * @param ttd time (in ms) to die for each philo
- * @param tte time (in ms) to eat for each philo
- * @param tts time (in ms) to sleep for each philo
- * @param lte limit to eat: how many times should each philo eat.
- * If set to `0` then they'll eat until the program stops or someone dies.
- */
+
 typedef struct s_phargs
 {
-	int			pc;
-	int			ttd;
-	int			tte;
-	int			tts;
 
-	int			lte;
-
-	bool		is_finite;
 }	t_phargs;
 
 typedef struct s_table	t_table;
@@ -66,7 +51,7 @@ typedef struct s_philo
 	bool			full;
 
 
-	long			last_meal;
+	uint64_t		last_meal;
 	t_mutex			mutex;
 
 	t_mutex			*lfork;
@@ -74,13 +59,30 @@ typedef struct s_philo
 
 
 	t_table			*table;
+	bool			braining;
 }	t_philo;
 
+/**
+ * @brief Program's shared data.
+ * @param pc philosophers count
+ * @param ttd time (in ms) to die for each philo
+ * @param tte time (in ms) to eat for each philo
+ * @param tts time (in ms) to sleep for each philo
+ * @param lte limit to eat: how many times should each philo eat.
+ * If set to `0` then they'll eat until the program stops or someone dies.
+ */
 typedef struct s_table
 {
-	pthread_t		bb_id;
+	int				pc;
+	int				ttd;
+	int				tte;
+	int				tts;
 
-	t_phargs		args;
+	int				lte;
+
+	bool			is_finite;
+
+	pthread_t		bb_id;
 
 	bool			shouldstop;
 	bool			someone_dead;
@@ -119,17 +121,21 @@ typedef enum e_mutex_handle
 
 int					mutex_init(t_table *table, t_mutex *mutex);
 int					mutex_destroy(t_table *table, t_mutex *mutex);
-int 				mutex_lock(t_table *table, t_mutex *mutex);
-int 				mutex_unlock(t_table *table, t_mutex *mutex);
+int					mutex_lock(t_table *table, t_mutex *mutex);
+int					mutex_unlock(t_table *table, t_mutex *mutex);
 
 long				mutex_getlong(t_table *table, t_mutex *mutex, long *val);
 int					mutex_getint(t_table *table, t_mutex *mutex, int *val);
 bool				mutex_getbool(t_table *table, t_mutex *mutex, bool *val);
+uint64_t			mutex_getulong(t_table *table, t_mutex *mutex, uint64_t *val);
 
 long				mutex_setlong(t_table *table,
 						t_mutex *mutex, long *val, long newval);
 bool				mutex_setbool(t_table *table,
 						t_mutex *mutex, bool *val, bool newval);
+uint64_t			mutex_setulong(t_table *table,
+						t_mutex *mutex, uint64_t *val, uint64_t newval);
+
 long				mutex_long_inc(t_table *table, t_mutex *mutex, long *val);
 int					mutex_int_inc(t_table *table, t_mutex *mutex, int *val);
 //------------------------------------------------------------------------------
@@ -158,6 +164,7 @@ bool				philo_trace(t_philo *philo, t_phaction action);
 
 int					ft_atoi(const char *nptr);
 uint64_t			get_timestamp(void);
+uint64_t			get_usectimestamp(void);
 void				time_sleep(t_table *table, uint64_t ms);
 
 bool				philo_take_forks(t_philo *philo);
