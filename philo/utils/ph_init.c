@@ -14,6 +14,10 @@
 
 void	*philo_thread(t_philo *philo)
 {
+	mutex_int_inc(philo->table, &philo->table->table_mutex, &philo->table->threads_started);
+	mutex_setlong(philo->table, &philo->mutex, &philo->last_meal, get_timestamp());
+	while (!ph_everyone_ready(philo->table))
+		;
 	while (!ph_isfinished(philo->table))
 	{
 		if (mutex_getbool(philo->table, &philo->mutex, &philo->full)
@@ -21,9 +25,9 @@ void	*philo_thread(t_philo *philo)
 			break ;
 		if (!philo_trace(philo, PH_EAT) && philo_release_forks(philo))
 			break ;
+		time_sleep(philo->table, philo->table->args.tte);
 		mutex_setlong(philo->table, &philo->mutex,
 			&philo->last_meal, get_timestamp());
-		time_sleep(philo->table, philo->table->args.tte);
 		philo_release_forks(philo);
 		if (philo->table->args.is_finite
 			&& mutex_int_inc(philo->table, &philo->mutex, &philo->times_eaten)

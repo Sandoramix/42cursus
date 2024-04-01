@@ -21,6 +21,8 @@ void	*ph_bigbro(t_table *table)
 
 	if (DEBUG)
 		printf("\e[31mBIGBRO IS HERE\n"CR);
+	while(!ph_everyone_ready(table))
+		;
 	while (!ph_isfinished(table))
 	{
 		i = -1;

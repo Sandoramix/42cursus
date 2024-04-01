@@ -166,4 +166,5 @@ bool				philo_release_forks(t_philo *philo);
 bool				forge_forks(t_table *table);
 bool				ph_philo_dead(t_philo *philo);
 bool				ph_isfinished(t_table *table);
+bool				ph_everyone_ready(t_table *table);
 #endif

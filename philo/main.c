@@ -19,8 +19,10 @@ bool	start_threads(int philo_count, t_table *t)
 
 	i = -1;
 	while (++i < philo_count)
+	{
 		thread_create(t, &(t->philos[i].whoami),
 			(void *)(*philo_thread), &(t->philos[i]));
+	}
 	i = -1;
 	thread_create(t, &t->bb_id, (void *)(ph_bigbro), t);
 	while (++i < philo_count)

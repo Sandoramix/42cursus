@@ -14,16 +14,19 @@
 
 bool	ph_philo_dead(t_philo *philo)
 {
-	long	lastmeal;
 
-	lastmeal = mutex_getlong(philo->table, &philo->mutex, &philo->last_meal);
 	if (mutex_getbool(philo->table, &philo->mutex, &philo->full))
 		return (false);
-	return (lastmeal != 0
-		&& (get_timestamp() - lastmeal > (uint64_t) philo->table->args.ttd));
+	return ((uint64_t) philo->table->args.ttd < get_timestamp()
+		- mutex_getlong(philo->table, &philo->mutex, &philo->last_meal));
 }
 
 bool	ph_isfinished(t_table *table)
 {
 	return (mutex_getbool(table, &table->table_mutex, &table->shouldstop));
+}
+
+bool	ph_everyone_ready(t_table *table)
+{
+	return (mutex_getint(table, &table->table_mutex, &table->threads_started) == table->args.pc);
 }
