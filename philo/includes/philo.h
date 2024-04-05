@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/01 15:39:19 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/05 14:17:54 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,73 +27,37 @@
 
 typedef struct timeval	t_time;
 typedef struct timeval	t_timeval;
+typedef uint64_t		t_ulong;
 
 # ifndef DEBUG
 #  define DEBUG false
 # endif
 
-typedef pthread_mutex_t	t_mutex;
-
-
-typedef struct s_phargs
+typedef enum e_timeunit
 {
+	SECONDS,
+	MILLISECONDS,
+	NANOSECONDS
+}	t_timeunit;
 
-}	t_phargs;
-
-typedef struct s_table	t_table;
+typedef pthread_mutex_t	t_mutex;
 
 typedef struct s_philo
 {
-	pthread_t		whoami;
-	int				id;
 
-	int				times_eaten;
-	bool			full;
-
-
-	uint64_t		last_meal;
-	t_mutex			mutex;
-
-	t_mutex			*lfork;
-	t_mutex			*rfork;
-
-
-	t_table			*table;
-	bool			braining;
 }	t_philo;
 
-/**
- * @brief Program's shared data.
- * @param pc philosophers count
- * @param ttd time (in ms) to die for each philo
- * @param tte time (in ms) to eat for each philo
- * @param tts time (in ms) to sleep for each philo
- * @param lte limit to eat: how many times should each philo eat.
- * If set to `0` then they'll eat until the program stops or someone dies.
- */
 typedef struct s_table
 {
-	int				pc;
-	int				ttd;
-	int				tte;
-	int				tts;
+	int		pc;
+	int		ttd;
+	int		tte;
+	int		tts;
 
-	int				lte;
+	int		mte;
 
-	bool			is_finite;
-
-	pthread_t		bb_id;
-
-	bool			shouldstop;
-	bool			someone_dead;
-	t_mutex			table_mutex;
-	t_mutex			print_mutex;
-
-	uint64_t		started_at;
-	int				threads_started;
-
-	t_philo			*philos;
-	t_mutex			*forks;
+	t_philo	*phls;
+	t_mutex	*frks;
 }	t_table;
 
 typedef enum e_phaction
@@ -111,67 +75,50 @@ typedef enum e_phaction
 	PH_RELEASE_RFORK = 50,
 }	t_phaction;
 
+// UTILS
+void	parseargs(t_table *t, int ac, char **av);
+void	usage(char **av, int statuscode);
+
+void	cleanup(t_table *t, bool doexit, int statuscode);
+bool	announce(t_philo *p, t_phaction action);
 //------------------------------------------------------------------------------
 
 typedef enum e_mutex_handle
 {
 	MUTEX_UNLOCK,
 	MUTEX_LOCK
-}					t_mutex_handle;
+}	t_mutex_handle;
 
-int					mutex_init(t_table *table, t_mutex *mutex);
-int					mutex_destroy(t_table *table, t_mutex *mutex);
-int					mutex_lock(t_table *table, t_mutex *mutex);
-int					mutex_unlock(t_table *table, t_mutex *mutex);
+int		mutex_init(t_table *t, t_mutex *m);
+int		mutex_destroy(t_table *t, t_mutex *m);
+int		mutex_lock(t_table *t, t_mutex *m);
+int		mutex_unlock(t_table *t, t_mutex *m);
 
-long				mutex_getlong(t_table *table, t_mutex *mutex, long *val);
-int					mutex_getint(t_table *table, t_mutex *mutex, int *val);
-bool				mutex_getbool(t_table *table, t_mutex *mutex, bool *val);
-uint64_t			mutex_getulong(t_table *table, t_mutex *mutex, uint64_t *val);
+long	mutget_long(t_table *t, t_mutex *m, long *val);
+int		mutget_int(t_table *t, t_mutex *m, int *val);
+bool	mutget_bool(t_table *t, t_mutex *m, bool *val);
+t_ulong	mutget_ulong(t_table *t, t_mutex *m, t_ulong *val);
 
-long				mutex_setlong(t_table *table,
-						t_mutex *mutex, long *val, long newval);
-bool				mutex_setbool(t_table *table,
-						t_mutex *mutex, bool *val, bool newval);
-uint64_t			mutex_setulong(t_table *table,
-						t_mutex *mutex, uint64_t *val, uint64_t newval);
+long	mutset_long(t_table *t, t_mutex *m, long *val, long newval);
+bool	mutset_bool(t_table *t, t_mutex *m, bool *val, bool newval);
+t_ulong	mutset_ulong(t_table *t, t_mutex *m, t_ulong *val, t_ulong newval);
 
-long				mutex_long_inc(t_table *table, t_mutex *mutex, long *val);
-int					mutex_int_inc(t_table *table, t_mutex *mutex, int *val);
+long	mutinc_long(t_table *t, t_mutex *m, long *val);
+int		mutinc_int(t_table *t, t_mutex *m, int *val);
 //------------------------------------------------------------------------------
+// THREADS
 typedef enum e_pth_action
 {
 	PTH_CREATE,
 	PTH_JOIN
 }	t_pth_action;
 
-typedef void			*(*t_pth_routine)(void *);
-
-int					thread_create(t_table *table, pthread_t *id,
-						t_pth_routine routine, void *arg);
-int					thread_join(t_table *table, pthread_t *id);
+int		thread_create(t_table *t, pthread_t *id, void *(*r)(void *), void *arg);
+int		thread_join(t_table *t, pthread_t *id);
 //------------------------------------------------------------------------------
-
-void				*ph_bigbro(t_table *table);
-
-void				*philo_thread(t_philo *philo);
-bool				gen_philos(t_table *table);
-
 // UTILS
+int		_atoi(const char *nptr);
+t_ulong	timestamp(t_timeunit unit);
+void	ssleep(t_ulong value, t_timeunit unit);
 
-void				philo_cleanup(t_table *table, bool doexit, int statuscode);
-bool				philo_trace(t_philo *philo, t_phaction action);
-
-int					ft_atoi(const char *nptr);
-uint64_t			get_timestamp(void);
-uint64_t			get_usectimestamp(void);
-void				time_sleep(t_table *table, uint64_t ms);
-
-bool				philo_take_forks(t_philo *philo);
-bool				philo_release_forks(t_philo *philo);
-
-bool				forge_forks(t_table *table);
-bool				ph_philo_dead(t_philo *philo);
-bool				ph_isfinished(t_table *table);
-bool				ph_everyone_ready(t_table *table);
 #endif

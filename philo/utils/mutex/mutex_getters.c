@@ -6,48 +6,48 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:42:50 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/01 14:24:42 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/05 13:25:16 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-long	mutex_getlong(t_table *table, t_mutex *mutex, long *val)
+long	mutget_long(t_table *t, t_mutex *m, long *val)
 {
 	long	res;
 
-	mutex_lock(table, mutex);
+	mutex_lock(t, m);
 	res = *val;
-	mutex_unlock(table, mutex);
+	mutex_unlock(t, m);
 	return (res);
 }
 
-uint64_t	mutex_getulong(t_table *table, t_mutex *mutex, uint64_t *val)
+t_ulong	mutget_ulong(t_table *t, t_mutex *m, t_ulong *val)
 {
-	uint64_t	res;
+	t_ulong	res;
 
-	mutex_lock(table, mutex);
+	mutex_lock(t, m);
 	res = *val;
-	mutex_unlock(table, mutex);
+	mutex_unlock(t, m);
 	return (res);
 }
 
-int	mutex_getint(t_table *table, t_mutex *mutex, int *val)
+int	mutget_int(t_table *t, t_mutex *m, int *val)
 {
 	int	res;
 
-	mutex_lock(table, mutex);
+	mutex_lock(t, m);
 	res = *val;
-	mutex_unlock(table, mutex);
+	mutex_unlock(t, m);
 	return (res);
 }
 
-bool	mutex_getbool(t_table *table, t_mutex *mutex, bool *val)
+bool	mutget_bool(t_table *t, t_mutex *m, bool *val)
 {
 	bool	res;
 
-	mutex_lock(table, mutex);
+	mutex_lock(t, m);
 	res = *val;
-	mutex_unlock(table, mutex);
+	mutex_unlock(t, m);
 	return (res);
 }

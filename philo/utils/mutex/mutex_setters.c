@@ -6,54 +6,54 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:51:46 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/01 14:26:32 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/05 13:19:12 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-long	mutex_setlong(t_table *table, t_mutex *mutex, long *val, long newval)
+long	mutset_long(t_table *t, t_mutex *m, long *val, long newval)
 {
-	mutex_lock(table, mutex);
+	mutex_lock(t, m);
 	*val = newval;
-	mutex_unlock(table, mutex);
+	mutex_unlock(t, m);
 	return (newval);
 }
 
-uint64_t	mutex_setulong(t_table *table, t_mutex *mutex, uint64_t *val, uint64_t newval)
+t_ulong	mutset_ulong(t_table *t, t_mutex *m, t_ulong *val, t_ulong newval)
 {
-	mutex_lock(table, mutex);
+	mutex_lock(t, m);
 	*val = newval;
-	mutex_unlock(table, mutex);
+	mutex_unlock(t, m);
 	return (newval);
 }
 
-bool	mutex_setbool(t_table *table, t_mutex *mutex, bool *val, bool newval)
+bool	mutset_bool(t_table *t, t_mutex *m, bool *val, bool newval)
 {
-	mutex_lock(table, mutex);
+	mutex_lock(t, m);
 	*val = newval;
-	mutex_unlock(table, mutex);
+	mutex_unlock(t, m);
 	return (newval);
 }
 
-long	mutex_long_inc(t_table *table, t_mutex *mutex, long *val)
+long	mutinc_long(t_table *t, t_mutex *m, long *val)
 {
 	long	res;
 
-	mutex_lock(table, mutex);
+	mutex_lock(t, m);
 	res = *val + 1;
 	*val = res;
-	mutex_unlock(table, mutex);
+	mutex_unlock(t, m);
 	return (res);
 }
 
-int	mutex_int_inc(t_table *table, t_mutex *mutex, int *val)
+int	mutinc_int(t_table *t, t_mutex *m, int *val)
 {
 	int	res;
 
-	mutex_lock(table, mutex);
+	mutex_lock(t, m);
 	res = *val + 1;
 	*val = res;
-	mutex_unlock(table, mutex);
+	mutex_unlock(t, m);
 	return (res);
 }

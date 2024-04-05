@@ -1,45 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   other.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/17 09:52:49 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/25 22:18:25 by odudniak         ###   ########.fr       */
+/*   Created: 2024/04/05 13:38:13 by odudniak          #+#    #+#             */
+/*   Updated: 2024/04/05 14:20:25 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-int	str_ilen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
-}
-
-static bool	ft_issign(char c)
-{
-	return (c == '+' || c == '-');
-}
-
-static bool	ft_isdigit(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-static bool	ft_isspace(char c)
-{
-	return (c == ' ' || (c >= 9 && c <= 13));
-}
-
-int	ft_atoi(const char *nptr)
+int	_atoi(const char *nptr)
 {
 	int	i;
 	int	sign;
@@ -49,14 +22,14 @@ int	ft_atoi(const char *nptr)
 	if (!nptr)
 		return (0);
 	i = 0;
-	while (ft_isspace(nptr[i]))
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
 		i++;
 	sign = 1;
-	if (ft_issign(nptr[i]))
+	if (nptr[i] == '+' || nptr[i] == '-')
 		if (nptr[i++] == '-')
 			sign = -1;
 	res = 0;
-	while (ft_isdigit(nptr[i]))
+	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		prev = res;
 		res = res * 10 + (nptr[i++] - '0');

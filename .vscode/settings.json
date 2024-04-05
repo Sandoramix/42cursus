@@ -13,7 +13,7 @@
 		"note": "Information"
 	},
 	"c-cpp-flylint.clang.standard": [
-		"c11"
+		"c98"
 	],
 	"c-cpp-flylint.flexelint.enable": false,
 	"c-cpp-flylint.flawfinder.enable": false,
