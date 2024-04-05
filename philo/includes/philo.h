@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/05 14:17:54 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/05 14:55:34 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,62 @@ typedef enum e_timeunit
 
 typedef pthread_mutex_t	t_mutex;
 
+typedef struct s_table	t_table;
+
 typedef struct s_philo
 {
+	int		threadid;
+	int		idx;
 
+	// MEALS
+	t_mutex	mutex_m;
+	t_ulong	meals;
+
+	// MEALS TIMESTAMP
+	t_mutex	mutex_lm;
+	t_ulong	lastmeal;
+
+	t_mutex	*lfork;
+	t_mutex	*rfork;
+
+	t_table	*table;
 }	t_philo;
 
-typedef struct s_table
+/**
+ * @brief "Shared" variable in the whole project.
+ * @param pc philosophers count.
+ * @param ttd time for each philosopher to die.
+ * @param tte time for each philosopher to eat.
+ * @param tts time for each philosopher to sleep.
+ * @param starttime time when dinner started.
+ * @param phls array of philosophers
+ * @param frks array of forks
+ * @param mutexprint mutex used to call printf safely
+ * @param shouldshop boolean to check whether the simultation should stop or not.
+ * @param mutexstop mutex used to update "shouldstop" attr.
+ */
+struct s_table
 {
+	// ARGS
 	int		pc;
 	int		ttd;
 	int		tte;
 	int		tts;
-
 	int		mte;
 
+	t_ulong	starttime;
+
+	// ALLOCATIONS
 	t_philo	*phls;
 	t_mutex	*frks;
-}	t_table;
+
+	// PRINT
+	t_mutex	mutexprint;
+
+	// GLOBAL STATE
+	bool	shouldstop;
+	t_mutex	mutexstop;
+};
 
 typedef enum e_phaction
 {
@@ -118,7 +157,17 @@ int		thread_join(t_table *t, pthread_t *id);
 //------------------------------------------------------------------------------
 // UTILS
 int		_atoi(const char *nptr);
+/**
+ * @brief Get current timestamp
+ * @param unit unit 
+ * @return 
+ */
 t_ulong	timestamp(t_timeunit unit);
+/**
+ * @brief Custom sleep function
+ * @param value value for the sleep call
+ * @param unit unit of the `value` (seconds/milliseconds/nanoseconds).
+ */
 void	ssleep(t_ulong value, t_timeunit unit);
 
 #endif

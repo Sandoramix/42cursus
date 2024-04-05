@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:53:32 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/05 14:19:52 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/05 14:22:15 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,9 @@ void	parseargs(t_table *t, int ac, char **av)
 void	cleanup(t_table *table, bool should_exit, int statuscode)
 {
 	(NULL, (void)table, (void)should_exit, (void)statuscode);
+}
+
+bool	announce(t_philo *p, t_phaction action)
+{
+	
 }
