@@ -6,13 +6,26 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:38:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/05 14:20:25 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/05 21:08:42 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-int	_atoi(const char *nptr)
+void	*_malloc(t_table *t, size_t size)
+{
+	void	*res;
+
+	res = malloc(size);
+	if (!res)
+	{
+		printf("Malloc error\n");
+		cleanup(t, true, 1);
+	}
+	return (res);
+}
+
+int	_atoi(char *nptr)
 {
 	int	i;
 	int	sign;

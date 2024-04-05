@@ -8,18 +8,18 @@ CFLAGS = -Wall -Wextra -Werror $(INCLUDES) $(DEBUGFLAGS)
 RM = rm -rf
 
 # --------------
-
 SRC = ./main.c \
-	./utils/ft_atoi.c \
-	./utils/ph_checks.c \
-	./utils/ph_init.c \
-	./utils/ph_trace.c \
-	./utils/ph_utils.c \
-	./utils/pth_mutex/mutex_getters.c \
-	./utils/pth_mutex/mutex_setters.c \
-	./utils/pth_mutex/mutex_wrapper.c \
+	./utils/checks.c \
+	./utils/init.c \
+	./utils/mutex/mutex_getters.c \
+	./utils/mutex/mutex_increments.c \
+	./utils/mutex/mutex_setters.c \
+	./utils/mutex/mutex_wrapper.c \
+	./utils/other.c \
 	./utils/pthread/pthread_wrapper.c \
-	./utils/sys_time.c
+	./utils/sys/sys_time.c \
+	./utils/thread_jobs.c \
+	./utils/utils.c
 
 
 # ----RULES-----
