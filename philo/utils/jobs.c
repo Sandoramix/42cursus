@@ -46,9 +46,9 @@ void	*philo_life(void *philo)
 		if (!philo_handle_forks(t, p, true))
 			return (NULL);
 		announce(p, PH_EAT);
-		ssleep(t->tte, MILLISECONDS);
 		mutset_ulong(t, &p->mutex_time, &p->lastmeal,
 			timestamp(MILLISECONDS));
+		ssleep(t->tte, MILLISECONDS);
 		philo_handle_forks(t, p, false);
 		if (t->mte != -1
 			&& mutinc_ulong(t, &p->mutex_meals, &p->meals) == (t_ulong) t->mte)
