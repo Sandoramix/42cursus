@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/05 21:43:29 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 11:24:36 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,17 @@ typedef struct s_table	t_table;
 
 typedef struct s_philo
 {
-	t_ulong	threadid;
 	int		id;
+	t_ulong	threadid;
+
 
 	// MEALS
-	t_mutex	mutex_m;
+	t_mutex	mutex_meals;
 	t_ulong	meals;
 	bool	full;
-	t_mutex	mutex_iseating;
-	bool	iseating;
 
 	// MEALS TIMESTAMP
-	t_mutex	mutex_lm;
+	t_mutex	mutex_time;
 	t_ulong	lastmeal;
 
 	t_mutex	*lfork;
@@ -83,30 +82,31 @@ typedef struct s_philo
  */
 struct s_table
 {
-	// ARGS
-	int		pc;
-	int		ttd;
-	int		tte;
-	int		tts;
-	int		mte;
-
 	// MONITOR THREAD ID
 	pthread_t	monitorid;
 
-	// ALLOCATIONS
-	t_philo	*phls;
-	t_mutex	*frks;
+	// ARGS
+	int			pc;
+	int			ttd;
+	int			tte;
+	int			tts;
+	int			mte;
 
-	t_ulong	starttime;
+	t_ulong		starttime;
+
+	// ALLOCATIONS
+	t_philo		*phls;
+	t_mutex		*frks;
+
 	// PRINT
-	t_mutex	mutexprint;
+	t_mutex		mutexprint;
 
 	// GLOBAL STATE
-	bool	shouldstop;
-	t_mutex	mutexstop;
+	bool		shouldstop;
+	t_mutex		mutexstop;
 
-	int		_pi;
-	int		_fi;
+	int			_pi;
+	int			_fi;
 };
 
 typedef enum e_phaction
@@ -189,8 +189,22 @@ typedef enum e_pth_action
 	PTH_JOIN
 }	t_pth_action;
 
+/**
+ * @brief Create a thread or quit on failure.
+ * @param t shared variables in the program
+ * @param id thread's id
+ * @param r function/`r`outine to let the thread run
+ * @param arg function's `arg`uments
+ * @return thread's creation status.
+ */
 int		thread_create(t_table *t, pthread_t *id,
 			void *(*r)(void *), void *arg);
+/**
+ * @brief Join the thread within main pool
+ * @param t shared variables in the program.
+ * @param id thread's id
+ * @return thread's join status.
+ */
 int		thread_join(t_table *t, pthread_t *id);
 //------------------------------------------------------------------------------
 // UTILS

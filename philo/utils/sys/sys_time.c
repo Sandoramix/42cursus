@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 07:32:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/05 13:50:23 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 11:42:23 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,8 @@ t_ulong	timestamp(t_timeunit unit)
 void	ssleep(t_ulong value, t_timeunit unit)
 {
 	t_ulong	start;
-	t_ulong	limit;
-	t_ulong	segment;
 
-	limit = value;
-	segment = value;
-	if (unit == MILLISECONDS)
-	{
-		limit *= 1e3;
-		segment = limit / 1e1;
-	}
-	else if (unit == SECONDS)
-	{
-		limit *= 1e6;
-		segment = limit / 1e2;
-	}
 	start = timestamp(unit);
-	while (timestamp(unit) - start < limit)
-		usleep(segment);
+	while (timestamp(unit) - start < value)
+		usleep(100);
 }

@@ -10,6 +10,7 @@ RM = rm -rf
 # --------------
 SRC = ./main.c \
 	./utils/checks.c \
+	./utils/jobs.c \
 	./utils/init.c \
 	./utils/mutex/mutex_getters.c \
 	./utils/mutex/mutex_increments.c \
@@ -18,7 +19,6 @@ SRC = ./main.c \
 	./utils/other.c \
 	./utils/pthread/pthread_wrapper.c \
 	./utils/sys/sys_time.c \
-	./utils/thread_jobs.c \
 	./utils/utils.c
 
 

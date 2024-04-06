@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:53:32 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/05 22:09:53 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 11:25:19 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,22 @@ bool	announce(t_philo *p, t_phaction act)
 {
 	t_table			*t;
 	const char		*msg[] = {EAT, SLEEP, THINK, DIE, SURVIVE, FTAKE, FREL};
-	const char		*dbg[] = {NULL, NULL, NULL, NULL, NULL, LFTAKE, RFTAKE,
-		LFREL, RFREL};
+	const char		*dbg[] = {LFTAKE, RFTAKE, LFREL, RFREL};
 	char			*s;
 
 	t = p->table;
-	if (!DEBUG && act > 42)
-		s = (char *)msg[act - 42 - (act == PH_RFREL || PH_RFTAKE)];
-	else if (DEBUG && act > 42)
-		s = (char *)dbg[act - 42];
+	if (act > 42 && DEBUG)
+		s = (char *)dbg[act - PH_LFTAKE];
+	else if (!DEBUG && (act == PH_LFTAKE || act == PH_RFTAKE))
+		s = FTAKE;
+	else if (!DEBUG && (act == PH_LFREL || act == PH_RFREL))
+		s = FREL;
 	else
 		s = (char *)msg[act];
-	//if (mutget_bool(t, &t->mutexstop, &t->shouldstop))
-	//	return (false);
+	if (mutget_bool(t, &t->mutexstop, &t->shouldstop))
+		return (false);
 	mutex_lock(t, &t->mutexprint);
-	printf("%ld %d %s\n",
-		timestamp(MILLISECONDS) - mutget_ulong(t, &p->mutex_lm, &t->starttime),
-		p->id, s);
+	printf("%ld %d %s\n", timestamp(MILLISECONDS) - t->starttime, p->id, s);
 	mutex_unlock(t, &t->mutexprint);
 	return (true);
 }
