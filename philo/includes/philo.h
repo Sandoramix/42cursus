@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 11:24:36 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:27:53 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_philo
 	int		id;
 	t_ulong	threadid;
 
-
 	// MEALS
 	t_mutex	mutex_meals;
 	t_ulong	meals;
@@ -59,9 +58,11 @@ typedef struct s_philo
 	t_mutex	mutex_time;
 	t_ulong	lastmeal;
 
+	// FORKS
 	t_mutex	*lfork;
 	t_mutex	*rfork;
 
+	// SHARED DATA
 	t_table	*table;
 }	t_philo;
 
@@ -82,9 +83,6 @@ typedef struct s_philo
  */
 struct s_table
 {
-	// MONITOR THREAD ID
-	pthread_t	monitorid;
-
 	// ARGS
 	int			pc;
 	int			ttd;
@@ -130,7 +128,6 @@ void	parseargs(t_table *t, int ac, char **av);
 void	*philo_life(void *philo);
 void	*monitor(void *table);
 
-
 // CHECKS
 bool	is_philo_alive(t_philo *p);
 bool	is_philo_full(t_philo *p);
@@ -138,7 +135,7 @@ bool	is_philo_full(t_philo *p);
 // UTILS
 void	usage(char **av, int statuscode);
 
-void	cleanup(const t_table *t, bool doexit, int statuscode);
+void	cleanup(t_table *t, bool doexit, int statuscode);
 bool	announce(t_philo *p, t_phaction action);
 //------------------------------------------------------------------------------
 
@@ -150,8 +147,6 @@ typedef enum e_mutex_handle
 
 /** @brief initialize a mutex */
 int		mutex_init(t_table *t, t_mutex *m);
-/** @brief destroy a mutex */
-int		mutex_destroy(t_table *t, t_mutex *m);
 /** @brief lock a mutex */
 int		mutex_lock(t_table *t, t_mutex *m);
 /** @brief unlock a mutex */

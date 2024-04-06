@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:53:32 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 11:25:19 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:04:40 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,29 @@ void	parseargs(t_table *t, int ac, char **av)
 		usage(av, 1);
 }
 
-void	cleanup(const t_table *table, bool should_exit, int statuscode)
+void	cleanup(t_table *t, bool should_exit, int statuscode)
 {
-	(void)table;
-	(void)should_exit;
-	(void)statuscode;
+	int	i;
+
+	i = -1;
+	while (++i < t->pc)
+	{
+		if (i < t->_fi)
+			pthread_mutex_destroy(&t->frks[i]);
+		if (i < t->_pi)
+		{
+			pthread_mutex_destroy(&t->phls[i].mutex_meals);
+			pthread_mutex_destroy(&t->phls[i].mutex_time);
+		}
+	}
+	free(t->frks);
+	free(t->phls);
+	pthread_mutex_destroy(&t->mutexprint);
+	pthread_mutex_destroy(&t->mutexstop);
+	if (DEBUG)
+		printf(CDGREY"Cleanup finished\n"CR);
+	if (should_exit)
+		exit(statuscode);
 }
 
 bool	announce(t_philo *p, t_phaction act)

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:33:17 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/05 21:06:41 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:28:11 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,6 @@ int	mutex_init(t_table *t, t_mutex *m)
 	return (res);
 }
 
-int	mutex_destroy(t_table *t, t_mutex *m)
-{
-	int	res;
-
-	res = pthread_mutex_destroy(m);
-	if (res == 0)
-		return (0);
-	printf("Error: mutex destroy failed.\n");
-	cleanup(t, true, 1);
-	return (res);
-}
-
 int	mutex_lock(t_table *t, t_mutex *m)
 {
 	int	res;
@@ -47,7 +35,6 @@ int	mutex_lock(t_table *t, t_mutex *m)
 	cleanup(t, true, 1);
 	return (res);
 }
-
 
 int	mutex_unlock(t_table *t, t_mutex *m)
 {

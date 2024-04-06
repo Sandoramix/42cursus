@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 19:27:21 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 11:42:52 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:25:33 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	*philo_life(void *philo)
 		ssleep(1, MILLISECONDS);
 	while (!mutget_bool(t, &t->mutexstop, &t->shouldstop))
 	{
-		philo_handle_forks(t, p, true);
+		if (!philo_handle_forks(t, p, true))
+			return (NULL);
 		announce(p, PH_EAT);
 		ssleep(t->tte, MILLISECONDS);
 		mutset_ulong(t, &p->mutex_time, &p->lastmeal,
@@ -80,7 +81,5 @@ void	*monitor(void *table)
 					mutset_bool(t, &t->mutexstop, &t->shouldstop, true), NULL);
 		}
 	}
-	mutset_bool(t, &t->mutexstop, &t->shouldstop, true);
-	cleanup(t, true, 0);
 	return (NULL);
 }

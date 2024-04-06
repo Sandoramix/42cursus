@@ -6,13 +6,11 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 19:03:23 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 11:31:21 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:28:06 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
-
-
 
 static void	init_philo(t_table *t, int idx)
 {
@@ -38,7 +36,7 @@ static void	init_philo(t_table *t, int idx)
 		p->lfork = &t->frks[idx - 1];
 	p->lastmeal = timestamp(MILLISECONDS);
 	if (DEBUG)
-		printf(CDGREY"PHILO[%d]: LF[%p] RF[%p]\n"CR, idx, p->lfork, p->rfork);
+		printf(CDGREY"PHILO[%d]:\tLF[%p] RF[%p]\n"CR, idx, p->lfork, p->rfork);
 }
 
 void	init(t_table *t)
@@ -58,8 +56,12 @@ void	init(t_table *t)
 		t->_pi++;
 	}
 	i = -1;
+	if (DEBUG)
+		printf(CDGREY"FORKS:\n"CR);
+	while (DEBUG && ++i < t->_fi)
+		printf(CDGREY"\t[%d]\t%p\n"CR, i, &t->frks[i]);
+	i = -1;
 	t->starttime = timestamp(MILLISECONDS);
 	while (++i < t->pc)
 		thread_create(t, &t->phls[i].threadid, philo_life, &t->phls[i]);
-	i = -1;
 }
