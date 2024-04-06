@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 19:03:23 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 12:35:26 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:44:10 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void	init_philo(t_table *t, int idx)
 	p->meals = 0;
 	p->table = t;
 	p->rfork = &t->frks[idx];
-	p->iseating = false;
 	if (t->pc == 1)
 		p->lfork = NULL;
 	else if (idx == 0)
@@ -35,7 +34,7 @@ static void	init_philo(t_table *t, int idx)
 	}
 	else
 		p->lfork = &t->frks[idx - 1];
-	p->lastmeal = timestamp(MILLISECONDS);
+	p->lastmeal = 0;
 	if (DEBUG)
 		printf(CDGREY"PHILO[%d]:\tLF[%p] RF[%p]\n"CR, idx, p->lfork, p->rfork);
 }

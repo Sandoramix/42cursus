@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 12:35:16 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:40:25 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_philo
 	t_mutex	mutex_meals;
 	t_ulong	meals;
 	bool	full;
-	bool	iseating;
 
 	// MEALS TIMESTAMP
 	t_mutex	mutex_time;

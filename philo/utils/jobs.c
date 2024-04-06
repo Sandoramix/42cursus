@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 19:27:21 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 12:35:42 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:46:52 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,14 @@ void	*philo_life(void *philo)
 
 	p = (t_philo *)philo;
 	t = p->table;
-	if (p->id % 2 == 0)
-		ssleep(1, MILLISECONDS);
+	mutset_ulong(t, &p->mutex_time, &p->lastmeal, timestamp(MILLISECONDS));
 	while (!mutget_bool(t, &t->mutexstop, &t->shouldstop))
 	{
 		if (!philo_handle_forks(t, p, true))
 			return (NULL);
 		announce(p, PH_EAT);
-		mutset_bool(t, &p->mutex_meals, &p->iseating, true);
-		ssleep(t->tte, MILLISECONDS);
 		mutset_ulong(t, &p->mutex_time, &p->lastmeal, timestamp(MILLISECONDS));
-		mutset_bool(t, &p->mutex_meals, &p->iseating, false);
+		ssleep(t->tte, MILLISECONDS);
 		philo_handle_forks(t, p, false);
 		if (t->mte != -1
 			&& mutinc_ulong(t, &p->mutex_meals, &p->meals) == (t_ulong) t->mte)
