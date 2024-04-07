@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:53:32 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 12:04:40 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/07 10:31:58 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,45 @@ void	cleanup(t_table *t, bool should_exit, int statuscode)
 		exit(statuscode);
 }
 
+static void	debug_announce(t_table *t, t_philo *p, t_phaction act)
+{
+	const char		*dbg[] = {EAT, SLEEP, THINK, DIE, SURVIVE, LFTAKE, RFTAKE,
+		LFREL, RFREL};
+	char			*s;
+
+	if (act > 42 && DEBUG)
+		act -= 42;
+	s = (char *)dbg[act];
+	mutex_lock(t, &t->mutexprint);
+	printf("\e[36m%ld"CR" \e[93m%d"CR" %s",
+		timestamp(MILLISECONDS) - t->starttime, p->id, s);
+	if (act == PH_SURVIVE)
+	{
+		mutex_lock(t, &p->mutex_meals);
+		printf(".\e[0;42m Total meals: %ld "CR, p->meals);
+		mutex_unlock(t, &p->mutex_meals);
+	}
+	printf("\n");
+	mutex_unlock(t, &t->mutexprint);
+}
+
 bool	announce(t_philo *p, t_phaction act)
 {
 	t_table			*t;
 	const char		*msg[] = {EAT, SLEEP, THINK, DIE, SURVIVE, FTAKE, FREL};
-	const char		*dbg[] = {LFTAKE, RFTAKE, LFREL, RFREL};
 	char			*s;
 
 	t = p->table;
-	if (act > 42 && DEBUG)
-		s = (char *)dbg[act - PH_LFTAKE];
-	else if (!DEBUG && (act == PH_LFTAKE || act == PH_RFTAKE))
+	if (mutget_bool(t, &t->mutexstop, &t->shouldstop))
+		return (false);
+	if (DEBUG)
+		return (debug_announce(t, p, act), true);
+	if (act == PH_LFTAKE || act == PH_RFTAKE)
 		s = FTAKE;
-	else if (!DEBUG && (act == PH_LFREL || act == PH_RFREL))
+	else if (act == PH_LFREL || act == PH_RFREL)
 		s = FREL;
 	else
 		s = (char *)msg[act];
-	if (mutget_bool(t, &t->mutexstop, &t->shouldstop))
-		return (false);
 	mutex_lock(t, &t->mutexprint);
 	printf("%ld %d %s\n", timestamp(MILLISECONDS) - t->starttime, p->id, s);
 	mutex_unlock(t, &t->mutexprint);

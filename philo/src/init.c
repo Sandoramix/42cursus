@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 19:03:23 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 12:44:10 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/07 10:24:32 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void	init(t_table *t)
 	i = -1;
 	t->starttime = timestamp(MILLISECONDS);
 	while (++i < t->pc)
-		thread_create(t, &t->phls[i].threadid, philo_life, &t->phls[i]);
+		thread_create(t, &t->phls[i].threadid, (void *)philo_life, &t->phls[i]);
 }

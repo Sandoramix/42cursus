@@ -6,12 +6,11 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 07:32:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 11:42:23 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/07 10:12:11 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
-#include <unistd.h>
 
 t_ulong	timestamp(t_timeunit unit)
 {

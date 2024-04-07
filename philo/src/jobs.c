@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 19:27:21 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 12:46:52 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/07 10:38:33 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ static bool	philo_handle_forks(t_table *t, t_philo *p, bool take)
 }
 
 //// WITH THAT `SSLEEP` IT WORKS... DO I LIKE IT? NO
-void	*philo_life(void *philo)
+void	*philo_life(t_philo *p)
 {
-	t_philo	*p;
 	t_table	*t;
 
-	p = (t_philo *)philo;
 	t = p->table;
+	if (p->id % 2 == 0)
+		ssleep(1, MILLISECONDS);
 	mutset_ulong(t, &p->mutex_time, &p->lastmeal, timestamp(MILLISECONDS));
 	while (!mutget_bool(t, &t->mutexstop, &t->shouldstop))
 	{
@@ -50,21 +50,25 @@ void	*philo_life(void *philo)
 		philo_handle_forks(t, p, false);
 		if (t->mte != -1
 			&& mutinc_ulong(t, &p->mutex_meals, &p->meals) == (t_ulong) t->mte)
-			return (mutset_bool(t, &p->mutex_meals, &p->full, true), NULL);
+			return (mutset_bool(t, &p->mutex_meals, &p->full, true),
+				announce(p, PH_SURVIVE), NULL);
 		announce(p, PH_SLEEP);
 		ssleep(t->tts, MILLISECONDS);
 		announce(p, PH_THINK);
 	}
+	announce(p, PH_SURVIVE);
 	return (NULL);
 }
 
-void	*monitor(void *table)
+void	*monitor(t_table *t)
 {
-	t_table			*t;
 	int				i;
 	int				satisfied;
 
-	t = (t_table *)table;
+	mutex_lock(t, &t->mutexprint);
+	if (DEBUG)
+		printf("\e[31mBIG BRO IS HERE!\n"CR);
+	mutex_unlock(t, &t->mutexprint);
 	satisfied = 0;
 	while (satisfied != t->pc)
 	{

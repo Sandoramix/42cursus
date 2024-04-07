@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/06 12:40:25 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/07 10:26:35 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <stdint.h>
 
 # define CDGREY "\e[90m"
-# define CR "\e[39m"
+# define CR "\e[0;39m"
 
 typedef struct timeval	t_time;
 typedef struct timeval	t_timeval;
@@ -125,8 +125,8 @@ typedef enum e_phaction
 void	init(t_table *t);
 void	parseargs(t_table *t, int ac, char **av);
 
-void	*philo_life(void *philo);
-void	*monitor(void *table);
+void	*philo_life(t_philo *philo);
+void	*monitor(t_table *table);
 
 // CHECKS
 bool	is_philo_alive(t_philo *p);
