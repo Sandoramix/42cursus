@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/07 10:26:35 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/07 11:14:00 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,6 @@ int		mutinc_int(t_table *t, t_mutex *m, int *val);
 t_ulong	mutinc_ulong(t_table *t, t_mutex *m, t_ulong *val);
 //------------------------------------------------------------------------------
 // THREADS
-typedef enum e_pth_action
-{
-	PTH_CREATE,
-	PTH_JOIN
-}	t_pth_action;
 
 /**
  * @brief Create a thread or quit on failure.
