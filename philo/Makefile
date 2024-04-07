@@ -9,17 +9,17 @@ RM = rm -rf
 
 # --------------
 SRC = ./main.c \
-	./utils/checks.c \
-	./utils/jobs.c \
-	./utils/init.c \
-	./utils/mutex/mutex_getters.c \
-	./utils/mutex/mutex_increments.c \
-	./utils/mutex/mutex_setters.c \
-	./utils/mutex/mutex_wrapper.c \
-	./utils/other.c \
-	./utils/pthread/pthread_wrapper.c \
-	./utils/sys/sys_time.c \
-	./utils/utils.c
+	./src/checks.c \
+	./src/init.c \
+	./src/jobs.c \
+	./src/mutex/mutex_getters.c \
+	./src/mutex/mutex_increments.c \
+	./src/mutex/mutex_setters.c \
+	./src/mutex/mutex_wrapper.c \
+	./src/other.c \
+	./src/pthread/pthread_wrapper.c \
+	./src/sys/sys_time.c \
+	./src/utils.c
 
 
 # ----RULES-----
