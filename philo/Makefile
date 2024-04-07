@@ -48,7 +48,7 @@ debug:
 debug-log:
 	$(MAKE) DEBUGFLAGS="-g -DDEBUG=true"
 # --------------
-.PHONY: all clean fclean re valgrind
+.PHONY: all clean fclean re
 .SILENT:
 
 # ----COLORS----
