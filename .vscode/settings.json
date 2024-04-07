@@ -25,15 +25,15 @@
 		"${workspaceFolder}/philo/includes",
 
 
-		//"${workspaceFolder}/philo_bonus",
-		//"${workspaceFolder}/philo_bonus/includes",
+		"${workspaceFolder}/philo_bonus",
+		"${workspaceFolder}/philo_bonus/includes",
 	],
 	"C_Cpp.default.includePath": [
 		"${workspaceFolder}/philo",
 		"${workspaceFolder}/philo/includes",
 
-		//"${workspaceFolder}/philo_bonus",
-		//"${workspaceFolder}/philo_bonus/includes",
+		"${workspaceFolder}/philo_bonus",
+		"${workspaceFolder}/philo_bonus/includes",
 	],
 	"C_Cpp.default.intelliSenseMode": "linux-clang-x64",
 	"files.associations": {
@@ -41,6 +41,16 @@
 		"philo_common.h": "c",
 		"time.h": "c",
 		"pthread.h": "c",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"philo_bonus.h": "c"
 	},
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true
+	},
+	"hide-files.files": [],
 }
