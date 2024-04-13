@@ -50,7 +50,10 @@
 		"**/.hg": true,
 		"**/CVS": true,
 		"**/.DS_Store": true,
-		"**/Thumbs.db": true
+		"**/Thumbs.db": true,
+		"philo_bonus/src/other.c": true
 	},
-	"hide-files.files": [],
+	"hide-files.files": [
+		"philo_bonus/src/other.c"
+	],
 }

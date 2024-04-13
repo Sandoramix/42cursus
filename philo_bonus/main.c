@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 15:57:07 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/07 11:22:21 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:54:38 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 int	main(int ac, char **av)
 {
 	t_table	table;
-	int		status;
 
 	table = (t_table){0};
 	parseargs(&table, ac, av);
 	init(&table);
 	monitor(&table);
-	cleanup(&table, true, 0);
-	return (0);
+	return (cleanup(&table, true, 0, 0), 0);
 }

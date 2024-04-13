@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:38:13 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/07 11:20:41 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:54:15 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*_malloc(t_table *t, size_t size)
 	if (!res)
 	{
 		printf("Malloc error\n");
-		cleanup(t, true, 1);
+		cleanup(t, true, 1, 0);
 	}
 	return (res);
 }

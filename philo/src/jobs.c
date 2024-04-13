@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 19:27:21 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/07 10:38:33 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:48:14 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	*philo_life(t_philo *p)
 		ssleep(t->tts, MILLISECONDS);
 		announce(p, PH_THINK);
 	}
-	announce(p, PH_SURVIVE);
 	return (NULL);
 }
 

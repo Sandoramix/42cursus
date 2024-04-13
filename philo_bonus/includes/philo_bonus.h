@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:39:06 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/07 11:54:10 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:50:35 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/time.h>
+# include <wait.h>
 
 # define CDGREY "\e[90m"
+# define CDGGREY "\e[90;1m"
+# define CDCYAN "\e[96m"
+# define CDCCYAN "\e[96;1m"
 # define CR "\e[0;39m"
 
 typedef struct timeval	t_time;
@@ -54,7 +58,7 @@ typedef struct s_table	t_table;
 typedef struct s_philo
 {
 	int		id;
-	t_ulong	threadid;
+	pid_t	pid;
 
 	// MEALS
 	t_ulong	meals;
@@ -96,7 +100,7 @@ struct s_table
 
 
 	// ALLOCATIONS
-	pid_t		*phls;
+	t_philo		*phls;
 	int			_pi;
 };
 
@@ -128,9 +132,15 @@ bool	is_philo_full(t_philo *p);
 // UTILS
 void	usage(char **av, int statuscode);
 
-void	cleanup(t_table *t, bool doexit, int statuscode);
+void	cleanup(t_table *t, bool doexit, int statuscode, int id);
 bool	announce(t_philo *p, t_phaction action);
 
+//------------------------------------------------------------------------------
+// SEMAPHORES
+
+sem_t	*semaphore_open(t_table *t, char *name, int quantity);
+int		semaphore_close(sem_t *sem, char *semname, int id);
+int		semaphore_unlink(char *name, int id);
 //------------------------------------------------------------------------------
 // THREADS
 

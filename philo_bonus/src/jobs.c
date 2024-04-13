@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 19:27:21 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/07 12:04:21 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:28:46 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static bool	philo_handle_forks(t_table *t, t_philo *p, bool take)
 {
+	(void)t;
 	if (take)
 	{
 		//SEM WAIT FOR A FORK
@@ -35,6 +36,7 @@ void	*philo_life(t_philo *p)
 
 	t = p->table;
 	p->lastmeal = timestamp(MILLISECONDS);
+	printf("PHILO %d IS BORN\n", p->id);
 	// CAN STOP ONLY IF THE PROCESS IS KILLED OR PHILO ATE ENOUGH
 	while (42)
 	{
@@ -50,7 +52,6 @@ void	*philo_life(t_philo *p)
 		{
 			// MAYBE IT'S NOT NEEDED
 			p->full = true;
-
 			return (announce(p, PH_SURVIVE), NULL);
 		}
 		// "LIMBO" SEM GET ?
@@ -69,23 +70,26 @@ void	*monitor(t_table *t)
 
 	// SEM GET "PRINT"
 	if (DEBUG)
-		printf("\e[31mBIG BRO IS HERE!\n"CR);
+		printf("\e[31;1mBIG BRO IS HERE!\n"CR);
 	// SEM RELEASE "PRINT"
 	satisfied = 0;
-	while (satisfied != t->pc)
-	{
-		i = -1;
-		satisfied = 0;
-		while (++i < t->pc)
-		{
-			// LOCK SEM "DEATH"
-			if (is_philo_full(&t->phls[i]) && ++satisfied)
-				// UNLOCK SEM "DEATH"
-				continue ;
-			// DO NOT UNLOCK THE SEM "DEATH" SO THE OTHERS WILL BE "PAUSED" AND KILLED
-			if (!is_philo_alive(&t->phls[i]))
-				return (announce(&t->phls[i], PH_DIE), NULL);
-		}
-	}
+	(void)i;
+	(void)satisfied;
+	(void)t;
+	//while (satisfied != t->pc)
+	//{
+	//	i = -1;
+	//	satisfied = 0;
+	//	while (++i < t->pc)
+	//	{
+	//		// LOCK SEM "DEATH"
+	//		if (is_philo_full(&t->phls[i]) && ++satisfied)
+	//			// UNLOCK SEM "DEATH"
+	//			continue ;
+	//		// DO NOT UNLOCK THE SEM "DEATH" SO THE OTHERS WILL BE "PAUSED" AND KILLED
+	//		if (!is_philo_alive(&t->phls[i]))
+	//			return (announce(&t->phls[i], PH_DIE), NULL);
+	//	}
+	//}
 	return (NULL);
 }

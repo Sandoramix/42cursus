@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 18:58:19 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/07 11:56:28 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/13 16:52:27 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	is_philo_full(t_philo *p)
 {
-	int		meals;
+	t_ulong	meals;
 
 	if (p->table->mte == -1)
 		return (false);

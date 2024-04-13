@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:53:32 by odudniak          #+#    #+#             */
-/*   Updated: 2024/04/07 12:05:34 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:50:57 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ void	kill_peacefully_philos(t_table *t)
 	int	i;
 	int	status;
 
+	status = 0;
 	waitpid(-1, &status, 0);
 	if (!WIFEXITED(status) && !WIFSIGNALED(status))
 		return ;
 	i = -1;
 	while (++i < t->_pi)
-		kill(t->phls[i], SIGTERM);
+		kill(t->phls[i].pid, SIGTERM);
 }
 
 void	parseargs(t_table *t, int ac, char **av)
@@ -57,12 +58,20 @@ void	parseargs(t_table *t, int ac, char **av)
 		usage(av, 1);
 }
 
-void	cleanup(t_table *t, bool should_exit, int statuscode)
+void	cleanup(t_table *t, bool should_exit, int statuscode, int id)
 {
+	kill_peacefully_philos(t);
+	semaphore_close(t->sem_death, SEM_LIMBO, id);
+	semaphore_close(t->sem_forks, SEM_FORKS, id);
+	semaphore_close(t->sem_meals, SEM_MEAL, id);
+	semaphore_close(t->sem_print, SEM_PRINT, id);
 	free(t->phls);
-	// DESTROY ALL SEMAPHORES
 	if (DEBUG)
-		printf(CDGREY"Cleanup finished\n"CR);
+	{
+		if (id != -1)
+			printf(CDGGREY"[%d] "CR, id);
+		printf(CDGGREY"Cleanup finished\n"CR);
+	}
 	if (should_exit)
 		exit(statuscode);
 }
@@ -76,17 +85,16 @@ static void	debug_announce(t_table *t, t_philo *p, t_phaction act)
 	if (act > 42 && DEBUG)
 		act -= 42;
 	s = (char *)dbg[act];
-	mutex_lock(t, &t->mutexprint);
-	printf("\e[36m%ld"CR" \e[93m%d"CR" %s",
+	// SEM GET "PRINT"
+	printf("\e[36;1m%ld"CR" \e[93m%d"CR" %s",
 		timestamp(MILLISECONDS) - t->starttime, p->id, s);
 	if (act == PH_SURVIVE)
 	{
-		mutex_lock(t, &p->mutex_meals);
-		printf(".\e[0;42m Total meals: %ld "CR, p->meals);
-		mutex_unlock(t, &p->mutex_meals);
+		// MAYBE USING "MEALS" SEM HERE
+		printf(".\e[0;42;1m Total meals: %ld "CR, p->meals);
 	}
 	printf("\n");
-	mutex_unlock(t, &t->mutexprint);
+	// SEM RELEASE "PRINT"
 }
 
 bool	announce(t_philo *p, t_phaction act)
@@ -96,8 +104,7 @@ bool	announce(t_philo *p, t_phaction act)
 	char			*s;
 
 	t = p->table;
-	if (mutget_bool(t, &t->mutexstop, &t->shouldstop))
-		return (false);
+	// SEM WAIT "DEATH"
 	if (DEBUG)
 		return (debug_announce(t, p, act), true);
 	if (act == PH_LFTAKE || act == PH_RFTAKE)
@@ -106,8 +113,9 @@ bool	announce(t_philo *p, t_phaction act)
 		s = FREL;
 	else
 		s = (char *)msg[act];
-	mutex_lock(t, &t->mutexprint);
+	// SEM GET "PRINT"
 	printf("%ld %d %s\n", timestamp(MILLISECONDS) - t->starttime, p->id, s);
-	mutex_unlock(t, &t->mutexprint);
+	// SEM RELEASE "PRINT"
+	// SEM REL "DEATH"
 	return (true);
 }
