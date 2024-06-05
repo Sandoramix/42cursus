@@ -8,8 +8,9 @@ VERSION = "Current %(prog)s's version: v1"
 
 argParser = agp.ArgumentParser(description="Tool which creates locates and writes every src & bonus files for your project")
 argParser.add_argument("--path", '-p', default='.',  help="Path to look for")
+argParser.add_argument("--exclude", '-e', default=None,  help="Paths to exclude from lookup, each separated by comma")
 argParser.add_argument("--version", "-v", help="Show the program's version", action='version', version=VERSION)
-argParser.add_argument("--output","-o",  nargs='?', default='makefile.srcs', help="Output file")
+argParser.add_argument("--output","-o",  nargs='?', default='makefile.srcs', help="Output file. Default: 'makefile.srcs'")
 
 
 args = argParser.parse_args()
@@ -18,15 +19,17 @@ if 'version' in args:
 	exit(0)
 
 PATH = args.path
+EXCLUDE_DIRS = args.exclude.split(",") if ('exclude' in args and args.exclude is not None) else []
 OUTFILE = args.output if 'output' in args else 'makefile.srcs'
 
 srcs = []
 bonuses = []
 
 def updateExcludedPaths():
-	to_exclude = set()
-	"""Find excluded path (every subfolder folder that is a part of another repository)
 	"""
+	Find excluded path (every subfolder folder that is a part of another repository, or is in `EXCLUDE_DIRS`)
+	"""
+	to_exclude = set(EXCLUDE_DIRS)
 	for x in os.walk(PATH):
 		if x[0].startswith("./.git"): continue
 		if (".git" in x[0]):
