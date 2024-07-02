@@ -17,7 +17,9 @@ Checked: *`done`*
 - [x] [get_next_line<br><img src="https://github.com/Sandoramix/42cursus/assets/70036883/8485fb9f-0ef5-47b0-a663-3cfcf90bf989" style="height: 160px;object-fit: scale-down;">](https://github.com/Sandoramix/42cursus/tree/get_next_line)
 - [x] [so_long<br><img src="https://github.com/Sandoramix/42cursus/assets/70036883/73b400a6-2203-4cba-ac40-64c1101ed8d9" style="height: 160px;object-fit: scale-down;">](https://github.com/Sandoramix/42cursus/tree/so_long)
 - [x] WIP [push_swap<br><img src="https://github.com/Sandoramix/42cursus/assets/70036883/8eb95aed-9656-4290-bf6f-daae6bd4989a" style="height: 160px;object-fit: scale-down;">](https://github.com/Sandoramix/42cursus/tree/push_swap)
+- [x] [Pipex<br><img src="https://github.com/Sandoramix/42cursus/assets/70036883/a2d0edf2-34d0-4b77-acfb-2c22e74f1ff0" style="height: 160px; object-fit: scale-down;">](https://github.com/Sandoramix/42cursus/tree/pipex)
 - [x] [minishell<br><img src="https://github.com/Sandoramix/42cursus/assets/70036883/5887671f-ed72-4fbb-9da9-3147591f63bd" style="height: 160px; object-fit: scale-down;">](https://github.com/Sandoramix/42-minishell)
+- [x] [Philosophers<br><img src="https://github.com/Sandoramix/42cursus/assets/70036883/80879259-f272-4943-aa88-0539eb7cc934" style="height: 160px; object-fit: scale-down;">](https://github.com/Sandoramix/42cursus/tree/philosophers)
 
 ---
 
