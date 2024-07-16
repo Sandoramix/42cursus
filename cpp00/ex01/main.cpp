@@ -1,6 +1,7 @@
 #include <PhoneBook.hpp>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits>
 
 typedef enum cmd
 {
@@ -37,16 +38,17 @@ static std::string getContactValue(std::string attr){
 
 	std::cout << attr << ": ";
 	std::getline(std::cin, input);
-	if (std::cin.eof()){
-		input.clear();
-		// someone EOF'ed
-		// TODO recover the cin state.
-		std::cerr << "Someone EOF'ed..." << std::endl;
-		exit(1);
-	}
-	// TODO better "isblank" check
-	if (!input.size()){
-		std::cerr << "Input cannot be empty" << std::endl;
+	if (std::cin.eof() || input.empty()){
+		if (std::cin.eof()){
+			input.clear();
+			std::cin.clear();
+			fflush(stdin);
+			// someone EOF'ed
+			std::cerr << "Someone EOF'ed..." << std::endl;
+		}
+		else if (input.empty()){
+			std::cerr << "Input cannot be empty" << std::endl;
+		}
 		return getContactValue(attr);
 	}
 	return input;
@@ -81,6 +83,8 @@ int main(int ac, char **av){
 		prompt();
 		std::getline(std::cin, input);
 		if (std::cin.eof()){
+			input.clear();
+			std::cin.clear();
 			std::cerr << std::endl << "Someone EOF'ed..." << std::endl;
 			break;
 		}
