@@ -1,6 +1,6 @@
 NAME=BSP
 
-CPPFLAGS=-g -std=c++98 -I.
+CPPFLAGS=-g -Wall -Wextra -Werror -std=c++98 -I.
 CC = c++
 
 SRCS = main.cpp Fixed.cpp Point.cpp bsp.cpp
