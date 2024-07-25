@@ -79,9 +79,12 @@ void ClapTrap::beRepaired(unsigned int amount)
 		return;
 	}
 	std::cout << "ClapTrap " << this->name << " repaired itself for " << amount << " hitPoints." << std::endl;
+	if (this->hitPoints == 0){
+		std::cout << "\tHOLY MOLY! We witnessed to a miracle. It revived itself" << std::endl;
+	}
 	this->hitPoints += amount;
 	this->energyPoints--;
-	std::cout << "\tRemaining hitPoints: " << this->hitPoints << std::endl;
+	std::cout << "\tCurrent hitPoints: " << this->hitPoints << std::endl;
 }
 
 void ClapTrap::setName(std::string newName)

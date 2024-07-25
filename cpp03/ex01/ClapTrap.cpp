@@ -4,12 +4,12 @@
 
 ClapTrap::ClapTrap() : name("DEFAULT"), hitPoints(10), energyPoints(10), attackDamage(0)
 {
-
+	std::cout << "[CP][DEFAULT]\tconstructor\tname: " << this->name << std::endl;
 }
 
 ClapTrap::ClapTrap(std::string name) : name(name), hitPoints(10), energyPoints(10), attackDamage(0)
 {
-	std::cout << "[DEFAULT]\tconstructor\tname: " << this->name << std::endl;
+	std::cout << "[CP]\t\tconstructor\tname: " << this->name << std::endl;
 }
 
 ClapTrap::ClapTrap(ClapTrap &clapTrap)
@@ -18,12 +18,12 @@ ClapTrap::ClapTrap(ClapTrap &clapTrap)
 	this->hitPoints = clapTrap.hitPoints;
 	this->energyPoints = clapTrap.energyPoints;
 	this->attackDamage = clapTrap.attackDamage;
-	std::cout << "[COPY]\t\tconstructor\tname: " << this->name << std::endl;
+	std::cout << "[CP][COPY]\tconstructor\tname: " << this->name << std::endl;
 }
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << "[DESTRUCTOR]\t\tname: " << this->name << std::endl;
+	std::cout << "[CP]\t\tdestructor\tname: " << this->name << std::endl;
 }
 
 ClapTrap &ClapTrap::operator=(ClapTrap &ct)
@@ -33,7 +33,7 @@ ClapTrap &ClapTrap::operator=(ClapTrap &ct)
 	this->hitPoints = ct.hitPoints;
 	this->energyPoints = ct.energyPoints;
 	this->attackDamage = ct.attackDamage;
-	std::cout << "[COPY]\tassignment\told name: " << oldname << "\tname: " << this->name << std::endl;
+	std::cout << "[CP][COPY]\tassignment\told name: " << oldname << "\tname: " << this->name << std::endl;
 	return *this;
 }
 
@@ -79,9 +79,12 @@ void ClapTrap::beRepaired(unsigned int amount)
 		return;
 	}
 	std::cout << "ClapTrap " << this->name << " repaired itself for " << amount << " hitPoints." << std::endl;
+	if (this->hitPoints == 0){
+		std::cout << "\tHOLY MOLY! We witnessed to a miracle. It revived itself" << std::endl;
+	}
 	this->hitPoints += amount;
 	this->energyPoints--;
-	std::cout << "\tRemaining hitPoints: " << this->hitPoints << std::endl;
+	std::cout << "\tCurrent hitPoints: " << this->hitPoints << std::endl;
 }
 
 void ClapTrap::setName(std::string newName)
