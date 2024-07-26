@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef SCAVTRAP_HPP
-#define SCAVTRAP_HPP
-
 #include "ClapTrap.hpp"
 #include <ostream>
 
@@ -18,5 +15,3 @@ public:
 	void highFivesGuys(void) const;
 	void attack(const std::string &target);
 };
-
-#endif //SCAVTRAP_HPP

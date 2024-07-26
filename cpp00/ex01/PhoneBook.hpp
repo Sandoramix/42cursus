@@ -1,9 +1,9 @@
+#pragma once
+
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <Contact.hpp>
-
-#pragma once
+#include "Contact.hpp"
 
 #define PB_MAX_CONTACTS 8
 

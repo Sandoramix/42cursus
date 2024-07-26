@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef HUMANB_HPP
-#define HUMANB_HPP
+
+
 
 #include "Weapon.hpp"
 
@@ -21,4 +21,4 @@ public:
 };
 
 
-#endif //HUMANB_HPP
+

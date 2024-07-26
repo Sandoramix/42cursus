@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef CLAPTRAP_HPP
-#define CLAPTRAP_HPP
-
 #include <string>
 #include <iostream>
 
@@ -28,6 +25,3 @@ public:
 
 	void setName(std::string newName);
 };
-
-
-#endif //CLAPTRAP_HPP

@@ -1,7 +1,7 @@
 #pragma  once
 
-#ifndef HARL_HPP
-#define HARL_HPP
+
+
 
 #include <iostream>
 #include <string>
@@ -29,4 +29,4 @@ public:
 };
 
 
-#endif //HARL_HPP
+

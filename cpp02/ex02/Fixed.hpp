@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef FIXED_HPP
-#define FIXED_HPP
+
+
 
 #include <iostream>
 #include <ostream>
@@ -70,4 +70,4 @@ public:
 
 std::ostream &operator<<(std::ostream& os, const Fixed& val);
 
-#endif //FIXED_HPP
+

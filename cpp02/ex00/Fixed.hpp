@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef FIXED_HPP
-#define FIXED_HPP
+
+
 
 #include <iostream>
 
@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //FIXED_HPP
+
