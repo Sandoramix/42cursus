@@ -34,6 +34,9 @@ Fixed::~Fixed()
 // OPERATOR OVERLOADS
 Fixed &Fixed::operator=(const Fixed &other)
 {
+	if (&other == this){
+		return *this;
+	}
 	std::cout << "[COPY\tassignment]\tfor " << *this << " with " << raw << " called" << std::endl;
 	this->raw = other.raw;
 	return *this;

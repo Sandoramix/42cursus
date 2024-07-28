@@ -28,6 +28,9 @@ ClapTrap::~ClapTrap()
 
 ClapTrap &ClapTrap::operator=(ClapTrap &ct)
 {
+	if (&ct == this){
+		return *this;
+	}
 	std::string oldname = this->name;
 	this->name = ct.name;
 	this->hitPoints = ct.hitPoints;
