@@ -29,6 +29,9 @@ std::string WrongAnimal::getType() const
 
 WrongAnimal &WrongAnimal::operator=(const WrongAnimal &a)
 {
+	if (&a == this){
+		return *this;
+	}
 	this->type = a.getType();
 	return *this;
 }

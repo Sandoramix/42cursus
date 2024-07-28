@@ -19,6 +19,9 @@ WrongCat::~WrongCat()
 
 WrongCat &WrongCat::operator=(WrongCat &wc)
 {
+	if (&wc == this){
+		return *this;
+	}
 	this->type = wc.getType();
 	return *this;
 }
