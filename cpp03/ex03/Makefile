@@ -1,6 +1,6 @@
 NAME=NowItsWeird
 
-CPPFLAGS=-g -Wall -Wextra -Werror -std=c++98 -I. -Wno-shadow
+CPPFLAGS=-g -Wall -Wextra -Werror -std=c++98 -I.
 CC = c++
 
 SRCS = main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp

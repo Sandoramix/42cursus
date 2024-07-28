@@ -39,3 +39,8 @@ DiamondTrap::~DiamondTrap()
 {
 	std::cout << "[DT]\t\tdestructor\tname: " << this->name << std::endl;
 }
+
+void DiamondTrap::whoAmI()
+{
+	std::cout << "[DT] Who could i possibly be? I'm batma... " << this->name << " :) nice to meet you." << std::endl;
+}

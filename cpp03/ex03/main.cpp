@@ -4,7 +4,6 @@ int main(void){
 	DiamondTrap pippo("Pippo");
 	std::cout << std::endl;
 
-
 	DiamondTrap originalMario("OrigMario");
 	DiamondTrap mario = originalMario;
 	mario.setName("Mario");
@@ -37,4 +36,6 @@ int main(void){
 	pippo.attack("Mario");
 	std::cout << std::endl;
 	pippo.beRepaired(99);
+
+	pippo.whoAmI();
 }
