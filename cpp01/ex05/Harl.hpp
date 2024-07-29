@@ -6,6 +6,7 @@
 #include <map>
 
 class Harl;
+
 typedef void (Harl::*t_harlmethod)(void);
 
 class Harl
@@ -21,6 +22,7 @@ private:
 
 public:
 	Harl();
+
 	~Harl();
 
 	void complain(std::string level);

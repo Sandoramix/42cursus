@@ -1,6 +1,7 @@
 #include "ClapTrap.hpp"
 
-int main(void){
+int main(void)
+{
 	ClapTrap pippo("Pippo");
 	std::cout << std::endl;
 

@@ -4,10 +4,10 @@ Zombie::Zombie() : name("UnknownZombie")
 {
 }
 
-Zombie::Zombie(std::string name)
+Zombie::Zombie(std::string name) : name(name)
 {
-	this->name = name;
 }
+
 Zombie::~Zombie()
 {
 	std::cout << this->name << " is dead" << std::endl;

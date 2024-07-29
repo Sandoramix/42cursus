@@ -4,13 +4,15 @@
 #include "Animal.hpp"
 #include "Brain.hpp"
 
-class Cat: public Animal
+class Cat : public Animal
 {
 private:
 	Brain *brain;
 public:
 	Cat();
+
 	Cat(Cat &c);
+
 	~Cat();
 
 	Cat &operator=(const Cat &c);

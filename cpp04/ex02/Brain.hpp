@@ -14,10 +14,13 @@ private:
 
 public:
 	Brain();
+
 	Brain(Brain &b);
+
 	~Brain();
 
 	Brain &operator=(Brain &b);
+
 	const std::string getIdea(int idx) const;
 };
 

@@ -24,7 +24,8 @@ void Dog::makeSound() const
 
 Dog &Dog::operator=(const Dog &d)
 {
-	if (&d == this){
+	if (&d == this)
+	{
 		return *this;
 	}
 	this->type = d.getType();

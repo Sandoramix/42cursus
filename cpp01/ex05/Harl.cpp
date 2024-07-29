@@ -8,10 +8,10 @@ static const std::string ERROR_MSG = "This is unacceptable! I want to speak to t
 
 
 Harl::Harl()
-{
-}
+{}
 
-Harl::~Harl(){}
+Harl::~Harl()
+{}
 
 void Harl::debug()
 {
@@ -35,13 +35,14 @@ void Harl::error()
 
 void Harl::complain(std::string level)
 {
-	t_harlmethod functions[]={&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
-	std::string levelNames[]={"DEBUG", "INFO", "WARNING", "ERROR"};
+	t_harlmethod functions[] = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
+	std::string levelNames[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 
 	int i = 0;
 	while (i < 4 && levelNames[i].compare(level))
 		i++;
-	if (i < 4){
+	if (i < 4)
+	{
 		(this->*functions[i])();
 		return;
 	}

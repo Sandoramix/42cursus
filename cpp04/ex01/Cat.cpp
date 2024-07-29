@@ -30,14 +30,15 @@ Cat::~Cat()
 	delete this->brain;
 }
 
-void Cat::makeSound()  const
+void Cat::makeSound() const
 {
 	std::cout << "[Cat]: MiauMiau broski!" << std::endl;
 }
 
 Cat &Cat::operator=(const Cat &c)
 {
-	if (&c == this){
+	if (&c == this)
+	{
 		return *this;
 	}
 	this->type = c.getType();

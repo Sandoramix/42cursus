@@ -1,6 +1,7 @@
 #include "ScavTrap.hpp"
 
-int main(void){
+int main(void)
+{
 	ScavTrap pippo("Pippo");
 	std::cout << std::endl;
 

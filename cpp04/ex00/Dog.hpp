@@ -11,7 +11,9 @@ private:
 
 public:
 	Dog();
+
 	Dog(Dog &d);
+
 	~Dog();
 
 	Dog &operator=(const Dog &d);

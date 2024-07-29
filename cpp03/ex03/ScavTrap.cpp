@@ -33,9 +33,13 @@ ScavTrap::~ScavTrap()
 void ScavTrap::guardGate(void)
 {
 	this->guardGateStatus = this->guardGateStatus == DISABLED ? ENABLED : DISABLED;
-	if (this->guardGateStatus == DISABLED){
-		std::cout << "[ST]\tScavTrap " << this->name << " Turned off GUARD GATE. Everybody should rest eventually." << std::endl;
-	} else {
+	if (this->guardGateStatus == DISABLED)
+	{
+		std::cout << "[ST]\tScavTrap " << this->name << " Turned off GUARD GATE. Everybody should rest eventually."
+				  << std::endl;
+	}
+	else
+	{
 		std::cout << "[ST]\tScavTrap " << this->name << "Turned on GUARD GATE. GLHF" << std::endl;
 	}
 }

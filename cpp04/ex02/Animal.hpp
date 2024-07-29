@@ -5,7 +5,6 @@
 #define ANIMAL_HPP
 
 
-
 class Animal
 {
 protected:
@@ -13,9 +12,13 @@ protected:
 
 public:
 	Animal();
+
 	Animal(std::string type);
+
 	Animal(Animal &a);
+
 	virtual ~Animal();
+
 	std::string getType() const;
 
 	Animal &operator=(const Animal &a);

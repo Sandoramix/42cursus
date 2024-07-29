@@ -1,7 +1,7 @@
 #include "DiamondTrap.hpp"
 #include <ostream>
 
-DiamondTrap::DiamondTrap(): ClapTrap("[DT]Default_clap_trap")
+DiamondTrap::DiamondTrap() : ClapTrap("[DT]Default_clap_trap")
 {
 	this->name = "[DT]Default";
 	this->hitPoints = 100;
@@ -29,7 +29,7 @@ DiamondTrap::DiamondTrap(std::string name) : ClapTrap(name + "_clap_trap")
 
 }
 
-void	DiamondTrap::attack(const std::string &target)
+void DiamondTrap::attack(const std::string &target)
 {
 	std::cout << "[DT] is calling attack method from ScavTrap... please be patient" << std::endl;
 	ScavTrap::attack(target);

@@ -1,9 +1,10 @@
 #include "Harl.hpp"
 
-int main(void){
+int main(void)
+{
 	Harl harl;
 
-	std::cout << "VALID OPTIONS:" <<std::endl;
+	std::cout << "VALID OPTIONS:" << std::endl;
 	harl.complain("DEBUG");
 	harl.complain("INFO");
 	harl.complain("WARNING");

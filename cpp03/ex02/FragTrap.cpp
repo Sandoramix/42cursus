@@ -54,7 +54,8 @@ void FragTrap::attack(const std::string &target)
 void FragTrap::highFivesGuys(void) const
 {
 	static int n = 0;
-	std::string tests[] = {"___ me five!", "Cleanup on ___ five!", "I've gone down: but I'll be up in 5!", "High-five relative"};
+	std::string tests[] = {"___ me five!", "Cleanup on ___ five!", "I've gone down: but I'll be up in 5!",
+						   "High-five relative"};
 	std::string msg = tests[n];
 	n = (n + 1) % 4;
 	std::cout << "[FT]\t" << msg;

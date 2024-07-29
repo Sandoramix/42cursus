@@ -80,7 +80,7 @@ void Account::_displayTimestamp(void)
 	std::tm *now = localtime(&time);
 
 	std::cout << "["
-			  <<  (now->tm_year + 1900) << padTime(now->tm_mon + 1) << padTime(now->tm_mday)
+			  << (now->tm_year + 1900) << padTime(now->tm_mon + 1) << padTime(now->tm_mday)
 			  << "_" << padTime(now->tm_hour) << padTime(now->tm_min) << padTime(now->tm_sec)
 			  << "] ";
 }

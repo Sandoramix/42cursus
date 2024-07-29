@@ -1,9 +1,10 @@
 #include "Zombie.hpp"
 
-int main(){
+int main()
+{
 	int n = 5;
 	std::string name = "Minion ";
 	Zombie *horde = zombieHorde(n, name);
 
-	delete []horde;
+	delete[]horde;
 }

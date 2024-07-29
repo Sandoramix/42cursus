@@ -4,7 +4,8 @@
 #include <fstream>
 #include <sstream>
 
-static bool replaceOriginal(std::string& original, std::string &search, std::string &replace) {
+static bool replaceOriginal(std::string &original, std::string &search, std::string &replace)
+{
 	bool replacedSomething = false;
 
 	size_t start_idx = original.find(search);
@@ -21,8 +22,10 @@ static bool replaceOriginal(std::string& original, std::string &search, std::str
 	return replacedSomething;
 }
 
-int main(int ac, char **av){
-	if (ac != 4){
+int main(int ac, char **av)
+{
+	if (ac != 4)
+	{
 		std::cerr << "Usage: " << av[0] << " <filename> <string_to_find> <string_to_replace_with>" << std::endl;
 		return 1;
 	}
@@ -35,7 +38,8 @@ int main(int ac, char **av){
 	std::ifstream file;
 
 	file.open(filename.c_str(), std::ios::in);
-	if (!file || file.fail()){
+	if (!file || file.fail())
+	{
 		std::cerr << "Error occurred while trying to open the file " << filename << std::endl;
 		return 1;
 	}
@@ -49,7 +53,8 @@ int main(int ac, char **av){
 
 	std::ofstream outputFile;
 	outputFile.open(replaceFilename.c_str(), std::ios::out | std::ios::trunc);
-	if (!outputFile || outputFile.fail()){
+	if (!outputFile || outputFile.fail())
+	{
 		std::cerr << "Error occurred while trying to open the file " << replaceFilename << std::endl;
 		return 1;
 	}

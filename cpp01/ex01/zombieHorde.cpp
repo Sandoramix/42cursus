@@ -1,7 +1,8 @@
 #include "Zombie.hpp"
 #include <sstream>
 
-static std::string uniqueZombieName(int n, std::string name){
+static std::string uniqueZombieName(int n, std::string name)
+{
 	std::ostringstream ss;
 	ss << name << n;
 
@@ -9,10 +10,12 @@ static std::string uniqueZombieName(int n, std::string name){
 	return ret;
 }
 
-Zombie	*zombieHorde(int N, std::string name){
-	Zombie	*allZombies = new Zombie[N];
+Zombie *zombieHorde(int N, std::string name)
+{
+	Zombie *allZombies = new Zombie[N];
 
-	for(int i = 0; i < N; i++){
+	for (int i = 0; i < N; i++)
+	{
 		allZombies[i].setName(uniqueZombieName(i, name));
 		allZombies[i].announce();
 	}

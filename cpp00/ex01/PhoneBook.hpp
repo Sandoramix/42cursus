@@ -27,7 +27,7 @@ public:
 	void			showContactsList();
 	bool			getContactInfo(int idx);
 
-	int				getAvailableContacts();
+	int				getAvailableContacts() const;
 };
 
 #endif //PHONEBOOK_HPP

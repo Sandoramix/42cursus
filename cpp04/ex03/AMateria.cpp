@@ -2,7 +2,6 @@
 #include <ostream>
 
 
-
 AMateria::AMateria() : type("Unknown")
 {
 	std::cout << "[AMateria][DefaultConstructor][type=" << this->type << "]" << std::endl << std::endl;

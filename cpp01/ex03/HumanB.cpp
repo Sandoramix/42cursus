@@ -20,7 +20,8 @@ void HumanB::attack()
 	{
 		std::cout
 			<< " is disarmed, but brave enough to scream at the opponent.";
-	} else
+	}
+	else
 	{
 		std::cout << " attacks with their " << this->weapon->getType();
 	}

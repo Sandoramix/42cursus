@@ -64,7 +64,8 @@ Fixed::~Fixed()
 // ASSIGNMENT OPERATORS
 Fixed &Fixed::operator=(const Fixed &other)
 {
-	if (&other == this){
+	if (&other == this)
+	{
 		return *this;
 	}
 	//std::cout << "[COPY\tassignment]\tfor " << *this << " with " << other

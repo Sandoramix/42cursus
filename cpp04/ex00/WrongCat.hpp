@@ -1,13 +1,16 @@
 #ifndef WRONGCAT_HPP
 #define WRONGCAT_HPP
+
 #include "WrongAnimal.hpp"
 
 
-class WrongCat: public WrongAnimal
+class WrongCat : public WrongAnimal
 {
 public:
 	WrongCat();
+
 	WrongCat(WrongCat &wc);
+
 	~WrongCat();
 
 	WrongCat &operator=(WrongCat &wc);

@@ -3,11 +3,13 @@
 
 #include "Animal.hpp"
 
-class Cat: public Animal
+class Cat : public Animal
 {
 public:
 	Cat();
+
 	Cat(Cat &c);
+
 	~Cat();
 
 	Cat &operator=(const Cat &c);

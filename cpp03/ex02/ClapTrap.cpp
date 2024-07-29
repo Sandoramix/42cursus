@@ -28,7 +28,8 @@ ClapTrap::~ClapTrap()
 
 ClapTrap &ClapTrap::operator=(ClapTrap &ct)
 {
-	if (&ct == this){
+	if (&ct == this)
+	{
 		return *this;
 	}
 	std::string oldname = this->name;
@@ -77,12 +78,14 @@ void ClapTrap::beRepaired(unsigned int amount)
 {
 	if (!this->energyPoints)
 	{
-		std::cout << "ClapTrap " << this->name << " tried to repair itself for " << amount << " hitPoints..." << std::endl
+		std::cout << "ClapTrap " << this->name << " tried to repair itself for " << amount << " hitPoints..."
+				  << std::endl
 				  << "\tBut it didn't considerate that he was out of energy points (RIP)" << std::endl;
 		return;
 	}
 	std::cout << "ClapTrap " << this->name << " repaired itself for " << amount << " hitPoints." << std::endl;
-	if (this->hitPoints == 0){
+	if (!this->hitPoints)
+	{
 		std::cout << "\tHOLY MOLY! We witnessed to a miracle. It revived itself" << std::endl;
 	}
 	this->hitPoints += amount;

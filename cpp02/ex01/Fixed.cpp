@@ -8,23 +8,26 @@
 Fixed::Fixed(const float number)
 {
 	this->raw = static_cast<int>(roundf(number * static_cast<float>(1 << Fixed::fractBits)));
-	std::cout << "[FLOAT\tconstructor]\tfor "<< number << " as "<< this->toFloat() <<" called." << std::endl;
+	std::cout << "[FLOAT\tconstructor]\tfor " << number << " as " << this->toFloat() << " called." << std::endl;
 }
 
 Fixed::Fixed(const int number)
 {
-	std::cout << "[INT\tconstructor]\tfor "<< number <<" called" << std::endl;
+	std::cout << "[INT\tconstructor]\tfor " << number << " called" << std::endl;
 	int translated = number << Fixed::fractBits;
 	this->raw = translated;
 }
 
-Fixed::Fixed(): raw(0){ std::cout << "[EMPTY\tconstructor]\tcalled" << std::endl;};
+Fixed::Fixed() : raw(0)
+{
+	std::cout << "[EMPTY\tconstructor]\tcalled" << std::endl;
+};
 
-Fixed::Fixed(const Fixed &val)
+Fixed::Fixed(const Fixed &val) : raw(val.raw)
 {
 	std::cout << "[COPY\tconstructor]\tfor " << val << " called" << std::endl;
-	this->raw = val.raw;
 }
+
 Fixed::~Fixed()
 {
 	std::cout << "[DESTRUCTOR]\t\tfor " << *this << " called" << std::endl;
@@ -34,7 +37,8 @@ Fixed::~Fixed()
 // OPERATOR OVERLOADS
 Fixed &Fixed::operator=(const Fixed &other)
 {
-	if (&other == this){
+	if (&other == this)
+	{
 		return *this;
 	}
 	std::cout << "[COPY\tassignment]\tfor " << *this << " with " << raw << " called" << std::endl;

@@ -8,12 +8,8 @@ Contact::Contact(
 	std::string nickname,
 	std::string number,
 	std::string darkestSecret
-	) {
-	this->firstName = firstName;
-	this->lastName = lastName;
-	this->nickname = nickname;
-	this->number = number;
-	this->darkestSecret = darkestSecret;
+) : firstName(firstName), lastName(lastName), nickname(nickname), number(number), darkestSecret(darkestSecret)
+{
 }
 
 Contact::~Contact()
@@ -21,18 +17,27 @@ Contact::~Contact()
 }
 
 // GETTERS
-std::string Contact::getFirstName(){
+std::string Contact::getFirstName()
+{
 	return this->firstName;
 }
-std::string Contact::getLastName(){
+
+std::string Contact::getLastName()
+{
 	return this->lastName;
 }
-std::string Contact::getNickname(){
+
+std::string Contact::getNickname()
+{
 	return this->nickname;
 }
-std::string Contact::getNumber(){
+
+std::string Contact::getNumber()
+{
 	return this->number;
 }
-std::string Contact::getDarkestSecret(){
+
+std::string Contact::getDarkestSecret()
+{
 	return this->darkestSecret;
 }

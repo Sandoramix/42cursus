@@ -30,7 +30,8 @@ std::string Animal::getType() const
 
 Animal &Animal::operator=(const Animal &a)
 {
-	if (&a == this){
+	if (&a == this)
+	{
 		return *this;
 	}
 	this->type = a.getType();

@@ -1,6 +1,7 @@
 #include "Zombie.hpp"
 
-int main(){
+int main()
+{
 	Zombie *pointed = newZombie("Allocated Z");
 	randomChump("Random champ 1");
 	randomChump("Random champ 2");

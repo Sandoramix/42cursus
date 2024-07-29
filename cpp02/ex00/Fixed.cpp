@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 // CONSTRUCTORS + DESTRUCTOR
 
-Fixed::Fixed(): raw(0){ std::cout << "[EMPTY\tconstructor]\tcalled" << std::endl;};
-
-Fixed::Fixed(const Fixed &val)
+Fixed::Fixed() : raw(0)
 {
-	std::cout << "[COPY\tconstructor]\tfor " << val.raw << " called" << std::endl;
-	this->raw = val.raw;
+	std::cout << "[EMPTY\tconstructor]\tcalled" << std::endl;
+};
+
+Fixed::Fixed(const Fixed &val) : raw(val.raw)
+{
+	std::cout << "[COPY\tconstructor]\tfor " << this->raw << " called" << std::endl;
 }
 
 Fixed::~Fixed()
@@ -22,7 +24,8 @@ Fixed::~Fixed()
 
 Fixed &Fixed::operator=(const Fixed &other)
 {
-	if (&other == this){
+	if (&other == this)
+	{
 		return *this;
 	}
 	std::cout << "[COPY\tassignment]\tfor " << this->raw << " with " << other.raw << " called" << std::endl;

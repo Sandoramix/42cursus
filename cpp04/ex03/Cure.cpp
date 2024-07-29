@@ -18,7 +18,8 @@ Cure::~Cure()
 
 Cure &Cure::operator=(const Cure &c)
 {
-	if (&c != this){
+	if (&c != this)
+	{
 		this->type = c.getType();
 	}
 	return *this;
@@ -26,7 +27,7 @@ Cure &Cure::operator=(const Cure &c)
 
 void Cure::use(ICharacter &target)
 {
-	std::cout << "* heals "<<target.getName()<<"'s wounds *" << std::endl;
+	std::cout << "* heals " << target.getName() << "'s wounds *" << std::endl;
 }
 
 Cure *Cure::clone() const

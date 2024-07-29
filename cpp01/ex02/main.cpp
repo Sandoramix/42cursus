@@ -2,7 +2,8 @@
 #include <string>
 
 
-int main(){
+int main()
+{
 	std::string s1 = "HI THIS IS BRAIN";
 	std::string *stringPTR = &s1;
 	std::string &stringREF = s1;

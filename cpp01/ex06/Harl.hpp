@@ -17,10 +17,7 @@ private:
 	void error(void);
 
 public:
-	Harl(std::string logLevel);
-
 	Harl();
-
 	~Harl();
 
 	void complain(std::string level);

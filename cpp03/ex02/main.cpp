@@ -1,6 +1,7 @@
 #include "FragTrap.hpp"
 
-int main(void){
+int main(void)
+{
 	FragTrap pippo("Pippo");
 	std::cout << std::endl;
 

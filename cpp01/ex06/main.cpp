@@ -7,7 +7,8 @@ int main(int ac, char **av)
 	if (ac == 1)
 	{
 		harl.complain("DEBUG");
-	} else
+	}
+	else
 	{
 		harl.complain(av[1]);
 	}

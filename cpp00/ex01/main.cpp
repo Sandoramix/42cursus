@@ -9,44 +9,47 @@ typedef enum cmd
 	ADD,
 	SEARCH,
 	EXIT
-}	InputValue;
+} InputValue;
 
-static InputValue parsePromptInput(std::string input){
-	if (input == "ADD" || input == "add"){
+static InputValue parsePromptInput(std::string input)
+{
+	if (input == "ADD" || input == "add")
 		return ADD;
-	}
-	if (input == "SEARCH" || input == "search"){
+	if (input == "SEARCH" || input == "search")
 		return SEARCH;
-	}
-	if (input == "EXIT" || input == "exit"){
+	if (input == "EXIT" || input == "exit")
 		return EXIT;
-	}
 	return INVALID;
 }
 
-static void	prompt(){
+static void prompt()
+{
 	std::cout
 		<< std::endl << "CMDS:" << std::endl
-			<< "  ADD: save a new contact" << std::endl
-			<< "  SEARCH: display a specific contact" << std::endl
-			<< "  EXIT" << std::endl
+		<< "  ADD: save a new contact" << std::endl
+		<< "  SEARCH: display a specific contact" << std::endl
+		<< "  EXIT" << std::endl
 		<< ": ";
 }
 
-static std::string getContactValue(std::string attr){
+static std::string getContactValue(std::string attr)
+{
 	std::string input;
 
 	std::cout << attr << ": ";
 	std::getline(std::cin, input);
-	if (std::cin.eof() || input.empty()){
-		if (std::cin.eof()){
+	if (std::cin.eof() || input.empty())
+	{
+		if (std::cin.eof())
+		{
 			input.clear();
 			std::cin.clear();
 			fflush(stdin);
 			// someone EOF'ed
 			std::cerr << "Someone EOF'ed..." << std::endl;
 		}
-		else if (input.empty()){
+		else if (input.empty())
+		{
 			std::cerr << "Input cannot be empty" << std::endl;
 		}
 		return getContactValue(attr);
@@ -54,8 +57,9 @@ static std::string getContactValue(std::string attr){
 	return input;
 }
 
-int main(int ac, char **av){
-	(void)ac;
+int main(int ac, char **av)
+{
+	(void) ac;
 
 	PhoneBook book;
 
@@ -78,11 +82,13 @@ int main(int ac, char **av){
 	std::cout << av[0] << " started!" << std::endl;
 
 	bool loop = true;
-	while (loop){
+	while (loop)
+	{
 		input.clear();
 		prompt();
 		std::getline(std::cin, input);
-		if (std::cin.eof()){
+		if (std::cin.eof())
+		{
 			input.clear();
 			std::cin.clear();
 			std::cerr << std::endl << "Someone EOF'ed..." << std::endl;
@@ -91,7 +97,8 @@ int main(int ac, char **av){
 		InputValue type = parsePromptInput(input);
 		switch (type)
 		{
-			case ADD:{
+			case ADD:
+			{
 				std::string fName = getContactValue("First Name");
 				std::string lName = getContactValue("Last Name");
 				std::string nickname = getContactValue("Nickname");
@@ -102,16 +109,20 @@ int main(int ac, char **av){
 				std::cout << std::endl << "Contact added! idx: " << contactIdx << std::endl;
 				break;
 			}
-			case SEARCH:{
+			case SEARCH:
+			{
 				book.showContactsList();
 				int availableContacts = book.getAvailableContacts();
-				if (availableContacts == 0){
-				} else {
+				if (availableContacts == 0)
+				{
+				}
+				else
+				{
 					int choice;
 
 					std::cout << std::endl
-						<< "Select contact index [0 - " << availableContacts - 1 << "]"
-						<< std::endl << ": ";
+							  << "Select contact index [0 - " << availableContacts - 1 << "]"
+							  << std::endl << ": ";
 
 					std::string searchInput;
 					std::getline(std::cin, searchInput);
@@ -121,7 +132,8 @@ int main(int ac, char **av){
 				}
 				break;
 			}
-			case EXIT:{
+			case EXIT:
+			{
 				loop = false;
 				break;
 			}

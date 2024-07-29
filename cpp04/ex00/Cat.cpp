@@ -14,7 +14,7 @@ Cat::Cat(Cat &c) : Animal(c.getType())
 
 Cat::~Cat()
 {
-	std::cout  << std::endl << "[Cat][Destructor]" << std::endl;
+	std::cout << std::endl << "[Cat][Destructor]" << std::endl;
 }
 
 void Cat::makeSound() const
@@ -24,7 +24,8 @@ void Cat::makeSound() const
 
 Cat &Cat::operator=(const Cat &c)
 {
-	if (&c == this){
+	if (&c == this)
+	{
 		return *this;
 	}
 	this->type = c.getType();

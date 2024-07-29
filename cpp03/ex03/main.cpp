@@ -1,6 +1,7 @@
 #include "DiamondTrap.hpp"
 
-int main(void){
+int main(void)
+{
 	DiamondTrap pippo("Pippo");
 	std::cout << std::endl;
 

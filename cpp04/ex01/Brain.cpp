@@ -125,12 +125,13 @@ Brain::Brain(Brain &b)
 
 Brain::~Brain()
 {
-std::cout << "[Brain][Destructor]" << std::endl;
+	std::cout << "[Brain][Destructor]" << std::endl;
 }
 
 Brain &Brain::operator=(Brain &b)
 {
-	if (&b == this){
+	if (&b == this)
+	{
 		return *this;
 	}
 	for (int i = 0; i < Brain::IDEAS_COUNT; i++)
@@ -140,7 +141,8 @@ Brain &Brain::operator=(Brain &b)
 
 const std::string Brain::getIdea(int idx) const
 {
-	if (idx < 0 || idx >= Brain::IDEAS_COUNT){
+	if (idx < 0 || idx >= Brain::IDEAS_COUNT)
+	{
 		return "Placeholder for Index out of bounds";
 	}
 	return ideas[idx];

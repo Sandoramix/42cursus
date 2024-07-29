@@ -4,20 +4,25 @@
 
 #include "ICharacter.hpp"
 
-class Character: public ICharacter
+class Character : public ICharacter
 {
 
 public:
 	Character();
+
 	Character(const Character &c);
+
 	~Character();
 
 	Character &operator=(const Character &c);
 
-	std::string const & getName() const;
-	void equip(AMateria* m);
+	std::string const &getName() const;
+
+	void equip(AMateria *m);
+
 	void unequip(int idx);
-	void use(int idx, ICharacter& target);
+
+	void use(int idx, ICharacter &target);
 };
 
 
