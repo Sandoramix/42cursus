@@ -4,7 +4,7 @@ Zombie::Zombie(std::string name)
 {
 	this->name = name;
 }
-Zombie::Zombie()
+Zombie::Zombie() : name("UnknownZombie")
 {}
 
 void Zombie::setName(std::string newName)

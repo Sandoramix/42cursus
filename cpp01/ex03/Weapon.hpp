@@ -1,7 +1,5 @@
-#pragma once
-
-
-
+#ifndef WEAPON_HPP
+#define WEAPON_HPP
 
 #include <string>
 #include <iostream>
@@ -18,5 +16,4 @@ public:
 	void setType(std::string newType);
 };
 
-
-
+#endif //WEAPON_HPP

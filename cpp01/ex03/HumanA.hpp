@@ -1,8 +1,5 @@
-#pragma once
-
-
-
-
+#ifndef HUMANA_HPP
+#define HUMANA_HPP
 #include "Weapon.hpp"
 
 class HumanA
@@ -18,5 +15,4 @@ public:
 
 	void attack();
 };
-
-
+#endif //HUMANA_HPP

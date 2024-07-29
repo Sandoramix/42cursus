@@ -1,8 +1,5 @@
-
-#pragma once
-
-
-
+#ifndef ZOMBIE_HPP
+#define ZOMBIE_HPP
 
 #include <iostream>
 #include <string>
@@ -13,6 +10,7 @@ private:
 	std::string name;
 
 public:
+	Zombie();
 	Zombie(std::string name);
 	~Zombie();
 
@@ -22,3 +20,4 @@ public:
 void randomChump(std::string name);
 Zombie	*newZombie(std::string  name);
 
+#endif //ZOMBIE_HPP
