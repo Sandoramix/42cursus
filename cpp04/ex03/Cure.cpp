@@ -1,7 +1,7 @@
 #include "Cure.hpp"
 #include <ostream>
 
-Cure::Cure() : AMateria("Cure")
+Cure::Cure() : AMateria("cure")
 {
 	std::cout << "[Cure][DefaultConstructor]" << std::endl << std::endl;
 }

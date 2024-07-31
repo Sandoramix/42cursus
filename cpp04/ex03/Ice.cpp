@@ -1,7 +1,7 @@
 #include "Ice.hpp"
 #include <ostream>
 
-Ice::Ice() : AMateria("Ice")
+Ice::Ice() : AMateria("ice")
 {
 	std::cout << "[Ice][DefaultConstructor]" << std::endl << std::endl;
 }
@@ -9,7 +9,6 @@ Ice::Ice() : AMateria("Ice")
 Ice::Ice(const Ice &i) : AMateria(i.getType())
 {
 	std::cout << "[Cure][CopyConstructor]" << std::endl << std::endl;
-
 }
 
 Ice::~Ice()
@@ -33,5 +32,5 @@ Ice *Ice::clone() const
 
 void Ice::use(ICharacter &target)
 {
-	std::cout << "* heals " << target.getName() << "'s wounds *" << std::endl;
+	std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
 }

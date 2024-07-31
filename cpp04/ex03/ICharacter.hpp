@@ -4,16 +4,12 @@
 #include <iostream>
 #include "AMateria.hpp"
 
+class AMateria;
 
 class ICharacter
 {
 public:
-	static const int INVENTORY_SIZE = 4;
-private:
-
-public:
-	virtual ~ICharacter()
-	{}
+	virtual ~ICharacter(){}
 
 	virtual std::string const &getName() const = 0;
 
