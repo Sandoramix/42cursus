@@ -4,13 +4,13 @@
 DiamondTrap::DiamondTrap() : ClapTrap("[DT]Default_clap_trap")
 {
 	this->name = "[DT]Default";
-	this->hitPoints = 100;
-	this->energyPoints = 100;
-	this->attackDamage = 30;
+	this->hitPoints = FragTrap::hitPoints;
+	this->energyPoints = ScavTrap::energyPoints;
+	this->attackDamage = FragTrap::attackDamage;
 	std::cout << "[DT][DEFAULT]\tconstructor\tname: " << this->name << std::endl;
 }
 
-DiamondTrap::DiamondTrap(DiamondTrap &dt) : ClapTrap(dt), ScavTrap(dt), FragTrap(dt)
+DiamondTrap::DiamondTrap(DiamondTrap &dt) : ClapTrap(dt.name + "_clap_trap"), ScavTrap(dt), FragTrap(dt)
 {
 	this->name = dt.name;
 	this->hitPoints = dt.hitPoints;
@@ -42,5 +42,5 @@ DiamondTrap::~DiamondTrap()
 
 void DiamondTrap::whoAmI()
 {
-	std::cout << "[DT] Who could i possibly be? I'm batma... " << this->name << " :) nice to meet you." << std::endl;
+	std::cout << "[DT]Who could i possibly be? I'm batma... " << this->name << " (or so called " << ClapTrap::name << ") :) nice to meet you." << std::endl;
 }

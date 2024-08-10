@@ -4,12 +4,12 @@
 
 ClapTrap::ClapTrap() : name("DEFAULT"), hitPoints(10), energyPoints(10), attackDamage(0)
 {
-
+	std::cout << "[DEFAULT]\tconstructor\tname: " << this->name << std::endl;
 }
 
 ClapTrap::ClapTrap(std::string name) : name(name), hitPoints(10), energyPoints(10), attackDamage(0)
 {
-	std::cout << "[DEFAULT]\tconstructor\tname: " << this->name << std::endl;
+	std::cout << "[PARAM]\tconstructor\tname: " << this->name << std::endl;
 }
 
 ClapTrap::ClapTrap(ClapTrap &clapTrap)
