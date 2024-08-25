@@ -9,7 +9,7 @@ Bureaucrat::Bureaucrat(std::string name, int grade): name(name), grade(grade)
 	this->grade = grade;
 }
 
-Bureaucrat::Bureaucrat(Bureaucrat &b): name(b.name), grade(WORST_GRADE)
+Bureaucrat::Bureaucrat(const Bureaucrat &b): name(b.name), grade(WORST_GRADE)
 {
 	std::cout << "[Bureaucrat][CopyConstructor]\tname=" << b.name << "\tgrade=" << b.grade << "\n";
 	validateGradeOrThrow(b.grade);

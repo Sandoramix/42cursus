@@ -17,7 +17,7 @@ private:
 	static void validateGradeOrThrow(int grade);
 public:
 	Bureaucrat(std::string name, int grade);
-	Bureaucrat(Bureaucrat &b);
+	Bureaucrat(const Bureaucrat &b);
 	~Bureaucrat();
 
 	Bureaucrat &operator=(const Bureaucrat &b);
