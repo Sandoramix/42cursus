@@ -40,6 +40,7 @@ public:
 	int getRequiredGradeToExecute() const;
 
 	bool getIsSigned() const;
+	void setIsSigned(bool isSigned);
 
 	class GradeTooHighException : public std::exception
 	{

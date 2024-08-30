@@ -69,6 +69,11 @@ bool Form::getIsSigned() const
 	return isSigned;
 }
 
+void Form::setIsSigned(bool isSigned)
+{
+	Form::isSigned = isSigned;
+}
+
 const char *Form::GradeTooHighException::what() const throw()
 {
 	return "Grade is too high";
