@@ -17,8 +17,8 @@ private:
 	static void validateRequiredGradeFieldOrThrow(int grade, const std::string &errorMsg);
 
 	const std::string name;
-	const int         requiredGradeToSign;
-	const int         requiredGradeToExecute;
+	const int requiredGradeToSign;
+	const int requiredGradeToExecute;
 
 	bool isSigned;
 
@@ -40,6 +40,7 @@ public:
 	int getRequiredGradeToExecute() const;
 
 	bool getIsSigned() const;
+
 	void setIsSigned(bool isSigned);
 
 	class GradeTooHighException : public std::exception
