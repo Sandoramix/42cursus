@@ -2,7 +2,7 @@
 #include <iostream>
 #include <ostream>
 
-#define LOGLINE std::endl << __FILE_NAME__ << ":" << __LINE__
+#define LOGLINE std::endl << __FILE__ << ":" << __LINE__
 
 Bureaucrat *tryToCreateBureaucrat(std::string name, int grade)
 {

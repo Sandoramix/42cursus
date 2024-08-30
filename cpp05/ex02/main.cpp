@@ -7,7 +7,7 @@
 #include <iostream>
 #include <ostream>
 
-#define LOGLINE std::endl << __FILE_NAME__ << ":" << __LINE__
+#define LOGLINE std::endl << __FILE__ << ":" << __LINE__
 
 typedef enum e_formtype
 {

@@ -1,7 +1,7 @@
 #include "Bureaucrat.hpp"
 #include <iostream>
 
-#define LOGLINE std::endl << __FILE_NAME__ << ":" << __LINE__
+#define LOGLINE std::endl << __FILE__ << ":" << __LINE__
 
 Bureaucrat *tryToCreate(std::string name, int grade)
 {
