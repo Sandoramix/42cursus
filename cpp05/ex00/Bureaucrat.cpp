@@ -4,21 +4,21 @@
 
 Bureaucrat::Bureaucrat(std::string name, int grade) : name(name), grade(grade)
 {
-	std::cerr << "[Bureaucrat][Constructor]\tname=" << name << "\tgrade=" << grade << std::endl;
+	std::cerr << "[DBG-LOG]\t[Bureaucrat][Constructor]\tname=" << name << "\tgrade=" << grade << std::endl;
 	validateGradeOrThrow(grade);
 	this->grade = grade;
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat &b) : name(b.name), grade(WORST_GRADE)
 {
-	std::cerr << "[Bureaucrat][CopyConstructor]\tname=" << b.name << "\tgrade=" << b.grade << std::endl;
+	std::cerr << "[DBG-LOG]\t[Bureaucrat][CopyConstructor]\tname=" << b.name << "\tgrade=" << b.grade << std::endl;
 	validateGradeOrThrow(b.grade);
 	this->grade = b.grade;
 }
 
 Bureaucrat::~Bureaucrat()
 {
-	std::cerr << "[Bureaucrat][Destructor]\tname=" << name << "\tgrade=" << grade << std::endl;
+	std::cerr << "[DBG-LOG]\t[Bureaucrat][Destructor]\tname=" << name << "\tgrade=" << grade << std::endl;
 }
 
 Bureaucrat &Bureaucrat::operator=(const Bureaucrat &b)

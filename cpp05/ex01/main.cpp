@@ -113,6 +113,8 @@ void myTests()
 	std::cout << LOGLINE << std::endl << "----------" << "Form info" << "----------" << std::endl;
 	std::cout << "form1 info: " << *form1 << "\n";
 
+	std::cout << std::endl;
+
 	delete form1;
 	delete validWorst;
 	delete validBest;

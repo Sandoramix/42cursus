@@ -89,6 +89,9 @@ void myTests()
 
 	std::cout << LOGLINE << std::endl << "----------" << "Decrease failure test" << "----------" << std::endl;
 	printStats(validWorst);
+	tryToDecrement(validWorst);
+
+	std::cout << std::endl;
 
 	delete validWorst;
 	delete validBest;

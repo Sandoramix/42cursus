@@ -14,7 +14,7 @@ Form::Form(std::string name, int requiredGradeToSign, int requiredGradeToExecute
 	: name(name), requiredGradeToSign(requiredGradeToSign), requiredGradeToExecute(requiredGradeToExecute),
 	  isSigned(false)
 {
-	std::cerr << "[DBG-LOG]\t[Form][Constructor] " << *this << std::endl;
+	std::cerr << "[DBG-LOG]\t[Form][Constructor]\t\t" << *this << std::endl;
 	validateRequiredGradeFieldOrThrow(this->requiredGradeToSign, "Signing grade is invalid");
 	validateRequiredGradeFieldOrThrow(this->requiredGradeToExecute, "Execution grade is invalid");
 }
@@ -23,14 +23,14 @@ Form::Form(const Form &f)
 	: name(f.name), requiredGradeToSign(f.requiredGradeToSign), requiredGradeToExecute(f.requiredGradeToExecute),
 	  isSigned(false)
 {
-	std::cerr << "[DBG-LOG]\t[Form][CopyConstructor] " << *this << std::endl;
+	std::cerr << "[DBG-LOG]\t[Form][CopyConstructor]\t\t" << *this << std::endl;
 	validateRequiredGradeFieldOrThrow(requiredGradeToSign, "Signing grade is invalid");
 	validateRequiredGradeFieldOrThrow(requiredGradeToExecute, "Execution grade is invalid");
 }
 
 Form::~Form()
 {
-	std::cerr << "[DBG-LOG]\t[Form][Destructor] " << *this << std::endl;
+	std::cerr << "[DBG-LOG]\t[Form][Destructor]\t\t" << *this << std::endl;
 }
 
 Form &Form::operator=(const Form &f)
