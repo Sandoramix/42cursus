@@ -1,88 +1,100 @@
 #include "Bureaucrat.hpp"
 #include <iostream>
-#include <iomanip>
 
-Bureaucrat *tryToCreate(std::string name, int grade){
-	try{
+#define LOGLINE std::endl << __FILE_NAME__ << ":" << __LINE__
+
+Bureaucrat *tryToCreate(std::string name, int grade)
+{
+	try
+	{
 		return new Bureaucrat(name, grade);
-	} catch (std::exception &e){
-		std::cout << "Exception occurred at Bureaucrat's creation (name="<< name << "; grade=" << grade << "): " << e.what() << "\n";
+	} catch (std::exception &e)
+	{
+		std::cerr << "Exception occurred at Bureaucrat's creation (name=" << name << "; grade=" << grade << "): " << e.what() << "\n";
 		return NULL;
 	}
 }
 
-void printStats(Bureaucrat *b){
-	if (!b){
+void printStats(Bureaucrat *b)
+{
+	if (!b)
+	{
 		return;
 	}
-	std::cout << "Bureaucrat's info: "<< *b << "\n";
+	std::cout << "Bureaucrat's info: " << *b << "\n";
 }
 
-void	tryToIncrement(Bureaucrat *b){
-	if (!b){
+void tryToIncrement(Bureaucrat *b)
+{
+	if (!b)
+	{
 		return;
 	}
-	try {
+	try
+	{
 		b->incrementGrade();
-		std::cout << "Bureaucrat (name=" << b->getName() <<") called incrementGrade.\n\tNew grade: " << b->getGrade();
-	} catch (std::exception &e){
-		std::cout << "Exception occurred at Bureaucrat's incrementGrade: " << e.what() << "\n";
+		std::cout << "Bureaucrat (name=" << b->getName() << ") called incrementGrade.\n\tNew grade: " << b->getGrade();
+	} catch (std::exception &e)
+	{
+		std::cerr << "Exception occurred at Bureaucrat's incrementGrade: " << e.what() << "\n";
 	}
 }
-void	tryToDecrement(Bureaucrat *b){
-	if (!b){
+
+void tryToDecrement(Bureaucrat *b)
+{
+	if (!b)
+	{
 		return;
 	}
-	try {
+	try
+	{
 		b->decrementGrade();
-		std::cout << "Bureaucrat (name=" << b->getName() <<") called decrementGrade.\n\tNew grade: " << b->getGrade() << "\n";
-	} catch (std::exception &e){
-		std::cout << "Exception occurred at Bureaucrat's decrementGrade: " << e.what() << "\n";
+		std::cout << "Bureaucrat (name=" << b->getName() << ") called decrementGrade.\n\tNew grade: " << b->getGrade()
+				  << "\n";
+	} catch (std::exception &e)
+	{
+		std::cerr << "Exception occurred at Bureaucrat's decrementGrade: " << e.what() << "\n";
 	}
 }
 
 
-void myTests(){
-	std::cout << std::endl << std::setw(20) << "Valid variables" << std::setw(20) << std::endl;
+void myTests()
+{
+	std::cout << LOGLINE << std::endl << "----------" << "Valid variables" << "----------" << std::endl;
 	Bureaucrat *validBest = tryToCreate("PippoBest", 1);
 	Bureaucrat *validWorst = tryToCreate("PippoWorst", 150);
-
-	if (validWorst){
-		Bureaucrat copyWorst(*validWorst);
-		printStats(&copyWorst);
+	if (!validBest || !validWorst)
+	{
+		delete validBest;
+		delete validWorst;
+		return;
 	}
 
+	Bureaucrat copyWorst(*validWorst);
+	printStats(&copyWorst);
 
-	std::cout << std::endl;
-
-	std::cout << std::endl << std::setw(20) << "Invalid variables" << std::setw(20) << std::endl;
-
+	std::cout << LOGLINE << std::endl << "----------" << "Invalid variables" << "----------" << std::endl;
 	Bureaucrat *tooLow = tryToCreate("TooLow", 151);
 	Bureaucrat *tooHigh = tryToCreate("TooHigh", -1);
-	(void)tooLow;
-	(void)tooHigh;
+	delete tooHigh;
+	delete tooLow;
 
-	std::cout << std::endl;
-
-	std::cout << std::endl << std::setw(20) << "Increase/decrease test" << std::setw(20) << std::endl;
+	std::cout << LOGLINE << std::endl << "----------" << "Increase/decrease test" << "----------" << std::endl;
 	printStats(validBest);
 	tryToDecrement(validBest);
 	tryToIncrement(validBest);
 
-	std::cout << std::endl << std::setw(20) << "Increase failure test" << std::setw(20) << std::endl;
+	std::cout << LOGLINE << std::endl << "----------" << "Increase failure test" << "----------" << std::endl;
 	tryToIncrement(validBest);
 
-	std::cout << std::endl;
-
-	std::cout << std::endl << std::setw(20) << "Decrease failure test" << std::setw(20) << std::endl;
+	std::cout << LOGLINE << std::endl << "----------" << "Decrease failure test" << "----------" << std::endl;
 	printStats(validWorst);
-
-
 
 	delete validWorst;
 	delete validBest;
 }
 
-int main(void){
+int main(void)
+{
 	myTests();
 }

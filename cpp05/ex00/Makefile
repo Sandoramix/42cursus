@@ -18,5 +18,9 @@ fclean: clean
 
 re: fclean all
 
+valgrind: all
+	@clear
+	@valgrind --quiet ./$(NAME)
+
 .PHONY: all clean fclean re
 .SILENT:

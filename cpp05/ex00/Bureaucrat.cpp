@@ -2,28 +2,29 @@
 #include <iostream>
 #include <sstream>
 
-Bureaucrat::Bureaucrat(std::string name, int grade): name(name), grade(grade)
+Bureaucrat::Bureaucrat(std::string name, int grade) : name(name), grade(grade)
 {
-	std::cout << "[Bureaucrat][Constructor]\tname=" << name << "\tgrade=" << grade << "\n";
+	std::cerr << "[Bureaucrat][Constructor]\tname=" << name << "\tgrade=" << grade << std::endl;
 	validateGradeOrThrow(grade);
 	this->grade = grade;
 }
 
-Bureaucrat::Bureaucrat(const Bureaucrat &b): name(b.name), grade(WORST_GRADE)
+Bureaucrat::Bureaucrat(const Bureaucrat &b) : name(b.name), grade(WORST_GRADE)
 {
-	std::cout << "[Bureaucrat][CopyConstructor]\tname=" << b.name << "\tgrade=" << b.grade << "\n";
+	std::cerr << "[Bureaucrat][CopyConstructor]\tname=" << b.name << "\tgrade=" << b.grade << std::endl;
 	validateGradeOrThrow(b.grade);
 	this->grade = b.grade;
 }
 
 Bureaucrat::~Bureaucrat()
 {
-	std::cout << "[Bureaucrat][Destructor]\tname=" << name << "\tgrade=" << grade << "\n";
+	std::cerr << "[Bureaucrat][Destructor]\tname=" << name << "\tgrade=" << grade << std::endl;
 }
 
 Bureaucrat &Bureaucrat::operator=(const Bureaucrat &b)
 {
-	if (this == &b){
+	if (this == &b)
+	{
 		return (*this);
 	}
 	validateGradeOrThrow(b.grade);
@@ -56,9 +57,12 @@ void Bureaucrat::decrementGrade()
 
 void Bureaucrat::validateGradeOrThrow(int grade)
 {
-	if (grade > WORST_GRADE){
+	if (grade > WORST_GRADE)
+	{
 		throw Bureaucrat::GradeTooLowException();
-	} else if (grade < BEST_GRADE){
+	}
+	else if (grade < BEST_GRADE)
+	{
 		throw Bureaucrat::GradeTooHighException();
 	}
 }
@@ -73,7 +77,7 @@ const char *Bureaucrat::GradeTooLowException::what() const throw()
 	return "The grade is too low";
 }
 
-std::ostream  &operator<<(std::ostream &os, const Bureaucrat &b)
+std::ostream &operator<<(std::ostream &os, const Bureaucrat &b)
 {
 	os << b.getName() << ", bureaucrat grade " << b.getGrade() << ".";
 	return os;
