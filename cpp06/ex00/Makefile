@@ -3,7 +3,7 @@ NAME=ConversionOfScalarTypes
 CPPFLAGS=-g -Wall -Wextra -Werror -std=c++98 -I.
 CC = c++
 
-SRCS = main.cpp
+SRCS = main.cpp ScalarConvert.cpp
 
 all: $(NAME)
 
@@ -17,10 +17,6 @@ fclean: clean
 	@echo "\e[0;91m[$(NAME)] deleted!\e[0m"
 
 re: fclean all
-
-valgrind: all
-	@clear
-	@valgrind --quiet ./$(NAME)
 
 .PHONY: all clean fclean re
 .SILENT:
