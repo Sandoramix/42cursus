@@ -9,20 +9,26 @@
 class ScalarConvert
 {
 private:
-	static void printEveryStringValue(const std::string &charVal, const std::string &intVal, const std::string &floatVal, const std::string &doubleVal);
+	static void printResult(const std::string &charVal,
+							const std::string &intVal,
+							const std::string &floatVal,
+							const std::string &doubleVal);
 
-	static std::string getCharPrintString(char value);
-	static std::string getIntPrintString(int value);
-	static std::string getFloatPrintString(float value);
-	static std::string getDoublePrintString(double value);
+	template<class T>
+	static std::string convertToString(T value);
+
+	static std::string convertToString(float value);
+
+	static std::string convertToString(char value);
+
+	static bool isStringAParseableNumber(const std::string &rawValue);
+
 public:
-	static void convert(const std::string &rawValue);
-protected:
-	ScalarConvert();
-	ScalarConvert(const ScalarConvert &scalarConvert);
-	virtual ~ScalarConvert() = 0;
+	static bool convert(const std::string &rawValue);
 
-	ScalarConvert &operator=(const ScalarConvert &c);
+private:
+	ScalarConvert();
+	virtual ~ScalarConvert() = 0;
 };
 
 #endif //SCALARCONVERT_HPP

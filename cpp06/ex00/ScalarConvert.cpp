@@ -1,50 +1,12 @@
 #include "ScalarConvert.hpp"
 #include <ostream>
+#include <iostream>
 #include <sstream>
 
 //-----------------------------------------------------------------------------
 
-std::string ScalarConvert::getCharPrintString(char character)
-{
-	std::stringstream os;
-	if (character >= 32 && character < 127)
-	{
-		os << "'" << character << "'";
-	}
-	else
-	{
-		os << "Non displayable";
-	}
-	return os.str();
-}
-
-std::string ScalarConvert::getIntPrintString(int value)
-{
-	std::stringstream os;
-	os << value;
-	return os.str();
-}
-
-std::string ScalarConvert::getFloatPrintString(float value)
-{
-	std::stringstream os;
-	os << std::fixed << value << "f";
-	return os.str();
-}
-
-std::string ScalarConvert::getDoublePrintString(double value)
-{
-	std::stringstream os;
-	os << std::fixed << value;
-	return os.str();
-}
-
-//-----------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------------
-
-void ScalarConvert::printEveryStringValue(const std::string &charVal, const std::string &intVal, const std::string &floatVal,
-										  const std::string &doubleVal)
+void ScalarConvert::printResult(const std::string &charVal, const std::string &intVal, const std::string &floatVal,
+								const std::string &doubleVal)
 {
 	std::cout << "char" << ": " << charVal << std::endl;
 	std::cout << "int" << ": " << intVal << std::endl;
@@ -52,9 +14,87 @@ void ScalarConvert::printEveryStringValue(const std::string &charVal, const std:
 	std::cout << "double" << ": " << doubleVal << std::endl;
 }
 
+
+bool ScalarConvert::isStringAParseableNumber(const std::string &rawValue)
+{
+	const size_t rawValueLength = rawValue.length();
+	bool goneThroughADot = false;
+
+	/// Empty string is a no-no
+	if (rawValueLength == 0)
+		return false;
+
+	for (size_t i = 0; i < rawValueLength; i++)
+	{
+		char charAtI = rawValue[i];
+
+		/// Skipping 1 sign at the start as valid.
+		if (i == 0 && (charAtI == '+' || charAtI == '-'))
+			continue;
+		/// Check for `.`
+		if (charAtI == '.')
+		{
+			///If it's the only `.` found and there is one digit either before of after then it's okay.
+			if (!goneThroughADot && ((i > 0 && isdigit(rawValue[i - 1])) || (i < rawValueLength - 1 && isdigit(rawValue[i + 1]))))
+			{
+				goneThroughADot = true;
+				continue;
+			}
+			else
+			{
+				/// There's already been found another `.` or there are no digits beside this character.
+				return false;
+			}
+		}
+		/// Check for float numbers
+		if (charAtI == 'f')
+		{
+			/// If the `f` is not the last character or it's the only character present in the `rawValue`
+			if (i != rawValueLength - 1 || rawValueLength == 1)
+				return false;
+			/// The `f` is last character of the string and it's fine.
+			continue;
+		}
+		/// Any non-digit character should be invalid at this point of code.
+		if (!isdigit(charAtI))
+			return false;
+	}
+	return true;
+}
+
+
 //-----------------------------------------------------------------------------
 
-void ScalarConvert::convert(const std::string &rawValue)
+
+template<class T>
+std::string ScalarConvert::convertToString(T value)
+{
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
+}
+
+std::string ScalarConvert::convertToString(char value)
+{
+	std::stringstream ss;
+	if (value >= 32 && value < 127)
+		ss << "'" << value << "'";
+	else
+		ss << "Non displayable";
+	return ss.str();
+}
+
+std::string ScalarConvert::convertToString(float value)
+{
+	std::stringstream ss;
+	ss << value << 'f';
+	return ss.str();
+}
+
+
+//-----------------------------------------------------------------------------
+
+bool ScalarConvert::convert(const std::string &rawValue)
 {
 	char convertedChar;
 	int convertedInt;
@@ -63,137 +103,85 @@ void ScalarConvert::convert(const std::string &rawValue)
 
 	if (rawValue == "nan" || rawValue == "nanf")
 	{
-		printEveryStringValue("impossible", "impossible", "nanf", "nan");
-		return;
+		printResult("impossible", "impossible", "nanf", "nan");
+		return (true);
 	}
-	if (rawValue == "+inf" || rawValue == "-inf")
+	if (rawValue == "+inf" || rawValue == "-inf" || rawValue == "+inff" || rawValue == "-inff")
 	{
-		printEveryStringValue(
+		const bool isFloatSpecial = rawValue == "+inff" || rawValue == "-inff";
+		printResult(
 			"impossible",
 			"impossible",
-			rawValue + "f",
-			rawValue
+			isFloatSpecial ? rawValue : rawValue + "f",
+			isFloatSpecial ? rawValue.substr(0, 4) : rawValue
 		);
-		return;
-	}
-	if (rawValue == "+inff" || rawValue == "-inff")
-	{
-		printEveryStringValue(
-			"impossible",
-			"impossible",
-			rawValue,
-			rawValue.substr(0, 4)
-		);
-		return;
+		return (true);
 	}
 
-	// CHAR CASE
-	if ((rawValue.length() == 1 && !(rawValue[0] >= '0' && rawValue[0] <= '9')) // single non digit character. eg: a
-		|| (rawValue.length() == 3 && rawValue[0] == '\'' && rawValue[2] == '\'') // char surrounded by single quotes. eg: '1'
-		)
+	if ((rawValue.length() == 1 && !(rawValue[0] >= '0' && rawValue[0] <= '9')) /** single non digit character. eg: a */
+		|| (rawValue.length() == 3 && rawValue[0] == '\'' && rawValue[2] == '\'')) /** char surrounded by single quotes. eg: '1' */
 	{
+		/// CHAR CASE
 		convertedChar = rawValue.length() == 3 ? rawValue[1] : rawValue[0];
 		convertedInt = static_cast<int>(convertedChar);
 		convertedFloat = static_cast<float>(convertedChar);
 		convertedDouble = static_cast<double>(convertedChar);
 
-		printEveryStringValue(
-			getCharPrintString(convertedChar),
-			getIntPrintString(convertedInt),
-			getFloatPrintString(convertedFloat),
-			getDoublePrintString(convertedDouble)
+		printResult(
+			convertToString(convertedChar),
+			convertToString(convertedInt),
+			convertToString(convertedFloat),
+			convertToString(convertedDouble)
 		);
-		return;
+		return (true);
 	}
-	// FLOAT CASE
+	/// Check if the number is valid (only digits/1 sign/one `.`/one `f` at the end)
+	if (!isStringAParseableNumber(rawValue))
+		return (std::cerr << "Invalid input provided" << std::endl, false);
+
 	if (rawValue.length() > 1 && rawValue[rawValue.length() - 1] == 'f')
 	{
+		/// FLOAT CASE
 		std::stringstream floatStream(rawValue);
-		if (floatStream >> convertedFloat)
-		{
-
-			convertedChar = static_cast<char>(convertedFloat);
-			convertedInt = static_cast<int>(convertedFloat);
-			convertedDouble = static_cast<double>(convertedFloat);
-
-			printEveryStringValue(
-				getCharPrintString(convertedChar),
-				getIntPrintString(convertedInt),
-				getFloatPrintString(convertedFloat),
-				getDoublePrintString(convertedDouble)
-			);
-			return;
-		}
-		else
-		{
-			std::cerr << "Invalid input provided" << std::endl;
-			return;
-		}
+		if (!(floatStream >> convertedFloat))
+			return (std::cerr << "Could not parse [" << rawValue << "] as a float" << std::endl, false);
+		convertedChar = static_cast<char>(convertedFloat);
+		convertedInt = static_cast<int>(convertedFloat);
+		convertedDouble = static_cast<double>(convertedFloat);
 	}
-	// DOUBLE CASE
-	if (rawValue.find('.') != std::string::npos)
+	else if (rawValue.find('.') != std::string::npos)
 	{
+		/// DOUBLE CASE
 		std::stringstream doubleStream(rawValue);
-		if (doubleStream >> convertedDouble)
-		{
-			convertedChar = static_cast<char>(convertedDouble);
-			convertedInt = static_cast<int>(convertedDouble);
-			convertedFloat = static_cast<float>(convertedDouble);
-
-			printEveryStringValue(
-				getCharPrintString(convertedChar),
-				getIntPrintString(convertedInt),
-				getFloatPrintString(convertedFloat),
-				getDoublePrintString(convertedDouble)
-			);
-			return;
-		}
-		else
-		{
-			std::cerr << "Invalid input provided" << std::endl;
-			return;
-		}
-	}
-	// INTEGER CASE
-	std::stringstream intStream(rawValue);
-	if (intStream >> convertedInt)
-	{
-		convertedChar = static_cast<char>(convertedInt);
-		convertedFloat = static_cast<float>(convertedInt);
-		convertedDouble = static_cast<double >(convertedInt);
-
-		printEveryStringValue(
-			getCharPrintString(convertedChar),
-			getIntPrintString(convertedInt),
-			getFloatPrintString(convertedFloat),
-			getDoublePrintString(convertedDouble)
-		);
-		return;
+		if (!(doubleStream >> convertedDouble))
+			return (std::cerr << "Could not parse [" << rawValue << "] as a double" << std::endl, false);
+		convertedChar = static_cast<char>(convertedDouble);
+		convertedInt = static_cast<int>(convertedDouble);
+		convertedFloat = static_cast<float>(convertedDouble);
 	}
 	else
 	{
-		std::cerr << "Invalid input provided" << std::endl;
-		return;
+		/// INTEGER CASE
+		std::stringstream intStream(rawValue);
+		if (!(intStream >> convertedInt))
+		{
+			return (std::cerr << "Could not parse [" << rawValue << "] as a int" << std::endl, false);
+		}
+		convertedChar = static_cast<char>(convertedInt);
+		convertedFloat = static_cast<float>(convertedInt);
+		convertedDouble = static_cast<double >(convertedInt);
 	}
+
+	printResult(
+		convertToString(convertedChar),
+		convertToString(convertedInt),
+		convertToString(convertedFloat),
+		convertToString(convertedDouble)
+	);
+	return (true);
 }
 
 
 ScalarConvert::ScalarConvert()
 {
 }
-
-ScalarConvert::ScalarConvert(const ScalarConvert &scalarConvert)
-{
-	(void) scalarConvert;
-}
-
-ScalarConvert &ScalarConvert::operator=(const ScalarConvert &c)
-{
-	if (this == &c)
-	{
-		return *this;
-	}
-	return *this;
-}
-
-
