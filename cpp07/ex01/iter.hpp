@@ -3,20 +3,12 @@
 
 #include <iostream>
 
-template<class T>
-void iter(T *array, std::size_t size, void (*cb)(const T &)){
+template<class T, typename Callback>
+void iter(T *array, std::size_t size, void (*cb)(Callback &)){
 	for(size_t i = 0; i < size; i++){
 		cb(array[i]);
 	}
 };
-
-template<class T>
-void iter(T *array, std::size_t size, void (*cb)(T &)){
-	for(size_t i = 0; i < size; i++){
-		cb(array[i]);
-	}
-}
-
 
 #include <iostream>
 
