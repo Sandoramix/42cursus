@@ -1,8 +1,11 @@
 #ifndef SCAVTRAP_HPP
 #define SCAVTRAP_HPP
 
-#include "ClapTrap.hpp"
 #include <ostream>
+#include <string>
+#include <iostream>
+
+#include "ClapTrap.hpp"
 
 typedef enum GuardModeEnum
 {

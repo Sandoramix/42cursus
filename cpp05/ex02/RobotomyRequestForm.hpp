@@ -1,6 +1,12 @@
 #ifndef ROBOTOMYREQUESTFORM_HPP
 #define ROBOTOMYREQUESTFORM_HPP
 
+#include <istream>
+#include <ostream>
+#include <string>
+#include <iostream>
+#include <exception>
+
 
 #include "AForm.hpp"
 

@@ -1,6 +1,11 @@
 #ifndef CAT_HPP
 #define CAT_HPP
 
+#include <istream>
+#include <ostream>
+#include <string>
+#include <iostream>
+
 #include "Animal.hpp"
 #include "Brain.hpp"
 

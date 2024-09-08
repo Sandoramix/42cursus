@@ -1,10 +1,12 @@
 #ifndef SCALARCONVERT_HPP
 #define SCALARCONVERT_HPP
 
+#include <istream>
+#include <ostream>
 #include <string>
+#include <iostream>
 #include <sstream>
 #include <limits>
-#include <iostream>
 
 class ScalarConvert
 {

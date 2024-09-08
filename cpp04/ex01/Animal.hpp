@@ -1,9 +1,10 @@
-#include <istream>
-#include <string>
-
 #ifndef ANIMAL_HPP
 #define ANIMAL_HPP
 
+#include <istream>
+#include <ostream>
+#include <string>
+#include <iostream>
 
 class Animal
 {

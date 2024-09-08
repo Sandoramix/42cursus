@@ -1,9 +1,10 @@
 #ifndef BRAIN_HPP
 #define BRAIN_HPP
 
-#include <iostream>
+#include <istream>
+#include <ostream>
 #include <string>
-
+#include <iostream>
 
 class Brain
 {

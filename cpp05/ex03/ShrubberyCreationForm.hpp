@@ -1,6 +1,13 @@
 #ifndef SHRUBBERYCREATIONFORM_HPP
 #define SHRUBBERYCREATIONFORM_HPP
 
+#include <istream>
+#include <ostream>
+#include <string>
+#include <iostream>
+#include <exception>
+#include <sstream>
+
 #include "AForm.hpp"
 
 class ShrubberyCreationForm : public AForm

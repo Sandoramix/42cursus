@@ -1,11 +1,15 @@
 #ifndef FORM_HPP
 #define FORM_HPP
 
+#include <istream>
+#include <ostream>
 #include <string>
+#include <iostream>
+#include <exception>
 
 class Form;
 
-#include <Bureaucrat.hpp>
+#include "Bureaucrat.hpp"
 
 class Form
 {

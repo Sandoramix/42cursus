@@ -1,6 +1,11 @@
 #ifndef MATERIASOURCE_HPP
 #define MATERIASOURCE_HPP
 
+#include <istream>
+#include <ostream>
+#include <string>
+#include <iostream>
+
 
 #include "IMateriaSource.hpp"
 

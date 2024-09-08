@@ -1,11 +1,15 @@
 #ifndef AFORM_HPP
 #define AFORM_HPP
 
+#include <istream>
+#include <ostream>
+#include <string>
+#include <iostream>
+#include <exception>
 #include <string>
 #include <typeinfo>
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
 
 class AForm;
 

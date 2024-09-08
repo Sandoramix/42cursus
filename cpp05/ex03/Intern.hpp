@@ -1,11 +1,17 @@
 #ifndef INTERN_HPP
 #define INTERN_HPP
 
+#include <istream>
+#include <ostream>
+#include <string>
+#include <iostream>
+#include <exception>
+#include <sstream>
+
 #include "AForm.hpp"
 #include "ShrubberyCreationForm.hpp"
 #include "PresidentialPardonForm.hpp"
 #include "RobotomyRequestForm.hpp"
-#include <sstream>
 
 typedef enum e_formtype
 {

@@ -1,6 +1,10 @@
 #ifndef WRONGCAT_HPP
 #define WRONGCAT_HPP
 
+#include <ostream>
+#include <string>
+#include <iostream>
+
 #include "WrongAnimal.hpp"
 
 

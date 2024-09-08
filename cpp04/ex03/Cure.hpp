@@ -2,6 +2,10 @@
 #define CURE_HPP
 
 #include <istream>
+#include <ostream>
+#include <string>
+#include <iostream>
+
 #include "AMateria.hpp"
 
 class Cure : public AMateria
