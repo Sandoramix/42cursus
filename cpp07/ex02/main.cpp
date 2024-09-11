@@ -5,8 +5,8 @@ int main()
 {
 	Array<int> empty;
 
-	const int tabLength = 5;
-	int tab[] = {0, 1, 2, 3, 4};
+	const int tabLength = 5, tab[] = {0, 1, 2, 3, 4};
+
 	Array<int> customTab(tabLength);
 	for (int i = 0; i < tabLength;i++){customTab[i] = tab[i];}
 
@@ -16,6 +16,12 @@ int main()
 	Array<DummyData> dummyAssignment = dummy;
 
 	std::cout << dummyAssignment << std::endl;
+
+	try {
+		std::cout << dummyAssignment[dummyAssignment.size() + 1] << std::endl;
+	} catch (Array<DummyData>::IndexOutOfBoundsException &e){
+		std::cerr << "Array error: " << e.what() << std::endl;
+	}
 
 	return 0;
 }
