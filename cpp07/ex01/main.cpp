@@ -1,22 +1,33 @@
-#include "DummyData.hpp"
 #include "iter.hpp"
 
 template<typename T>
-void printValue(T &x)
+void printNL(T &x)
 {
 	std::cout << x << std::endl;
+}
+template<typename T>
+void print(T &x)
+{
+	std::cout << x;
 }
 
 int main()
 {
-	int tab[] = {0, 1, 2, 3, 4};
-	DummyData tab2[5];
+	const int intlen = 5, charlen = 10, doublelen = 5;
 
-	iter(tab, 5, printValue<int>);
+	int intarray[intlen] = {0, 1, 2, 3, 4};
+	char chararray[charlen] = "test12345";
+	double doublearray[doublelen] = {0.1, 1.2, 2.3, 3.4, 4.5};
 
+	std::cout << "Array of integers" << std::endl;
+	iter(intarray, intlen, printNL<int>);
+
+	std::cout << "Array of characters" << std::endl;
+	iter(chararray, charlen - 1, print<char>);
 	std::cout << std::endl;
 
-	iter(tab2, 5, printValue<DummyData>);
+	std::cout << "Array of doubles" << std::endl;
+	iter(doublearray, doublelen, printNL<double>);
 
 	return 0;
 }

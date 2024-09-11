@@ -3,7 +3,7 @@ NAME=Iter
 CPPFLAGS=-g -Wall -Wextra -Werror -std=c++98 -I.
 CC = c++
 
-SRCS = main.cpp DummyData.cpp
+SRCS = main.cpp
 
 all: $(NAME)
 
