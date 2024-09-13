@@ -2,6 +2,7 @@
 
 Zombie::Zombie() : name("UnknownZombie")
 {
+
 }
 
 Zombie::Zombie(std::string name) : name(name)

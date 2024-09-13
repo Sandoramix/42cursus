@@ -4,8 +4,8 @@ HumanB::HumanB(std::string name)
 	: name(name), weapon(NULL)
 {}
 
-HumanB::HumanB(std::string name, Weapon &weapon)
-	: name(name), weapon(&weapon)
+HumanB::HumanB(std::string name, Weapon *weapon)
+	: name(name), weapon(weapon)
 {}
 
 void HumanB::setWeapon(Weapon *newWeapon)
