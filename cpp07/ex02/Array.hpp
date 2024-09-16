@@ -35,7 +35,7 @@ public:
 
 	size_t size() const;
 
-	class IndexOutOfBoundsException : std::exception
+	class IndexOutOfBoundsException : public std::exception
 	{
 	public:
 		const char *what() const throw();

@@ -19,7 +19,7 @@ int main()
 
 	try {
 		std::cout << dummyAssignment[dummyAssignment.size() + 1] << std::endl;
-	} catch (Array<DummyData>::IndexOutOfBoundsException &e){
+	} catch (std::exception &e){
 		std::cerr << "Array error: " << e.what() << std::endl;
 	}
 
