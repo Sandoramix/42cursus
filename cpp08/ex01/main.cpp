@@ -66,6 +66,6 @@ int main()
 
 	test(10, false, true, 100);
 
-	test(10000, false, false);
+	test(10000, false, false, 500);
 	test(100000, false, false);
 }
