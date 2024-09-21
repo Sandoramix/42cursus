@@ -18,9 +18,11 @@ fclean: clean
 
 re: fclean all
 
+ARG=input.txt
+
 val: all
 	clear
-	valgrind --quiet ./$(NAME)
+	valgrind --quiet ./$(NAME) "$(ARG)"
 
 .PHONY: all clean fclean re
 .SILENT:

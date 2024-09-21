@@ -67,13 +67,16 @@ IsoDate IsoDate::parseIsoDate(std::string raw)
 	return IsoDate(raw);
 }
 
-IsoDate::IsoDate(std::string isostringdate)
+IsoDate::IsoDate() : year(1970), month(1), day(1)
+{
+}
+
+IsoDate::IsoDate(const std::string &isostringdate) : year(1970), month(1), day(1)
 {
 	this->parse(isostringdate);
 }
 
-IsoDate::IsoDate(const IsoDate &isoDate)
-	: year(isoDate.year), month(isoDate.month), day(isoDate.day)
+IsoDate::IsoDate(const IsoDate &isoDate) : year(isoDate.year), month(isoDate.month), day(isoDate.day)
 {
 	this->validateValues();
 }
@@ -127,6 +130,7 @@ bool IsoDate::operator<(const IsoDate &other) const
 	if (month != other.month) return month < other.month;
 	return day < other.day;
 }
+
 
 std::ostream &operator<<(std::ostream &os, const IsoDate &dt)
 {

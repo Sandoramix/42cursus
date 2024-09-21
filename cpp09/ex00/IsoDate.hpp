@@ -24,7 +24,9 @@ private:
 public:
 	static IsoDate parseIsoDate(std::string raw);
 
-	IsoDate(std::string isostringdate);
+	IsoDate();
+
+	IsoDate(const std::string &isostringdate);
 
 	IsoDate(const IsoDate &isoDate);
 
