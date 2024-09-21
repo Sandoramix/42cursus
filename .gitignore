@@ -16,3 +16,8 @@ subjects
 
 /.idea
 /.vscode/settings.json
+*/**/.idea
+/cpp02/ex03/BSP
+/cpp09/ex00/btc
+/cpp09/ex00/data.csv
+/cpp09/ex00/input.txt
