@@ -17,12 +17,7 @@ Point::Point(Point &p)
 
 Point &Point::operator=(const Point &p)
 {
-	if (&p == this)
-	{
-		return *this;
-	}
-	this->_x = Fixed(p._x);
-	this->_y = Fixed(p._y);
+	(void)p;
 	return *this;
 }
 
