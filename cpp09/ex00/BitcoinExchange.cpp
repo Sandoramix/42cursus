@@ -78,11 +78,16 @@ void BitcoinExchange::parseInputFile(const std::string &filepath)
 
 		if (pipePos == std::string::npos || pipePos == 0 || pipePos == line.size() - 3)
 		{
-			std::cerr << "Error: bad input [" << line << "]." << std::endl;
+			std::cout << "Error: bad input [" << line << "]." << std::endl;
 			continue;
 		}
 
 		std::string rawDate = line.substr(0, pipePos);
+		if (rawDate.length() != 10)
+		{
+			std::cout << "Error: bad input [" << line << "]." << std::endl;
+			continue;
+		}
 
 		IsoDate date;
 		try
@@ -90,7 +95,7 @@ void BitcoinExchange::parseInputFile(const std::string &filepath)
 			date = IsoDate::parseIsoDate(rawDate);
 		} catch (std::exception &e)
 		{
-			std::cerr << "Error: bad date =>" << rawDate << std::endl;
+			std::cout << "Error: bad date =>" << rawDate << std::endl;
 			continue;
 		}
 
@@ -100,28 +105,28 @@ void BitcoinExchange::parseInputFile(const std::string &filepath)
 
 		if (end == rawDate.c_str() || *end != '\0')
 		{
-			std::cerr << "Error: invalid value => " << rawValue << std::endl;
+			std::cout << "Error: invalid value => " << rawValue << std::endl;
 			continue;
 		}
 		if (value < 0.0)
 		{
-			std::cerr << "Error: value must be positive => " << value << std::endl;
+			std::cout << "Error: value must be positive => " << value << std::endl;
 			continue;
 		}
 		if (value > BitcoinExchange::MAX_VALUE)
 		{
-			std::cerr << "Error: value is too large => " << value << std::endl;
+			std::cout << "Error: value is too large => " << value << std::endl;
 			continue;
 		}
-		std::cout << "input date: " << date;
 		try
 		{
 			const std::pair<IsoDate, float> &foundRecord = this->findByDateOrClosest(date);
-			std::cout << "(found: " << foundRecord.first << "; price: " << foundRecord.second << ");"
-					  << " => input value: " << value << " = total: " << foundRecord.second * value << std::endl;
+			std::cout << "input date: " << date
+					  << "\t(found: " << foundRecord.first << "; price: " << foundRecord.second << ");\t\t"
+					  << "=> input value: " << value << "\t= total: " << foundRecord.second * value << std::endl;
 		} catch (std::exception &e)
 		{
-			std::cerr << "Error: could not find the requested date or the closest one" << std::endl;
+			std::cout << "Error: could not find the requested date or the closest one (line [" << line << "])" << std::endl;
 		}
 	}
 }
@@ -137,13 +142,12 @@ std::pair<IsoDate, float> BitcoinExchange::findByDateOrClosest(const IsoDate &da
 
 	it = this->db.lower_bound(date);
 
-	if (it == this->db.begin() && date < (*it).first)
+	if (it == this->db.begin())
 	{
-		throw std::runtime_error("No date found");
+		throw DateNotFoundException();
 	}
 
-	if (it != this->db.end())
-		--it;
+	--it;
 	return std::make_pair(it->first, it->second);
 };
 
@@ -191,3 +195,7 @@ const char *BitcoinExchange::InputGenericException::what() const throw()
 	return "Could not parse the input file";
 }
 // ----------------------------------------------------------------------------
+const char *BitcoinExchange::DateNotFoundException::what() const throw()
+{
+	return "Date not found";
+}

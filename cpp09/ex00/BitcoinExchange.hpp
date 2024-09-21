@@ -51,6 +51,12 @@ public:
 	public:
 		const char *what() const throw();
 	};
+
+	class DateNotFoundException : public std::exception
+	{
+	public:
+		const char *what() const throw();
+	};
 };
 
 #endif //BITCOINEXCHANGE_HPP
