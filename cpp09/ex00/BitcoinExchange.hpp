@@ -36,7 +36,7 @@ public:
 
 	BitcoinExchange &operator=(BitcoinExchange bitcoinExchange);
 
-	void parse(std::string filepath);
+	void parse(const std::string &filepath);
 
 public:
 	class DatabaseInitFailException : public std::exception

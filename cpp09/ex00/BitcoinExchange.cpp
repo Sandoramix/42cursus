@@ -1,7 +1,6 @@
 #include "BitcoinExchange.hpp"
 #include <ostream>
 
-# define BTC_NAME "[" << typeid(BitcoinExchange).name() << "]"
 
 const std::string BitcoinExchange::DB_FILE = DB_FILEPATH;
 const int BitcoinExchange::MAX_VALUE = MAX_INPUT_VALUE;
@@ -12,7 +11,7 @@ void BitcoinExchange::initDB()
 
 	if (!file.is_open() || file.fail())
 	{
-		std::cerr << BTC_NAME"\tError: could not open the file [" << BitcoinExchange::DB_FILE << "]." << std::endl;
+		std::cerr << "Error: could not open the file [" << BitcoinExchange::DB_FILE << "]." << std::endl;
 		throw DatabaseInitFailException();
 	}
 	std::string line;
@@ -26,7 +25,7 @@ void BitcoinExchange::initDB()
 
 		if (commaPos == std::string::npos)
 		{
-			std::cerr << BTC_NAME"Error: invalid line [" << i << "]" << std::endl;
+			std::cerr << "Error: invalid line [" << i << "]" << std::endl;
 			throw DatabaseInitFailException();
 		}
 
@@ -39,7 +38,7 @@ void BitcoinExchange::initDB()
 		}
 		catch (std::exception &e)
 		{
-			std::cerr << BTC_NAME"Error: invalid date at line [" << i << "]" << std::endl;
+			std::cerr << "Error: invalid date at line [" << i << "]" << std::endl;
 			throw DatabaseInitFailException();
 		}
 		char *end;
@@ -47,7 +46,7 @@ void BitcoinExchange::initDB()
 
 		if (end == rawDate.c_str() || *end != '\0')
 		{
-			std::cerr << BTC_NAME"Error: invalid value at line [" << i << "]" << std::endl;
+			std::cerr << "Error: invalid value at line [" << i << "]" << std::endl;
 			throw DatabaseInitFailException();
 		}
 		this->db[date] = value;
@@ -74,6 +73,7 @@ void BitcoinExchange::parseInputFile(const std::string &filepath)
 	{
 		if (i == 1 && line == "date | value")
 			continue;
+		std::cout << "["<<i<<"]\t";
 		std::size_t pipePos = line.find(" | ");
 
 		if (pipePos == std::string::npos || pipePos == 0 || pipePos == line.size() - 3)
@@ -95,7 +95,7 @@ void BitcoinExchange::parseInputFile(const std::string &filepath)
 			date = IsoDate::parseIsoDate(rawDate);
 		} catch (std::exception &e)
 		{
-			std::cout << "Error: bad date =>" << rawDate << std::endl;
+			std::cout << "Error: bad date => " << rawDate << std::endl;
 			continue;
 		}
 
@@ -179,7 +179,7 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange bitcoinExchange)
 	return *this;
 }
 
-void BitcoinExchange::parse(std::string filepath)
+void BitcoinExchange::parse(const std::string &filepath)
 {
 	this->parseInputFile(filepath);
 }
