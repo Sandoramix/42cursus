@@ -1,9 +1,9 @@
-NAME=...
+NAME=RPN
 
 CPPFLAGS=-g -Wall -Wextra -Werror -std=c++98 -I.
 CC = c++
 
-SRCS = main.cpp
+SRCS = main.cpp RPN.cpp
 
 all: $(NAME)
 
@@ -18,9 +18,11 @@ fclean: clean
 
 re: fclean all
 
+ARG="1 2 +"
+
 val: all
 	clear
-	valgrind --quiet ./$(NAME)
+	valgrind --quiet ./$(NAME) $(ARG)
 
 .PHONY: all clean fclean re
 .SILENT:
