@@ -28,7 +28,9 @@ public:
 
 	PmergeMe &operator=(const PmergeMe &pmergeMe);
 
-private:;
+private:
+	static std::vector<int> getJacobsthalNumbers(int n);
+	;
 
 public:
 	static std::vector<int> sortWithVector(std::vector<int> nums);
