@@ -1,9 +1,9 @@
-NAME=...
+NAME=PmergeMe
 
 CPPFLAGS=-g -Wall -Wextra -Werror -std=c++98 -I.
 CC = c++
 
-SRCS = main.cpp
+SRCS = main.cpp PmergeMe.cpp
 
 all: $(NAME)
 
