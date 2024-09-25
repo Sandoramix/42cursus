@@ -1,30 +1,34 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe(){}
+PmergeMe::PmergeMe() {}
 
-PmergeMe::PmergeMe(const PmergeMe &){}
+PmergeMe::PmergeMe(const PmergeMe &) {}
 
-PmergeMe::~PmergeMe(){}
+PmergeMe::~PmergeMe() {}
 
-PmergeMe &PmergeMe::operator=(const PmergeMe &)
-{return *this;}
+PmergeMe &PmergeMe::operator=(const PmergeMe &) { return *this; }
 
+std::vector<int> PmergeMe::sortVector(std::vector<int> nums) { return PmergeMe::sortWithVector(nums); }
+
+std::list<int> PmergeMe::sortList(std::list<int> nums) { return PmergeMe::sortWithList(nums); }
+
+// ------------------------------------
+// VECTOR IMPLEMENTATION
 std::vector<int> PmergeMe::sortWithVector(std::vector<int> nums)
 {
 	NOT_IMPLEMENTED;
-	(void)nums;
+	(void) nums;
 	return std::vector<int>();
 }
 
+// ------------------------------------
+
+// LIST IMPLEMENTATION
 std::list<int> PmergeMe::sortWithList(std::list<int> nums)
 {
 	NOT_IMPLEMENTED;
-	(void)nums;
+	(void) nums;
 	return std::list<int>();
 }
 
-std::vector<int> PmergeMe::sortVector(std::vector<int> nums)
-{ return PmergeMe::sortWithVector(nums); }
-
-std::list<int> PmergeMe::sortList(std::list<int> nums)
-{ return PmergeMe::sortWithList(nums); }
+// ------------------------------------

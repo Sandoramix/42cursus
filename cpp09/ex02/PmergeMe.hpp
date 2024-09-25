@@ -21,19 +21,23 @@ class PmergeMe
 {
 public:
 	PmergeMe();
+
 	PmergeMe(const PmergeMe &pmergeMe);
+
 	~PmergeMe();
 
 	PmergeMe &operator=(const PmergeMe &pmergeMe);
 
-private:
-	;
+private:;
 
 public:
 	static std::vector<int> sortWithVector(std::vector<int> nums);
+
 	static std::list<int> sortWithList(std::list<int> nums);
+
 public:
 	std::vector<int> sortVector(std::vector<int> nums);
+
 	std::list<int> sortList(std::list<int> nums);
 };
 

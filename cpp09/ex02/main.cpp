@@ -18,7 +18,7 @@ template<typename CNT>
 CNT getNumbers(std::vector<std::string> args){
 	CNT ret;
 
-	for (std::vector<std::string>::iterator it; it != args.end(); ++it){
+	for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it){
 		std::string arg = *it;
 
 		char *end = NULL;
@@ -58,8 +58,8 @@ int main(int ac, char **av)
 
 	PmergeMe algo;
 
-//	algo.sortWithVector(args);
-//
-//	algo.sortWithList(args);
-//
+	try{
+		algo.sortVector(vectorNumbers);
+		algo.sortList(listNumbers);
+	}catch (std::runtime_error &e){std::cerr << e.what();};
 }
