@@ -7,40 +7,37 @@
 #include <algorithm>
 
 #include <vector>
-#include <list>
+#include <deque>
 
-#define NOT_IMPLEMENTED \
-    do { \
-        std::stringstream ss; \
-        ss << __func__ << " is not yet implemented" << std::endl; \
-        throw std::runtime_error(ss.str()); \
-    } while(0);
+//#define NOT_IMPLEMENTED \
+//    do { \
+//        std::stringstream ss; \
+//        ss << __func__ << " is not yet implemented" << std::endl; \
+//        throw std::runtime_error(ss.str()); \
+//    } while(0);
 
 
 class PmergeMe
 {
-public:
+private:
 	PmergeMe();
 
 	PmergeMe(const PmergeMe &pmergeMe);
 
-	~PmergeMe();
-
 	PmergeMe &operator=(const PmergeMe &pmergeMe);
 
+public:
+	~PmergeMe();
+
 private:
-	static std::vector<int> getJacobsthalNumbers(int n);
-	;
+	static int jacobsthalOf(int n);
+
+	static std::vector<int> getJacobsthalInsertSequence(int pendCount);
 
 public:
-	static std::vector<int> sortWithVector(std::vector<int> nums);
+	static std::vector<int> sortVector(const std::vector<int> &nums);
 
-	static std::list<int> sortWithList(std::list<int> nums);
-
-public:
-	std::vector<int> sortVector(std::vector<int> nums);
-
-	std::list<int> sortList(std::list<int> nums);
+	static std::deque<int> sortDeque(const std::deque<int> &nums);
 };
 
 
