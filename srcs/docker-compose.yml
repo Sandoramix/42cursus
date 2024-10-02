@@ -1,0 +1,38 @@
+
+services:
+  mariadb:
+    image: ${USER}/mariadb:latest
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb
+    networks:
+      - net
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    restart: always
+    ports:
+      - 33060:3306
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  mariadb_volume:
+    name: ${MARIADB_VOLUME_NAME}
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${MARIADB_VOLUME_PATH}
+  wordpress_volume:
+    name: ${WORDPRESS_VOLUME_NAME}
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${WORDPRESS_VOLUME_PATH}
