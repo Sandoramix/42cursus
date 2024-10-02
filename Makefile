@@ -36,6 +36,10 @@ up-build:
 
 clean: down-clean
 
+fclean:
+	@echo "Removing volume folders..."
+	@rm -rf ${VOLUME_PATHS} || echo "Encountered issues removing directories. Please check permissions."
+
 ps:
 	docker-compose -f ${COMPOSE_FILE} ps
 
