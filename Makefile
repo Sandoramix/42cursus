@@ -16,6 +16,8 @@ endif
 
 VOLUME_PATHS = ${MARIADB_VOLUME_PATH} ${WORDPRESS_VOLUME_PATH}
 
+DOCKER_COMPOSE = docker-compose -f ${COMPOSE_FILE}
+
 all: up
 
 setup:
@@ -23,27 +25,33 @@ setup:
 
 up:
 	@$(MAKE) setup
-	docker-compose -f ${COMPOSE_FILE} up -d
+	${DOCKER_COMPOSE} up -d
+
+up-interactive:
+	@$(MAKE) setup
+	${DOCKER_COMPOSE} up --build
 
 down:
-	docker-compose -f ${COMPOSE_FILE} down
+	${DOCKER_COMPOSE} down
 down-clean:
 	@echo "Removing all containers, volumes, images, and networks..."
-	docker-compose -f ${COMPOSE_FILE} down --volumes --remove-orphans --rmi all
+	${DOCKER_COMPOSE} down --volumes --remove-orphans --rmi all
 
 up-build:
-	docker-compose -f ${COMPOSE_FILE} up -d --build
+	${DOCKER_COMPOSE} up -d --build
 
 clean: down-clean
 
-fclean:
+fclean: clean
 	@echo "Removing volume folders..."
-	@rm -rf ${VOLUME_PATHS} || echo "Encountered issues removing directories. Please check permissions."
+#~/sasharm
+#${DOCKER_COMPOSE} exec wordpress rm -rf /var/www/html
+#@rm -rf ${VOLUME_PATHS} || echo "Encountered issues removing directories. Please check permissions."
 
 ps:
-	docker-compose -f ${COMPOSE_FILE} ps
+	${DOCKER_COMPOSE} ps
 
-re: clean setup up-build
+re: fclean setup up-build
 
 .PHONY: all setup up down clean re up-build
 .SILENT: ps clean setup
