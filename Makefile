@@ -23,12 +23,10 @@ all: up
 setup:
 	mkdir -p $(VOLUME_PATHS)
 
-up:
-	@$(MAKE) setup
+up: setup
 	${DOCKER_COMPOSE} up -d
 
-up-interactive:
-	@$(MAKE) setup
+up-interactive: setup
 	${DOCKER_COMPOSE} up --build
 
 down:
@@ -37,21 +35,21 @@ down-clean:
 	@echo "Removing all containers, volumes, images, and networks..."
 	${DOCKER_COMPOSE} down --volumes --remove-orphans --rmi all
 
-up-build:
-	${DOCKER_COMPOSE} up -d --build
+build: setup
+	${DOCKER_COMPOSE} build --no-cache
+
 
 clean: down-clean
 
-fclean: clean
-	@echo "Removing volume folders..."
-#~/sasharm
+fclean: down-clean
+#	~/sasharm
 #${DOCKER_COMPOSE} exec wordpress rm -rf /var/www/html
 #@rm -rf ${VOLUME_PATHS} || echo "Encountered issues removing directories. Please check permissions."
 
 ps:
 	${DOCKER_COMPOSE} ps
 
-re: fclean setup up-build
+re: fclean setup build up
 
 .PHONY: all setup up down clean re up-build
 .SILENT: ps clean setup
