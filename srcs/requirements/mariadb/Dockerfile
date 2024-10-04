@@ -16,6 +16,4 @@ RUN chmod +x /usr/local/bin/populate_db.sh
 
 RUN /usr/local/bin/populate_db.sh
 
-EXPOSE 3306
-
 CMD ["mysqld"]
