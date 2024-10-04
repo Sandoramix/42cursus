@@ -12,6 +12,13 @@ pid="$!"
 
 sleep 5
 
+echo "Populating database..."
+
+#echo "RootPassword: ${MYSQL_ROOT_PASSWORD}"
+#echo "User: ${MYSQL_USER}"
+#echo "Password: ${MYSQL_PASSWORD}"
+#echo "Database: ${MYSQL_DATABASE}"
+
 mysql -u root <<-EOSQL
 	-- Disable binary logging for initialization
 	SET @@SESSION.SQL_LOG_BIN=0;
@@ -23,8 +30,8 @@ mysql -u root <<-EOSQL
 	ALTER USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
 
 	-- Grant privileges
-	GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
-	GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+	GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
+	GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 
 	-- General cleanup
 	FLUSH PRIVILEGES;
@@ -37,6 +44,8 @@ mysql -u root <<-EOSQL
 	GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%';
 	FLUSH PRIVILEGES;
 EOSQL
+
+echo "Database populated."
 
 kill "$pid"
 
