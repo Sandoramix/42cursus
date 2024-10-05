@@ -4,13 +4,21 @@
 set -e
 
 echo "Initializing MariaDB database..."
+
 mysql_install_db --user=mysql --datadir=/var/lib/mysql
+
+# For debugging
+# mysql_install_db --user=mysql --datadir=/var/lib/mysql --verbose
+
 echo "Database initialized."
 
 mysqld --user=mysql --datadir=/var/lib/mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-networking &
 pid="$!"
 
-sleep 5
+echo "Waiting for server to start..."
+until mysqladmin ping --silent; do
+	sleep 1
+done
 
 echo "Populating database..."
 

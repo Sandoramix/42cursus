@@ -15,8 +15,8 @@ services:
     volumes:
       - mariadb_volume:/var/lib/mysql
     restart: always
-    ports:
-      - 33060:3306
+    #ports:
+      #- 33060:3306 # for debugging
 networks:
   net:
     driver: bridge
