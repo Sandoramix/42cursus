@@ -13,7 +13,6 @@ ifeq ($(wildcard ${COMPOSE_FILE}),)
 $(error ${COMPOSE_FILE} does not exist)
 endif
 
-
 VOLUME_PATHS = ${MARIADB_VOLUME_PATH} ${WORDPRESS_VOLUME_PATH}
 
 DOCKER_COMPOSE = docker-compose -f ${COMPOSE_FILE}
@@ -22,34 +21,37 @@ all: up
 
 setup:
 	mkdir -p $(VOLUME_PATHS)
+build: setup
+	${DOCKER_COMPOSE} build --no-cache
 
 up: setup
 	${DOCKER_COMPOSE} up -d
-
-up-interactive: setup
-	${DOCKER_COMPOSE} up --build
-
 down:
 	${DOCKER_COMPOSE} down
+
+up-interactive: setup
+	${DOCKER_COMPOSE} up
+
 down-clean:
 	@echo "Removing all containers, volumes, images, and networks..."
 	${DOCKER_COMPOSE} down --volumes --remove-orphans --rmi all
 
-build: setup
-	${DOCKER_COMPOSE} build --no-cache
-
+ps:
+	${DOCKER_COMPOSE} ps
 
 clean: down-clean
 
 fclean: down-clean
+	@sudo rm -rf ${VOLUME_PATHS} || echo "An error occurred while deleting the volumes. You might not have enough permissions"
 #	~/sasharm
 #${DOCKER_COMPOSE} exec wordpress rm -rf /var/www/html
 #@rm -rf ${VOLUME_PATHS} || echo "Encountered issues removing directories. Please check permissions."
 
-ps:
-	${DOCKER_COMPOSE} ps
+re: clean setup build up
+re-interactive: clean setup build up-interactive
 
-re: fclean setup build up
+re-force: fclean setup build up
+re-force-interactive: fclean setup build up-interactive
 
-.PHONY: all setup up down clean re up-build
-.SILENT: ps clean setup
+.PHONY: all setup build up down up-interactive down-clean ps clean fclean re re-interactive re-force re-force-interactive
+.SILENT: clean setup
