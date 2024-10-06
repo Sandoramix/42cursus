@@ -51,6 +51,22 @@ services:
       WORDPRESS_SECONDARY_USER_EMAIL: ${WORDPRESS_SECONDARY_USER_EMAIL}
       WORDPRESS_SECONDARY_USER_PASSWORD: ${WORDPRESS_SECONDARY_USER_PASSWORD}
     restart: always
+  nginx:
+    image: ${USER}/nginx:latest
+    container_name: nginx
+    build:
+      context: ./requirements/nginx
+      args:
+        - LOGIN=${USER}
+    depends_on:
+        - wordpress
+    networks:
+      - net
+    volumes:
+        - wordpress_volume:/var/www/html
+    ports:
+        - 443:443
+    restart: always
 networks:
   net:
     driver: bridge
