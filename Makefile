@@ -1,5 +1,7 @@
-ENV_FILE = srcs/.env
-COMPOSE_FILE = srcs/docker-compose.yml
+SHELL := /bin/bash
+
+ENV_FILE := srcs/.env
+COMPOSE_FILE := srcs/docker-compose.yml
 
 ifneq (,$(wildcard ${ENV_FILE}))
 include ${ENV_FILE}
@@ -13,9 +15,9 @@ ifeq ($(wildcard ${COMPOSE_FILE}),)
 $(error ${COMPOSE_FILE} does not exist)
 endif
 
-VOLUME_PATHS = ${MARIADB_VOLUME_PATH} ${WORDPRESS_VOLUME_PATH}
+VOLUME_PATHS := ${MARIADB_VOLUME_PATH} ${WORDPRESS_VOLUME_PATH}
 
-DOCKER_COMPOSE = docker-compose -f ${COMPOSE_FILE}
+DOCKER_COMPOSE := docker-compose -f ${COMPOSE_FILE}
 
 all: up
 
