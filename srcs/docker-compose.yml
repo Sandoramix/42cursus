@@ -30,12 +30,27 @@ services:
     container_name: wordpress
     build:
       context: ./requirements/wordpress
-      args:
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - net
+    volumes:
+      - wordpress_volume:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: mariadb
         WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
         WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
         WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-
-
+      WORDPRESS_SITE_URL: ${WORDPRESS_SITE_URL}
+      WORDPRESS_SITE_TITLE: ${WORDPRESS_SITE_TITLE}
+      WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}
+      WORDPRESS_ADMIN_PASSWORD: ${WORDPRESS_ADMIN_PASSWORD}
+      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
+      WORDPRESS_SECONDARY_USER: ${WORDPRESS_SECONDARY_USER}
+      WORDPRESS_SECONDARY_USER_EMAIL: ${WORDPRESS_SECONDARY_USER_EMAIL}
+      WORDPRESS_SECONDARY_USER_PASSWORD: ${WORDPRESS_SECONDARY_USER_PASSWORD}
+    restart: always
 networks:
   net:
     driver: bridge
