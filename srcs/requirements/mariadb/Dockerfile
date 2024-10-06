@@ -4,6 +4,9 @@ ARG MYSQL_ROOT_PASSWORD=toor
 ARG MYSQL_USER=user
 ARG MYSQL_PASSWORD=password
 ARG MYSQL_DATABASE=default_database
+ARG WORDPRESS_DB_NAME=wp
+ARG WORDPRESS_DB_USER=wpusr
+ARG WORDPRESS_DB_PASSWORD=wppass
 
 RUN apk add --no-cache mariadb mariadb-client
 COPY --chmod=0644 ./conf/my.cnf /etc/mysql/my.cnf

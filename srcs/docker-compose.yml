@@ -10,6 +10,9 @@ services:
         MYSQL_USER: ${MYSQL_USER}
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         MYSQL_DATABASE: ${MYSQL_DATABASE}
+        WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+        WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+        WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
     networks:
       - net
     volumes:
@@ -17,6 +20,17 @@ services:
     restart: always
     #ports:
       #- 33060:3306 # for debugging
+  wordpress:
+    image: ${USER}/wordpress:latest
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress
+      args:
+        WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+        WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+        WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+
+
 networks:
   net:
     driver: bridge
