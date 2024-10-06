@@ -30,6 +30,8 @@ up: setup
 	${DOCKER_COMPOSE} up -d
 down:
 	${DOCKER_COMPOSE} down
+stop:
+	${DOCKER_COMPOSE} stop
 
 up-interactive: setup
 	${DOCKER_COMPOSE} up
@@ -40,6 +42,8 @@ down-clean:
 
 ps:
 	${DOCKER_COMPOSE} ps
+logs:
+	${DOCKER_COMPOSE} logs
 
 clean: down-clean
 

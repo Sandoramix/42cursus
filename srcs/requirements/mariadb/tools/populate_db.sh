@@ -27,7 +27,7 @@ echo "Populating database..."
 #echo "Password: ${MYSQL_PASSWORD}"
 #echo "Database: ${MYSQL_DATABASE}"
 
-mysql -u root <<-EOSQL
+mysql -u root -p${MYSQL_ROOT_PASSWORD} <<EOSQL
 	-- Disable binary logging for initialization
 	SET @@SESSION.SQL_LOG_BIN=0;
 
