@@ -1,10 +1,15 @@
 
 services:
+# MARIADB
   mariadb:
+    # Custom image name
     image: ${USER}/mariadb:latest
+    # Container name
     container_name: mariadb
     build:
+      # Where is the Dockerfile
       context: ./requirements/mariadb
+      # Arguments for the Dockerfile (used in the build process)
       args:
         MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         MYSQL_USER: ${MYSQL_USER}
@@ -13,18 +18,22 @@ services:
         WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
         WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
         WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+    # Networks to which the service is connected
     networks:
       - net
+    # Volumes to which the service is connected
     volumes:
       - mariadb_volume:/var/lib/mysql
+    # Healthcheck to ensure the service is correctly running
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
       retries: 5
       interval: 2s
       timeout: 5s
+    # Restart policy
     restart: always
-    #ports:
-      #- 33060:3306 # for debugging
+#--------------------------------------
+# WORDPRESS
   wordpress:
     image: ${USER}/wordpress:latest
     container_name: wordpress
@@ -39,9 +48,9 @@ services:
       - wordpress_volume:/var/www/html
     environment:
       WORDPRESS_DB_HOST: mariadb
-        WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-        WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-        WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       WORDPRESS_SITE_URL: ${WORDPRESS_SITE_URL}
       WORDPRESS_SITE_TITLE: ${WORDPRESS_SITE_TITLE}
       WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}
@@ -51,6 +60,8 @@ services:
       WORDPRESS_SECONDARY_USER_EMAIL: ${WORDPRESS_SECONDARY_USER_EMAIL}
       WORDPRESS_SECONDARY_USER_PASSWORD: ${WORDPRESS_SECONDARY_USER_PASSWORD}
     restart: always
+#--------------------------------------
+# NGINX
   nginx:
     image: ${USER}/nginx:latest
     container_name: nginx
@@ -67,10 +78,13 @@ services:
     ports:
         - 443:443
     restart: always
+#------------------------------------------------------------------------------
+# NETWORKS
 networks:
   net:
     driver: bridge
-
+#------------------------------------------------------------------------------
+# VOLUMES
 volumes:
   mariadb_volume:
     name: ${MARIADB_VOLUME_NAME}
@@ -86,3 +100,4 @@ volumes:
       type: none
       o: bind
       device: ${WORDPRESS_VOLUME_PATH}
+#------------------------------------------------------------------------------
