@@ -17,6 +17,11 @@ services:
       - net
     volumes:
       - mariadb_volume:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      retries: 5
+      interval: 2s
+      timeout: 5s
     restart: always
     #ports:
       #- 33060:3306 # for debugging
