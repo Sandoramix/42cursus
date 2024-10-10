@@ -2,7 +2,8 @@
 
 WP_PATH=/var/www/html
 
-if ! wp core is-installed --path=${WP_PATH}; then
+
+if ! wp core is-installed 2>/dev/null --path=${WP_PATH}; then
 	wp core download --path="$WP_PATH"
 
 	if [ ! -e "$WP_PATH/wp-config.php" ]; then
