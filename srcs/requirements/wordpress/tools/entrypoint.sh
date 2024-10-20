@@ -13,7 +13,7 @@ if ! wp core is-installed 2>/dev/null --path=${WP_PATH}; then
 		wp db create --path="$WP_PATH"
 	fi
 
-	export WORDPRESS_SITE_URL=${WORDPRESS_PROTOCOL}${WORDPRESS_DOMAIN_NAME}$([ "${WORDPRESS_SERVER_PORT}" != "443" ] && echo ":${WORDPRESS_SERVER_PORT}")
+	WORDPRESS_SITE_URL=${WORDPRESS_SITE_PROTOCOL}${WORDPRESS_SITE_DOMAIN}$([ "${WORDPRESS_SITE_PORT}" != "443" ] && echo ":${WORDPRESS_SITE_PORT}")
 
 	wp core install --url="${WORDPRESS_SITE_URL}" --title="${WORDPRESS_SITE_TITLE}" --admin_user="${WORDPRESS_ADMIN_USER}" --admin_password="${WORDPRESS_ADMIN_PASSWORD}" --admin_email="${WORDPRESS_ADMIN_EMAIL}" --path="$WP_PATH"
 
