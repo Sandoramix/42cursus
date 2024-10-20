@@ -60,6 +60,10 @@ services:
       WORDPRESS_SECONDARY_USER_EMAIL: ${WORDPRESS_SECONDARY_USER_EMAIL}
       WORDPRESS_SECONDARY_USER_PASSWORD: ${WORDPRESS_SECONDARY_USER_PASSWORD}
     restart: always
+    # DNS servers because wordpress could not resolve the domain name
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 #--------------------------------------
 # NGINX
   nginx:
@@ -68,7 +72,8 @@ services:
     build:
       context: ./requirements/nginx
       args:
-        - LOGIN=${USER}
+        - DOMAIN=${USER}.42.fr
+        - PORT=443
     depends_on:
         - wordpress
     networks:
