@@ -12,8 +12,8 @@ RUN mkdir -p /etc/ssl/certs
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/certs/${LOGIN}.42.fr.key -out /etc/ssl/certs/${LOGIN}.42.fr.crt -subj "/C=FR/ST=/L=/O=${LOGIN}/OU=42/CN=${LOGIN}.42.fr"
 
-COPY --chown=root:root --chmod=0744 ./conf/nginx.conf /etc/nginx/http.d/inception.conf
-RUN sed -i "s/\${LOGIN}/${LOGIN}/g" /etc/nginx/http.d/inception.conf
+COPY --chown=root:root --chmod=0744 ./conf/nginx.conf /etc/nginx/http.d/default.conf
+RUN sed -i "s/\${LOGIN}/${LOGIN}/g" /etc/nginx/http.d/default.conf
 
 WORKDIR /var/www/html
 
