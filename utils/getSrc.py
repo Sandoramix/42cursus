@@ -11,7 +11,7 @@ argParser.add_argument("--path", '-p', default='.',  help="Path to look for")
 argParser.add_argument("--exclude", '-e', default=None,  help="Paths to exclude from lookup, each separated by comma")
 argParser.add_argument("--version", "-v", help="Show the program's version", action='version', version=VERSION)
 argParser.add_argument("--output","-o",  nargs='?', default='makefile.srcs', help="Output file. Default: 'makefile.srcs'")
-
+argParser.add_argument("--extension", '-ext', nargs='?', default='c', help="Extension to look for. Default: 'c'")
 
 args = argParser.parse_args()
 
@@ -45,11 +45,13 @@ def updateExcludedPaths():
 to_exclude = updateExcludedPaths()
 is_excluded = lambda x: len([i for i in to_exclude if i in x]) > 0
 
+EXT_FILTER = args.extension if 'extension' in args else 'c'
+
 for x in os.walk(PATH):
-	for y in glob.glob(os.path.join(x[0], '*.c')):
+	for y in glob.glob(os.path.join(x[0], f'*.{EXT_FILTER}')):
 		if is_excluded(y): continue
-		if (y.endswith("_bonus.c")): bonuses.append(y)
-		elif y.endswith(".c"): srcs.append(y)
+		if (y.endswith(f"_bonus.{EXT_FILTER}")): bonuses.append(y)
+		elif y.endswith(f".{EXT_FILTER}"): srcs.append(y)
 
 with open(OUTFILE, "w") as file:
 	out = "SRC = "
