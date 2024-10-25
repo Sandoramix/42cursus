@@ -40,7 +40,7 @@ RUN chown -R nobody:nogroup /var/www/html
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-COPY --chown=root:root --chmod=0700 ./tools/entrypoint.sh /usr/local/bin/
+COPY --chown=root:root --chmod=0700 ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 WORKDIR /var/www/html
 

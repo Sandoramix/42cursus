@@ -3,14 +3,17 @@
 # EXIT ON ERROR
 set -e
 
-echo "Initializing MariaDB database..."
+FIRST_TIME=1
 
-mysql_install_db --user=mysql --datadir=/var/lib/mysql
-
-# For debugging
-# mysql_install_db --user=mysql --datadir=/var/lib/mysql --verbose
-
-echo "Database initialized."
+echo "Trying to initialize MariaDB database..."
+if [ ! -d /var/lib/mysql/mysql ]; then
+	echo "MariaDB database not found. Initializing..."
+	mysql_install_db --user=mysql --datadir=/var/lib/mysql
+	echo "MariaDB database initialized."
+else
+	echo "MariaDB database upgraded."
+	FIRST_TIME=0
+fi
 
 mysqld --user=mysql --datadir=/var/lib/mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-networking &
 pid="$!"
@@ -20,14 +23,15 @@ until mysqladmin ping --silent; do
 	sleep 1
 done
 
-echo "Populating database..."
+echo "Updating MariaDB database..."
 
-#echo "RootPassword: ${MYSQL_ROOT_PASSWORD}"
-#echo "User: ${MYSQL_USER}"
-#echo "Password: ${MYSQL_PASSWORD}"
-#echo "Database: ${MYSQL_DATABASE}"
+DB_PASS="-p${MYSQL_ROOT_PASSWORD}"
 
-mysql -u root -p${MYSQL_ROOT_PASSWORD} <<EOSQL
+if [ "${FIRST_TIME}" = "1" ]; then
+	DB_PASS=""
+fi
+
+mysql -u root "${DB_PASS}" <<EOSQL
 	-- Disable binary logging for initialization
 	SET @@SESSION.SQL_LOG_BIN=0;
 
@@ -64,9 +68,10 @@ mysql -u root -p${MYSQL_ROOT_PASSWORD} <<EOSQL
 	FLUSH PRIVILEGES;
 EOSQL
 
-echo "Database populated."
+echo "MariaDB database updated."
 
 kill "$pid"
 
 wait "$pid"
 
+"$@"

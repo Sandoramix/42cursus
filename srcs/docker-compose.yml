@@ -75,7 +75,7 @@ services:
       context: ./requirements/nginx
       args:
         - DOMAIN=${DOMAIN_NAME}
-        - PORT=443
+        - PORT=${SERVER_PORT}
     depends_on:
         - wordpress
     networks:
@@ -83,7 +83,7 @@ services:
     volumes:
         - wordpress_volume:/var/www/html
     ports:
-        - 443:443
+        - ${SERVER_PORT}:${SERVER_PORT}
     restart: always
 #------------------------------------------------------------------------------
 # NETWORKS
