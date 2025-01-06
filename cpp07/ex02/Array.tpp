@@ -57,6 +57,13 @@ T &Array<T>::operator[](size_t idx)
 		throw IndexOutOfBoundsException();
 	return this->content[idx];
 }
+template<typename T>
+const T &Array<T>::operator[](size_t idx) const
+{
+	if (idx >= this->length)
+		throw IndexOutOfBoundsException();
+	return this->content[idx];
+}
 
 template<typename T>
 const char *Array<T>::IndexOutOfBoundsException::what() const throw()
@@ -66,7 +73,7 @@ const char *Array<T>::IndexOutOfBoundsException::what() const throw()
 
 
 template<typename T>
-std::ostream &operator<<(std::ostream &os, Array<T> &array)
+std::ostream &operator<<(std::ostream &os, const Array<T> &array)
 {
 	for (size_t i = 0; i < array.size(); i++)
 		os << "[" << i << "]: " << array[i] << std::endl;

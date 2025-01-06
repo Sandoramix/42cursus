@@ -32,6 +32,7 @@ public:
 	Array &operator=(Array<T> array);
 
 	T &operator[](size_t idx);
+	const T &operator[](size_t idx) const;
 
 	size_t size() const;
 
