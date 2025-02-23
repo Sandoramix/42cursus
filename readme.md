@@ -25,8 +25,8 @@
 				- [Switch to root user](#switch-to-root-user)
 				- [UFW](#ufw)
 					- [Install](#install-1)
+					- [Enable](#enable)
 					- [Configure](#configure)
-					- [Configure the firewall](#configure-the-firewall)
 				- [SSH](#ssh)
 					- [Install](#install-2)
 					- [Configure](#configure-1)
@@ -197,7 +197,7 @@ You can install it with the following command:
 apt install ufw
 ```
 
-###### Configure
+###### Enable
 
 Enable the firewall with the following command:
 
@@ -205,7 +205,7 @@ Enable the firewall with the following command:
 ufw enable
 ```
 
-###### Configure the firewall
+###### Configure
 
 The services that need to be allowed from the outside are `ssh`.
 
