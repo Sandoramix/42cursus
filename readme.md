@@ -1,6 +1,6 @@
 # DEBIAN
 
-Premise: there won't be much of a theory explained here, but every command and/or section's name is a good hint of what you should lookup on the Internet.
+Premise: there won't be much of a theory explained here, but every command and/or section's name is a good hint of what you should lookup on the Internet, with `man` command or by using `<command> --help`
 
 Any reference to the `host` machine means the physical machine that you're using to run the VM.
 Any reference to the `guest` machine means the virtual machine that you're using.
@@ -121,7 +121,7 @@ In order to boot the system, you need to configure the boot loader. The boot loa
 
 ---
 
-#### Configuration
+#### MAIN SETUP
 
 First of all, you need to log in to the system. After inserting the crypted partition password, you should be able to see the login screen. Use your `<login>` and password to login.
 
@@ -151,7 +151,7 @@ and enter the root password.
 
 ###### Install
 
-It should be already installed, because of the installation of the `standard system utilities` in the previous step. But if you want to install it manually, you can do it with the following command:
+You can install it with the following command:
 
 ```bash
 apt install ufw
@@ -263,4 +263,80 @@ Example:
 ssh login@10.10.250.200 -p 4242
 ```
 
-###### 
+##### Sudo
+
+The [`sudo`](https://www.sudo.ws/sudo/intro.html) command allows a user to execute a command as the superuser (root).
+
+###### Install
+
+You can install it with the following command:
+
+```bash
+apt install sudo
+```
+
+###### Configure
+
+The configuration file is located in `/etc/sudoers`.
+
+- You can configure the sudo with the following any text editor.
+- Or you can use the `visudo` command.
+
+This would be the configuration file:
+
+```apacheconf
+# Reset environment variables (only for the running command) on each sudo command execution
+Defaults	env_reset
+# Send a mail to the users's specified email if the running sudo does not enter a valid command
+Defaults	mail_badpass
+# Limit the $PATH variable for sudo command
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# https://stackoverflow.com/a/4426291
+Defaults	use_pty
+# requiretty is used to prevent sudo from running on a non-interactive terminal (e.g. a script)
+Defaults	requiretty
+
+# When sudo requires a password, set the max number of tries to enter the password
+Defaults	passwd_tries=3
+# If the user enters an incorrect password, the sudo command will exit with an error message (insults)
+Defaults	insults
+
+# Every time sudo is run, the log file will be updated with the run command.
+Defaults	logfile="/var/log/sudo/sudo.log"
+# The directory where the sudo log file will be stored
+Defaults	iolog_dir="/var/log/sudo"
+# What to log
+Defaults	log_input,log_output
+
+# The time after which the sudo commands will request a password again
+Defaults	timestamp_timeout=15
+
+# The root user is allowed to run any command
+root		ALL=(ALL:ALL) ALL
+
+# The %sudo group is allowed to without password the ls, apt-get and apt commands
+%sudo		ALL=(ALL:ALL) NOPASSWD: /bin/ls, /usr/bin/apt-get, /usr/bin/apt
+# The %sudo group is allowed to run any command except the rm and su commands
+%sudo		ALL=(ALL:ALL) ALL, !/bin/rm !/bin/su
+
+# Include the `/etc/sudoers.d` directory if there are extra configuration files
+@includedir /etc/sudoers.d
+```
+
+###### Add the user to the sudo group
+
+To add the user to the sudo group, you can use the following command:
+
+```bash
+usermod -aG sudo <login>
+```
+where `<login>` is your `<login>`.
+
+To check if the user is in the sudo group, you can use the following command:
+
+```bash
+groups <login>
+```
+
+##### Password policy
