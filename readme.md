@@ -2,12 +2,21 @@
 
 Premise: there won't be much of a theory explained here, but every command and/or section's name is a good hint of what you should lookup on the Internet.
 
+Any reference to the `host` machine means the physical machine that you're using to run the VM.
+Any reference to the `guest` machine means the virtual machine that you're using.
+
 ## Download ISO
 
 https://www.debian.org/distrib/
 
 The `small installation image` is all we need. Version downloaded is [`debian-12.9.0-amd64-netinst/ 64-bit PC netinst ISO`](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.9.0-amd64-netinst.iso). Other versions might be slightly different.
 ![download](images/debian/download.png)
+
+### Set up the network on VM settings
+
+By default, the VM will be connected to the `NAT` network. NAT (Network Address Translation) is a technique that allows a computer to share an IP address with another computer on the same network. So The VM would use the same IP address as the host machine. This is not what we want. We want the VM to have its own IP address. To do that, we need to set up the network settings on the VM settings. Go to the settings and select the network tab. Then change the `Adapter 1` to `Bridged Adapter`.
+![alt text](images/debian/vm-settings/network.png)
+
 
 ### Mandatory
 #### Install
@@ -136,6 +145,35 @@ and enter the root password.
 
 ---
 
+##### UFW
+
+[`UFW`](https://wiki.ubuntu.com/UncomplicatedFirewall) (Uncomplicated Firewall) is a firewall that is easy to configure and manage. A firewall is a security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules. It acts as a barrier between a trusted internal network and an untrusted external network, such as the Internet. So it's a good idea to use it.
+
+###### Install
+
+It should be already installed, because of the installation of the `standard system utilities` in the previous step. But if you want to install it manually, you can do it with the following command:
+
+```bash
+apt install ufw
+```
+
+###### Configure
+
+Enable the firewall with the following command:
+
+```bash
+ufw enable
+```
+
+###### Configure the firewall
+
+The services that need to be allowed from the outside are `ssh`.
+
+To allow ssh you can use the `ufw allow ssh` command, but this alias is set up for the default port which is `22`. So to allow the custom port (`4242` is required) you have to use the following command:
+```bash
+ufw allow 4242
+```
+
 ##### SSH
 
 Starting with [`SSH`](https://www.techtarget.com/searchsecurity/definition/Secure-Shell) (secure shell) will be useful for the following reasons:
@@ -177,12 +215,52 @@ You can configure the SSH server with the following any text editor. I'll be usi
 3. Restart the SSH server with the following command:
 
 	```bash
-	systemctl restart ssh
+	systemctl restart sshd
 	```
 	or
 	```bash
-	service ssh restart
+	service sshd restart
 	```
 
+4. Check the status of the SSH server with the following command (it should be `active (running)` and you should be able to see the `listening on 0.0.0.0 port 4242` message):
+
+	```bash
+	systemctl status sshd
+	```
+	or
+	```bash
+	service sshd status
+	```
+
+###### Connect to the VM
+
+To connect to the VM via ssh, you can use the following command:
+
+```bash
+ssh <login>@<ip-address> -p <port>
+```
+
+`<login>` is your `<login>` and `<ip-address>` is the IP address of the VM.
+The `<port>` is the port that the SSH server is listening on. So in this case it would be `4242`.
+To find the IP address, you can use the following command:
+
+```bash
+hostname -I
+```
+or you can use `ip` command.
+
+```bash
+ip a
+```
+
+The first one will show you the IP address of the VM, the second one will show you all the network interfaces and their details.
+
+So from any machine in the same network as the VM (because of the bridged adapter), you can connect to it now from the host machine.
+
+Example:
+
+```bash
+ssh login@10.10.250.200 -p 4242
+```
 
 ###### 
