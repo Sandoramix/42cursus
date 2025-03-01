@@ -21,7 +21,7 @@ Checked: *`done`*
 - [x] [pipex: 125/125](https://github.com/Sandoramix/42cursus/tree/pipex)
 - [x] [minishell: 101/125](https://github.com/Sandoramix/42-minishell)
 - [x] [Philosophers: 100/125](https://github.com/Sandoramix/42cursus/tree/philosophers)
-- [x] Netpractice: 100/100
+- [x] NetPractice: 100/100
 - [x] [Cpp Module 00-09](https://github.com/Sandoramix/42cursus/tree/cpp-modules)
 - [x] [cub3d: 120/125](https://github.com/Sandoramix/42-cub3d)
 - [x] [Inception: 100/125](https://github.com/Sandoramix/42cursus/tree/inception)
