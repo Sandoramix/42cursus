@@ -3,7 +3,7 @@ PNAME = $(shell echo -n ${NAME} | tr 'a-z' 'A-Z')
 
 CC = cc
 INCLUDES = -Iincludes
-CFLAGS = -Wall -Wextra -Werror $(INCLUDES) $(DEBUGFLAGS)
+CFLAGS = -Wall -Wextra -Werror $(INCLUDES) $(DEBUGFLAGS) -g
 
 RM = rm -rf
 
@@ -40,13 +40,12 @@ fclean: clean
 re: fclean all
 
 # ----UTILS-----
-re-debug-log: fclean debug-log
-re-debug: fclean debug
 
 debug:
-	$(MAKE) DEBUGFLAGS="-g"
-debug-log:
-	$(MAKE) DEBUGFLAGS="-g -DDEBUG=true"
+	$(MAKE) DEBUGFLAGS="-DDEBUG=true"
+
+re-debug: fclean debug
+
 # --------------
 .PHONY: all clean fclean re
 .SILENT:

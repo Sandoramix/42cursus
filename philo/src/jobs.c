@@ -59,6 +59,9 @@ void	*philo_life(t_philo *p)
 	return (NULL);
 }
 
+/** What does that `usleep(1)` do?
+ * It prevents from clogging the CPU at 100% by this `while loop`
+*/
 void	*monitor(t_table *t)
 {
 	int				i;
@@ -81,6 +84,7 @@ void	*monitor(t_table *t)
 				return (announce(&t->phls[i], PH_DIE),
 					mutset_bool(t, &t->mutexstop, &t->shouldstop, true), NULL);
 		}
+		ssleep(1, MILLISECONDS);
 	}
 	return (NULL);
 }
