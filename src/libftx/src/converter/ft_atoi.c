@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:18:31 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/28 18:52:47 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/05/27 21:03:28 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int	ft_atoi(const char *nptr)
 	if (!nptr)
 		return (0);
 	i = 0;
-	while (ft_isspace(nptr[i]))
+	while (chr_isspace(nptr[i]))
 		i++;
 	sign = 1;
-	if (ft_issign(nptr[i]))
+	if (chr_issign(nptr[i]))
 		if (nptr[i++] == '-')
 			sign = -1;
 	res = 0;
-	while (ft_isdigit(nptr[i]))
+	while (chr_isdigit(nptr[i]))
 		res = res * 10 + (nptr[i++] - '0');
 	return (res * sign);
 }

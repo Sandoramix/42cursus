@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 09:48:00 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/10 09:48:36 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/06/19 21:48:28 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,25 @@ char		*ft_uitoa(unsigned int n);
  * @attention Uses: malloc
  */
 char		*ft_ultoa_base(unsigned long n, const char *base);
-
-//!-------------------------STRICT GANG--------------------------
 /**
- * @brief Atoi but very strict. doesn't tollerate any non digit characters
- * except for spaces
- *
- * @param s
- * @return int*
+ * @attention uses malloc, free
+ * @brief Atoi (int) but much more strict.
+ * It skips the first spaces (`isspace`), allows only 1 sign at the start
+ * and considers a string valid if there are only digits after the sign.
+ * @param s string to convert
+ * @return A pointer to the converted number (int),
+ * or `NULL` in case of bad input/allocation failure.
  */
-int			*strict_atoi(const char *s);
+int			*strict_atoi(char *s);
+/**
+ * @attention uses malloc, free
+ * @brief Atol (long) but much more strict.
+ * It skips the first spaces (`isspace`), allows only 1 sign at the start
+ * and considers a string valid if there are only digits after the sign.
+ * @param s string to convert
+ * @return A pointer to the converted number (long),
+ * or `NULL` in case of bad input/allocation failure.
+ */
+long		*strict_atol(char *s);
 
 #endif

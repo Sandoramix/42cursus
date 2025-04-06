@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:07:41 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/28 18:18:53 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:19:37 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ size_t	pf_handle_flag_start(int fd, t_pfflag flag)
 			&& (flag.wminus || (flag.width - flag.reslen <= flag.prec
 					&& (flag.width != 0 || flag.type == PF_INT)))))
 		s = str_pad(s, ' ', str_ulen(s) + 1, true);
-	len = ft_putstr_fd(s, fd);
-	free(s);
-	return (len);
+	len = 0;
+	if (s)
+		len = ft_putstr_fd(s, fd);
+	return (free(s), len);
 }
 
 size_t	pf_handle_flag_end(int fd, t_pfflag flag)
@@ -49,7 +50,9 @@ size_t	pf_handle_flag_end(int fd, t_pfflag flag)
 	s = NULL;
 	if (flag.wminus)
 		s = str_pad(s, ' ', flag.width - flag.reslen - flag.llen, false);
-	len = ft_putstr_fd(s, fd);
+	len = 0;
+	if (s)
+		len = ft_putstr_fd(s, fd);
 	free(s);
 	return (len);
 }

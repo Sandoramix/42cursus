@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 09:35:04 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/10 16:18:46 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/06/15 09:28:50 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ int			file_open(char *path, mode_t mode);
  * @param n size of `fds`
  * @return number of files closed
  */
-int			file_close(int fds[], int n);
+int			files_close(int fds[], int n);
+/**
+ * @brief Close safely the given fd `only` if it's opened.
+ * @attention Uses `fstat`
+ * @param fd file to close.
+ */
+void		file_close(int fd);
 /**
  * @brief Generate (with malloc) the first available name for a file
  * that has `perms` permissions.

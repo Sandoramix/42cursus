@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:39:55 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/02 10:31:31 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/06/26 09:23:19 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,23 @@ bool	file_isdir(char *path)
 
 bool	file_exists(char *path)
 {
-	return (!file_isdir(path) && access(path, F_OK) == 0);
+	const bool	isdir = file_isdir(path);
+	const int	access_check = access(path, F_OK);
+
+	return (!isdir && access_check == 0);
 }
 
-int	file_close(int fds[], int n)
+void	file_close(int fd)
+{
+	struct stat	buffer;
+	int			state;
+
+	state = fstat(fd, &buffer);
+	if (state == 0)
+		close(fd);
+}
+
+int	files_close(int fds[], int n)
 {
 	int			res;
 	int			i;
@@ -47,5 +60,5 @@ int	file_close(int fds[], int n)
 
 bool	file_hasperm(char *path, mode_t perms)
 {
-	return (!file_isdir(path) && !access(path, perms));
+	return (!file_isdir(path) && !access(path, F_OK | perms));
 }

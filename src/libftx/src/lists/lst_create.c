@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 22:13:29 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/28 18:18:53 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:39:01 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ t_list	*lst_addnode_tail(t_list **head, t_list *node)
 
 	if (!head || !*head || *head == node)
 		return (lst_addnode_head(head, node));
+	if (!*head)
+	{
+		*head = node;
+		return (node);
+	}
 	tail = lst_gettail(*head);
-	if ((*head)->prev == tail)
-		(*head)->prev = node;
 	node->prev = tail;
-	node->next = tail->next;
 	tail->next = node;
 	return (*head);
 }

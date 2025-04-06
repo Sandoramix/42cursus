@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 23:58:26 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/28 18:18:53 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:19:45 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	*lst_printint(t_list *head)
 
 	i = -1;
 	if (!head)
-		return (ft_printf(COLOR_YELLOW"NULL\n"CR), NULL);
+		return (ft_printf(CYELLOW"NULL\n"CR), NULL);
 	node = head;
 	while (node)
 	{
-		ft_printf(COLOR_CYAN"[%d]:\t", ++i);
+		ft_printf(CCYAN"[%d]:\t", ++i);
 		if (node->key)
 			ft_printf("{%d} ->\t", *((int *)node->key));
 		if (node->val)
@@ -46,11 +46,11 @@ void	*lst_printstr(t_list *head)
 
 	i = -1;
 	if (!head)
-		return (ft_printf(COLOR_YELLOW"NULL\n"CR), NULL);
+		return (ft_printf(CYELLOW"NULL\n"CR), NULL);
 	node = head;
 	while (node)
 	{
-		ft_printf(COLOR_CYAN"[%d]:\t", ++i);
+		ft_printf(CCYAN"[%d]:\t", ++i);
 		if (node->key)
 			ft_printf("{%s} ->", (char *)node->key);
 		if (node->val)

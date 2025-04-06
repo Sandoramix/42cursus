@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 14:38:43 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/13 11:32:56 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/06/26 23:41:04 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,41 @@
  * @return
  */
 int				int_imin(int n1, int n2);
-// TODO ADD DOCS
+/**
+ * TODO docs
+ */
 void			*int_freemtx(int **mtx, int rows);
-
+/**
+ * TODO docs
+ */
 int				*intarr_push(t_intarr *data, int val);
+/**
+ * TODO docs
+ */
 int				**intmtx_push(t_intmtx *data, int *val);
-
+/**
+ * TODO docs
+ */
 int				*intarr_insert(t_intarr *data, int val, int idx);
+/**
+ * TODO docs
+ */
 int				**intmtx_insert(t_intmtx *data, int *val, int idx);
-
+/**
+ * TODO docs
+ */
 int				intmtx_idxof(t_intmtx data, int *val);
+/**
+ * TODO docs
+ */
 int				intarr_idxof(t_intarr data, int val);
-
+/**
+ * TODO docs
+ */
 void			*intarr_clear(t_intarr data);
+/**
+ * TODO docs
+ */
 void			*intmtx_clear(t_intmtx data);
 //!-------------------------INTEGERS----------------------------
 
@@ -55,5 +77,8 @@ void			intp_printarr(t_intmtx data);
  * @return the `min` if `find_min` is `true`, `max` otherwise.
  */
 int				ft_int_minmax_idx(t_intarr data, bool find_min);
+/**
+ * TODO docs
+ */
 int				ft_intcmp(int n1, int n2);
 #endif

@@ -6,15 +6,16 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 17:04:19 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/29 08:37:04 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/06/26 23:09:57 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include <libft.h>
-
 # define PF_ARGS_WHITELIST " .+-#0123456789"
+
+// TODO ft_printf v2
 
 typedef enum e_pftype
 {
@@ -113,5 +114,13 @@ size_t		pf_handle_flag_start(int fd, t_pfflag flag);
  * @return Total printed chars.
  */
 int			pf_errcode(t_errorcode code);
-
+/**
+ * @brief Printf only if `DEBUG` macro is set to `true`
+ * Works well with: `-`-`-`-`+`-`#`-`.`
+ * @attention It can use `malloc` if you use formatting
+ * @param str Format
+ * @param ... All necessary args
+ * @return Total printed chars or -1 if `DEBUG` is set to `false`.
+ */
+int			dbg_printf(const char *str, ...);
 #endif

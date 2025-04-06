@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:44:16 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/04 00:12:57 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:54:36 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	*str_freemtx_from(char **mtx, int start)
 	int		i;
 
 	i = start - 1;
-	if (start < 0 || start >= ft_memmtxlen(mtx))
+	if (start < 0 || start >= str_mtxlen(mtx))
 		i = -1;
 	while (mtx && mtx[++i])
 	{

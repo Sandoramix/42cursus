@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 19:43:58 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/28 18:18:53 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:30:29 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*str_pushchar(char *s, char c)
 	s_len = str_ulen(s);
 	res = ft_calloc(s_len + 2, sizeof(char));
 	if (!res)
-		return (NULL);
+		return (free(s), NULL);
 	str_lcat(res, s, s_len + 2);
 	res[s_len] = (char) c;
 	free(s);

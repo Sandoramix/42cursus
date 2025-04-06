@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 00:16:48 by odudniak          #+#    #+#             */
-/*   Updated: 2024/03/02 11:17:47 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/05/27 21:58:16 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static size_t	count_char(const char *s, char chr)
 	return (res);
 }
 
-char	**str_split(char const *s, char c)
+char	**str_split(char *s, char c)
 {
 	char	**res;
 	size_t	arr_len;
@@ -53,7 +53,7 @@ char	**str_split(char const *s, char c)
 		if (is_delim(s[i], c) && !is_delim(s[i + 1], c))
 			start = i + 1;
 		if (!is_delim(s[i], c) && is_delim(s[i + 1], c))
-			res[idx++] = str_substr(s, start, i + 1 - start);
+			res[idx++] = str_lensubstr(s, start, i + 1 - start);
 		if (idx > 0 && !res[idx - 1])
 			return (ft_freemtx((void **)res, idx));
 		i++;
@@ -61,7 +61,7 @@ char	**str_split(char const *s, char c)
 	return (res);
 }
 
-char	**str_split_first(char const *s, char c)
+char	**str_split_first(char *s, char c)
 {
 	char	**res;
 	int		idx;
@@ -72,10 +72,30 @@ char	**str_split_first(char const *s, char c)
 		return (NULL);
 	if (idx != -1)
 	{
-		res[0] = str_substr(s, 0, idx);
-		res[1] = str_substr(s, idx + 1, str_ulen(s) - idx + 1);
+		res[0] = str_lensubstr(s, 0, idx);
+		res[1] = str_lensubstr(s, idx + 1, str_ulen(s) - idx + 1);
 	}
 	else
 		res[0] = str_dup(s);
+	return (res);
+}
+
+char	**str_split_firststr(char *str, char *s)
+{
+	char	**res;
+	int		idx;
+
+	idx = str_idxofstr(str, s);
+	res = ft_calloc(3, sizeof(char *));
+	if (!res)
+		return (NULL);
+	if (idx != -1)
+	{
+		res[0] = str_lensubstr(str, 0, idx);
+		res[1] = str_lensubstr(str, idx + str_ilen(s),
+				str_ulen(str) - (idx + str_ilen(s)) + 1);
+	}
+	else
+		res[0] = str_dup(str);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 14:17:53 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/09 15:59:55 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:12:03 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
+# endif
+
+# ifndef GNL_MAX_FD_COUNT
+#  define GNL_MAX_FD_COUNT 1024
 # endif
 
 /**
@@ -37,25 +41,5 @@ char	*get_next_line(int fd, bool keep_nl);
  * (last element is `NULL`)
  */
 char	**ft_readfile(int fd, bool keep_nl);
-//? ****************************UTILS*****************************************
-
-/**
- * @brief Concatenate two strings and `free` the first one.
- * @attention Uses: `malloc` & `free`
- * @param s1 First string which will be freed after the copy.
- * @param s2 Second string
- * @param s2_n Number of characters to copy from `s2`
- * @return Concatenation of both strings, or `NULL` on allocation
- * failure.
- */
-char	*my_strjoin(char *s1, char *s2, size_t s2_n);
-/**
- * @brief Create a substring of string `s` from `start` to `end` (included)
- * @param s Main string
- * @param start Start index
- * @param end End index (included)
- * @return Result of the string or `NULL` if length of `s` is zero.
- */
-char	*my_substr(char *s, size_t start, size_t end);
 
 #endif

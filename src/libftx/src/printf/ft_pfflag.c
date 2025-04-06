@@ -6,7 +6,7 @@
 /*   By: odudniak <odudniak@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:00:18 by odudniak          #+#    #+#             */
-/*   Updated: 2024/02/28 18:18:53 by odudniak         ###   ########.fr       */
+/*   Updated: 2024/05/27 21:24:13 by odudniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static t_pfflag	pf_parseflag(t_pfflag flag)
 	flag.wminus = !!str_chr(flag.flag, '-');
 	flag.wplus = !!str_chr(flag.flag, '+');
 	flag.wspaces = !!str_chr(flag.flag, ' ') && !flag.wplus;
-	flag.isupper = ft_ctolower(flag.flag[rawlen - 1]) != flag.flag[rawlen - 1];
+	flag.isupper = chr_tolower(flag.flag[rawlen - 1]) != flag.flag[rawlen - 1];
 	flag.zero = false;
 	if (str_chr(flag.flag, '#'))
 		flag.convert = true;
 	d_i = str_ilen(flag.flag) - 2;
-	while (d_i > 0 && (ft_isdigit(flag.flag[d_i]) || flag.flag[d_i] == '.'))
+	while (d_i > 0 && (chr_isdigit(flag.flag[d_i]) || flag.flag[d_i] == '.'))
 		d_i--;
 	flag.width = ft_atoi(flag.flag + d_i + 1);
 	if (str_chr(flag.flag, '.'))
@@ -38,7 +38,7 @@ static t_pfflag	pf_parseflag(t_pfflag flag)
 	flag.wprec = flag.prec != -1;
 	if (str_chr(flag.flag, '0'))
 		flag.wzeros = !flag.wprec
-			&& !ft_isdigit(*(str_chr(flag.flag, '0') - 1));
+			&& !chr_isdigit(*(str_chr(flag.flag, '0') - 1));
 	return (flag);
 }
 
@@ -67,11 +67,11 @@ t_pfflag	pf_getflag(char *str, int start, int end)
 {
 	t_pfflag	flag;
 
+	flag = (t_pfflag){0};
 	flag.simple = end - 1 == start;
 	flag._str = str;
 	flag._start = start;
 	flag._end = end;
-	flag.type = PF_UNKNOWN;
 	if (str_chr("di", str[end]))
 		flag.type = PF_INT;
 	else if (str[end] == 'p')
@@ -88,6 +88,6 @@ t_pfflag	pf_getflag(char *str, int start, int end)
 		flag.type = (PF_STR);
 	if (flag.simple)
 		return (pf_fillempty(flag));
-	flag.flag = str_substr(str, start, end - start + 1);
+	flag.flag = str_lensubstr(str, start, end - start + 1);
 	return (pf_parseflag(flag));
 }

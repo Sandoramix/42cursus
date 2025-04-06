@@ -29,3 +29,20 @@ int	ft_putstrmtx(char **mtx)
 	}
 	return (i);
 }
+
+int	ft_putstrmtxcub(char ***mtxcub)
+{
+	int	i;
+
+	i = 0;
+	while (mtxcub && mtxcub[i])
+	{
+		ft_putstr_fd("mtxcub[", 1);
+		ft_putnbr_fd(i, 1);
+		ft_putstr_fd("]:\n", 1);
+		ft_putstrmtx(mtxcub[i]);
+		ft_putstr_fd("\n", 1);
+		i++;
+	}
+	return (i);
+}

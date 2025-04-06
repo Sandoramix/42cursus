@@ -53,6 +53,7 @@ int			ft_putnbr_fd(long long n, int fd);
  * @return int number of rows printed.
  */
 int			ft_putstrmtx(char **mtx);
+int			ft_putstrmtxcub(char ***mtxcub);
 /**
  * @brief Print address of a given pointer to `fd`
  *
