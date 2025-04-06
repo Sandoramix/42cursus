@@ -38,27 +38,27 @@ int	parse_heredoc(char *filename, char *eof)
 	return (file_open(filename, O_RDONLY));
 }
 
-t_status	px_load_inout(t_pipex *data)
+t_state	px_load_inout(t_pipex *data)
 {
 	char		*f;
 
 	if (data->isbonus && data->isheredoc)
 	{
 		if (data->_main.ac < 6)
-			return (pf_errcode(ERR_INVALID_ARGC), px_exit(data, KO));
+			return (pf_errcode(E_INVALID_ARGC), px_exit(data, 1));
 		data->inputpath = file_gen_name(FILE_HEREDOC, W_OK | R_OK);
 		data->input_fd = parse_heredoc(data->inputpath, data->_main.av[2]);
 	}
 	else
 		data->input_fd = file_open(data->_main.av[1], O_RDONLY);
 	if (data->input_fd == -1)
-		return (px_exit(data, KO));
+		return (px_exit(data, 1));
 	f = data->_main.av[data->_main.ac -1];
 	if (data->isheredoc && data->isbonus)
 		data->output_fd = file_open_or_create(f, O_APPEND | O_WRONLY);
 	else
 		data->output_fd = file_open_or_create(f, O_TRUNC | O_WRONLY);
 	if (data->output_fd == -1)
-		return (px_exit(data, KO));
+		return (px_exit(data, 1));
 	return (OK);
 }

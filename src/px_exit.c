@@ -14,14 +14,13 @@
 
 int	px_cleanup(t_pipex *data)
 {
-	ft_freemtx(data->paths, ft_memmtxlen(data->paths));
+	str_freemtx(data->paths);
 	if (data->inputpath && data->isheredoc && data->isbonus)
 		unlink(data->inputpath);
-	file_close((int [2]){data->input_fd, data->output_fd}, 2);
+	files_close((int [2]){data->input_fd, data->output_fd}, 2);
 	free(data->inputpath);
 	lst_free(&data->env, free);
-	lst_free(&data->cmds, free);
-	ft_freemtx_cubes(data->cmds_args, data->totcmds);
+	str_freemtx_cube(data->cmds);
 	return (OK);
 }
 

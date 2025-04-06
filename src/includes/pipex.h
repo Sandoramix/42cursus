@@ -33,8 +33,7 @@ typedef struct s_pipex
 	t_list		*env;
 
 	int			totcmds;
-	char		***cmds_args;
-	t_list		*cmds;
+	char		***cmds;
 
 	pid_t		childpid[2];
 	int			fdpipes[2][2];
@@ -60,7 +59,7 @@ int				parse_heredoc(char *filename, char *eof);
  * @param data program's data.
  * @return `OK` if everything is ok, `KO` if not.
  */
-t_status		px_load_inout(t_pipex *data);
+t_state		px_load_inout(t_pipex *data);
 /**
  * @brief Clear everything and gtfo.
  * @param data program's data
@@ -74,8 +73,8 @@ void			px_makechilds(t_pipex *data);
 
 // UTILS
 void			px_redirect(t_pipex *data, int idx);
-t_status		px_load_cmds(t_pipex *data);
-t_status		px_close(t_pipex *data, int fd);
-t_status		px_pipe(t_pipex *data, int pipes[2]);
-t_status		px_dup2(t_pipex *data, int fd1, int fd2);
+t_state		px_load_cmds(t_pipex *data);
+t_state		px_close(t_pipex *data, int fd);
+t_state		px_pipe(t_pipex *data, int pipes[2]);
+t_state		px_dup2(t_pipex *data, int fd1, int fd2);
 #endif

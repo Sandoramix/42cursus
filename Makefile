@@ -11,9 +11,15 @@ ROOTDIR = ./src
 LIBFTX_DIR = $(ROOTDIR)/libftx
 
 # COMPILATION SETTINGS
+DEBUG_VALUE=0
+debug: DEBUG_VALUE=1
+re-debug: DEBUG_VALUE=1
+re-bonus-debug: DEBUG_VALUE=1
+bonus-debug: DEBUG_VALUE=1
+
 CC = cc
 INCLUDES = -I$(ROOTDIR)/includes -I$(LIBFTX_DIR)/includes
-CFLAGS = -Wall -Wextra -Werror $(INCLUDES) $(DEBUGFLAGS)
+CFLAGS = -Wall -Wextra -Werror $(INCLUDES) -DDEBUG$(DEBUG_VALUE) -g
 
 # UTILS COMMANDS
 RM = rm -rf
@@ -31,22 +37,24 @@ SRC_BONUS = $(SRC) ./main_bonus.c
 
 # ----RULES-----
 all: $(NAME)
+debug: $(NAME)
 
 $(NAME): $(SRC_MANDATORY)
-	$(MAKE) -C $(LIBFTX_DIR) DEBUGFLAGS=$(DEBUGFLAGS)
+	$(MAKE) -C $(LIBFTX_DIR) DEBUG_VALUE=$(DEBUG_VALUE)
 	$(CC) $(CFLAGS) $(SRC_MANDATORY) -o $(_MANDATORY) -L$(LIBFTX_DIR) -lft
 
 	@echo "$(GREEN)[$(PNAME)]:\tPROGRAM CREATED$(R)"
-	[ -z "$(strip $(DEBUGFLAGS))" ] || echo "$(RED)[$(PNAME)]:\tDEBUG MODE ENABLED$(R)"
+	[ "$(strip $(DEBUG_VALUE))" = "0" ] || echo "$(RED)[$(PNAME)]:\tDEBUG MODE ENABLED$(R)"
 
 bonus: $(_BONUS)
+bonus-debug: $(_BONUS)
 
 $(_BONUS): $(SRC_BONUS)
-	$(MAKE) -C $(LIBFTX_DIR) DEBUGFLAGS=$(DEBUGFLAGS)
+	$(MAKE) -C $(LIBFTX_DIR) DEBUG_VALUE=$(DEBUG_VALUE)
 	$(CC) $(CFLAGS) $(SRC_BONUS) -o $(_BONUS) -L$(LIBFTX_DIR) -lft
 
 	@echo "$(GREEN)[$(PBONUSNAME)]:\tPROGRAM CREATED:\t$(RED)BONUS!$(R)"
-	[ -z "$(strip $(DEBUGFLAGS))" ] || echo "$(RED)[$(PNAME)]:\tDEBUG MODE ENABLED$(R)"
+	[ "$(strip $(DEBUG_VALUE))" = "0" ] || echo "$(RED)[$(PNAME)]:\tDEBUG MODE ENABLED$(R)"
 
 
 clean:
@@ -60,15 +68,11 @@ fclean: clean
 	@echo "$(BLUE)[$(PNAME)]:\tPROGRAM DELETED$(R)"
 
 re: fclean all
-bonus-re: fclean bonus
+re-bonus: fclean bonus
+re-debug: fclean debug
+re-bonus-debug: fclean bonus-debug
 
 # ----UTILS-----
-debug:
-	$(MAKE) DEBUGFLAGS=-g
-debug-bonus:
-	$(MAKE) bonus DEBUGFLAGS=-g
-
-re-debug: fclean debug
 ARG=""
 valgrind: all
 	@$(VALGRIND) ./$(NAME) $(ARG)
