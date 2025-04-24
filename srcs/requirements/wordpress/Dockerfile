@@ -33,6 +33,7 @@ RUN apk add --no-cache curl \
     php${PHP_VER}-session
 
 RUN sed -i 's/^listen = .*/listen = 9000/' /etc/php${PHP_VER}/php-fpm.d/www.conf
+RUN sed -i 's/^memory_limit.*/memory_limit = 4096M/' /etc/php81/php.ini
 
 RUN mkdir -p /var/www/html
 RUN chown -R nobody:nogroup /var/www/html
