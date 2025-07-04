@@ -12,7 +12,16 @@ C_CONTROL_KEYWORDS = {
 
 def is_excluded(path: str, exclude_list: List[str]) -> bool:
     """Check if path contains any substring from exclude_list."""
-    return any(excl in path for excl in exclude_list)
+    norm_path = os.path.normpath(path)
+    for excl in exclude_list:
+        norm_excl = os.path.normpath(excl)
+        # If excluded is a directory prefix of path
+        if os.path.commonpath([norm_path, norm_excl]) == norm_excl:
+            return True
+        # Or exact file match
+        if norm_path == norm_excl:
+            return True
+    return False
 
 
 def find_c_files(root: str, exclude: List[str]) -> List[str]:
@@ -49,16 +58,15 @@ def extract_prototypes(content: str, include_static: bool) -> List[Tuple[str, st
     """
     pattern = re.compile(
         r'''
-        ^\s*                      # start of line, optional spaces
-        (static\s+)?              # optional 'static' keyword
-        ([\w\s\*\d_]+?)           # return type (non-greedy)
-        \s+([\*\w]+)\s*           # function name (including pointer stars)
-        \(
-            (.*?)                 # non-greedy match of function arguments
-        \)
-        \s*\{                     # opening brace of function body
+        \s*                          # optional leading whitespace
+        (static)?                      # optional 'static'
+        \s*
+        ([\w\s\*]+?)                      # return type (non-greedy)
+        \s+([\*\w]+)                      # function name (can start with *)
+        \s*\(([^)]*)\)                    # argument list (no nested parentheses)
+        \s*\{                             # opening brace of function body
         ''',
-        re.MULTILINE | re.DOTALL | re.VERBOSE
+        re.DOTALL | re.VERBOSE
     )
 
     prototypes = []
@@ -136,7 +144,9 @@ def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bo
         entries.append((full_ret, full_name, args.strip()))
 
     # Filter out entries missing function name
+
     filtered = [e for e in entries if e[1]]
+
 
     if not filtered:
         return "\n".join(e[0] for e in entries)
@@ -153,8 +163,8 @@ def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bo
 def main():
     parser = argparse.ArgumentParser(description="Extract C function prototypes.")
     parser.add_argument("path", nargs="?", default=".", help="Root directory to scan for .c files.")
-    parser.add_argument("-e", "--exclude", nargs='*', default=[], help="Files or directories to exclude.")
-    parser.add_argument("-s", "--include-static", action="store_true", help="Include static functions.")
+    parser.add_argument("-e", "--exclude", action="append", default=[], help="Files or directories to exclude. Can be specified multiple times.")
+    parser.add_argument("-s", "--include-static", default=False, action="store_true", help="Include static functions.")
     parser.add_argument("-o", "--save", metavar="FILE", help="File to save the output.")
     parser.add_argument("-n", "--no-indent", action="store_true", help="Disable indentation of function names.")
     args = parser.parse_args()
