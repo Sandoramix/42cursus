@@ -126,7 +126,7 @@ def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bo
         return "\n".join(unique_protos[name] for name in sorted(unique_protos))
 
     entries = []
-    for name in sorted(unique_protos):
+    for name in sorted(unique_prototypes, key=lambda n: n.lstrip('*')):
         proto = unique_protos[name]
         # Regex to extract parts from prototype string for alignment
         match = re.match(
