@@ -172,8 +172,7 @@ def main():
     if args.save:
         with open(args.save, 'w', encoding='utf-8') as f:
             f.write(output)
-    else:
-        print(output)
+    print(output)
 
 
 if __name__ == "__main__":
