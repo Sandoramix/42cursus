@@ -30,16 +30,30 @@ Checked: *`done`*
 
 ---
 
-### Utilities
+## 🚀 Utilities
 
-#### VSCode settings
+### 📁 Useful Scripts
+
+I made some simple but yet powerful scripts to speed up the workflow:
+
+- [`getSrc.py`](./utils/getSrc.py):  
+  🔍 **Auto-Generate Source Lists for Makefiles**  
+  Recursively scans your project directory for `*.c` and `*_bonus.c` files, then writes them into convenient `SRC` and `SRC_BONUS` lists for your Makefile. Supports excluding directories, custom extensions, and output file naming!
+
+- [`proToC.py`](./utils/proToC.py):  
+  🧙 **Prototype-to-Source Magic**  
+  Feed it a header file, and it will generate `.c` files with skeleton implementations for every function prototype found inside!
+
+- [`grabProtos.py`](./utils/grabProtos.py):  
+  🎯 **Extract Function Prototypes**  
+  Scans your C source files and extracts all function prototypes, perfect for creating header files! Supports filtering static functions, excluding directories, and custom formatting.
+
+---
+
+Feel free to check out the scripts in the [`utils`](./utils/) folder for more workflow-boosting tools!
+
+### ⚙️ VSCode Settings
 
 I've rearranged some useful settings for making the user experience a little better on C projects in vscode.
 
 All you need to do is to copy the [`.vscode`](.vscode) folder into your project.
-
-#### Scripts
-I made some simple but yet useful scripts to speed up the workflow:
-
-- [`proToC.py`]("./utils/proToC.py"): convert every prototype inside a header file to it's own `.c` file with it's implemented function
-- [`getSrc.py`]("./utils/getSrc.py"): get all filenames that end with `*_bonus.c` and `*.c` and create the list of `SRC` and `SRC_BONUS` for your Makefile
