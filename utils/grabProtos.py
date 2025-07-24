@@ -9,7 +9,6 @@ C_CONTROL_KEYWORDS = {
     'if', 'for', 'while', 'switch', 'else', 'case', 'do', 'goto', 'return', 'sizeof'
 }
 
-
 def is_excluded(path: str, exclude_list: List[str]) -> bool:
     """Check if path contains any substring from exclude_list."""
     norm_path = os.path.normpath(path)
@@ -74,7 +73,7 @@ def extract_prototypes(content: str, include_static: bool) -> List[Tuple[str, st
         static_kw, ret_type, func_name, args = match.groups()
 
         # Skip control keywords (e.g., 'if', 'for')
-        if func_name in C_CONTROL_KEYWORDS:
+        if func_name in C_CONTROL_KEYWORDS or func_name == 'main':
             continue
         # Skip static functions if not including them
         if static_kw and not include_static:
@@ -92,11 +91,6 @@ def tabs_to_reach_column(current_len, target_col):
     Calculate how many tabs to add to move from current_len to at least target_col.
     Tabs advance to the next multiple of TAB_SIZE.
     """
-    # Find current tab stop
-    current_tab_stop = (current_len // TAB_SIZE) * TAB_SIZE
-    # After a tab, cursor moves to next tab stop
-    next_tab_stop = current_tab_stop + TAB_SIZE
-
     tabs_needed = 0
     pos = current_len
     while pos < target_col:
@@ -114,7 +108,7 @@ def tab_align(text, target_length):
     tabs_needed = tabs_to_reach_column(current_len, target_length)
     return text + ("\t" * tabs_needed)
 
-def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bool) -> str:
+def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bool) -> list[str]:
     """
     Format prototypes for output.
     Align by return type unless no_indent is True.
@@ -123,7 +117,7 @@ def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bo
     unique_protos = {name: proto for name, proto in prototypes}
 
     if no_indent:
-        return "\n".join(unique_protos[name] for name in sorted(unique_protos))
+        return [unique_protos[name] for name in sorted(unique_protos)]
 
     entries = []
     for name in sorted(unique_protos, key=lambda n: n.lstrip('*')):
@@ -149,7 +143,7 @@ def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bo
 
 
     if not filtered:
-        return "\n".join(e[0] for e in entries)
+        return [e[0] for e in entries]
 
     max_len = max(len(ret_type) for ret_type, _, _ in filtered)
     max_tab_col = ((max_len // TAB_SIZE) + 1) * TAB_SIZE
@@ -157,8 +151,37 @@ def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bo
         f"{tab_align(ret, max_tab_col)}{name}({args});"
         for ret, name, args in filtered
     ]
-    return "\n".join(lines)
+    return lines
 
+def group_aligned_prototypes(
+    aligned_prototypes: List[str],
+    all_protos: List[Tuple[str, str]],
+    file_map: dict,
+    group_level: int,
+    root_path: str
+) -> str:
+    """
+    Group already aligned prototypes by file path level and return the formatted string.
+    """
+    grouped = {}
+
+    for (name, _), aligned_proto in zip(all_protos, aligned_prototypes):
+        source_file = file_map.get(name)
+        if not source_file:
+            continue
+        rel_path = os.path.relpath(source_file, root_path)
+        parts = rel_path.split(os.sep)
+        if group_level == 0:
+            group_key = rel_path
+        else:
+            group_key = os.sep.join(parts[:max(1, len(parts) - group_level)])
+        grouped.setdefault(group_key, []).append(aligned_proto)
+
+    output_sections = []
+    for group in sorted(grouped):
+        section = f"// {group}\n" + "\n".join(grouped[group])
+        output_sections.append(section)
+    return "\n\n".join(output_sections)
 
 def main():
     parser = argparse.ArgumentParser(description="Extract C function prototypes.")
@@ -167,17 +190,36 @@ def main():
     parser.add_argument("-s", "--include-static", default=False, action="store_true", help="Include static functions.")
     parser.add_argument("-o", "--save", metavar="FILE", help="File to save the output.")
     parser.add_argument("-n", "--no-indent", action="store_true", help="Disable indentation of function names.")
+    parser.add_argument("-g", "--group", nargs="?", const=0, type=int, help="Group functions by file or directory level. 0 (Default) means by file, higher values are more generic directory grouping.")
     args = parser.parse_args()
 
     all_prototypes = []
+    # map function name -> source file
+    file_map = {}
     c_files = find_c_files(args.path, args.exclude)
 
     for c_file in c_files:
         with open(c_file, 'r', encoding='utf-8', errors='ignore') as f:
             content = clean_content(f.read())
-            all_prototypes.extend(extract_prototypes(content, args.include_static))
+            #rel_path = os.path.relpath(c_file, args.path)
+            prototypes = extract_prototypes(content, args.include_static)
 
-    output = parse_and_format_prototypes(all_prototypes, args.no_indent)
+            for name, proto in prototypes:
+                file_map[name] = c_file
+                all_prototypes.append((name, proto))
+
+    aligned = parse_and_format_prototypes(all_prototypes, args.no_indent)
+
+    if args.group is not None:
+        output = group_aligned_prototypes(
+            aligned_prototypes=aligned,
+            all_protos=all_prototypes,
+            file_map=file_map,
+            group_level=args.group,
+            root_path=args.path
+        )
+    else:
+        output = "\n".join(aligned)
 
     if args.save:
         with open(args.save, 'w', encoding='utf-8') as f:
