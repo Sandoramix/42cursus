@@ -81,7 +81,7 @@ def extract_prototypes(content: str, include_static: bool) -> List[Tuple[str, st
 
         ret_type_clean = re.sub(r'\s+', ' ', ret_type.strip())
         args_clean = re.sub(r'\s+', ' ', args.strip())
-        full_proto = f"{static_kw or ''}{ret_type_clean} {func_name}({args_clean});"
+        full_proto = f"{static_kw + ' ' if static_kw else ''}{ret_type_clean} {func_name}({args_clean});"
         prototypes.append((func_name, full_proto))
 
     return prototypes
