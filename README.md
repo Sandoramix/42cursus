@@ -26,7 +26,7 @@ Checked: *`done`*
 - [x] [cub3d: 120/125](https://github.com/Sandoramix/42-cub3d)
 - [x] [Inception: 100/125](https://github.com/Sandoramix/42cursus/tree/inception)
 - [x] [ft_irc: 115/125](https://github.com/Sandoramix/42-ft_irc)
-- [ ] [ft_transcendence](#)
+- [x] [ft_transcendence](https://github.com/ft0-transcendence/transcendence)
 
 ---
 
