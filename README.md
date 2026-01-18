@@ -1,6 +1,7 @@
 # 42cursus
 
 **Started in: `2023-10-09`**
+**Ended in: `2026-01-17`**
 
 Every cursus' project will have it's own branch.
 
