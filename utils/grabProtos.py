@@ -155,33 +155,44 @@ def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bo
 
 def group_aligned_prototypes(
     aligned_prototypes: List[str],
-    all_protos: List[Tuple[str, str]],
     file_map: dict,
     group_level: int,
     root_path: str
 ) -> str:
     """
-    Group already aligned prototypes by file path level and return the formatted string.
+    Group aligned prototypes by file path level and return the formatted string.
     """
     grouped = {}
 
-    for (name, _), aligned_proto in zip(all_protos, aligned_prototypes):
-        source_file = file_map.get(name)
+    for proto in aligned_prototypes:
+        # Extract function name from formatted prototype
+        match = re.search(r'(\**\w+)\s*\(', proto)
+        if not match:
+            continue
+
+        func_name = match.group(1).lstrip('*')
+        source_file = file_map.get(func_name)
         if not source_file:
             continue
+
         rel_path = os.path.relpath(source_file, root_path)
         parts = rel_path.split(os.sep)
+
         if group_level == 0:
             group_key = rel_path
         else:
+            # remove last N path parts (file counts as 1)
             group_key = os.sep.join(parts[:max(1, len(parts) - group_level)])
-        grouped.setdefault(group_key, []).append(aligned_proto)
+
+        grouped.setdefault(group_key, []).append(proto)
 
     output_sections = []
     for group in sorted(grouped):
         section = f"// {group}\n" + "\n".join(grouped[group])
         output_sections.append(section)
+
     return "\n\n".join(output_sections)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Extract C function prototypes.")
@@ -213,7 +224,6 @@ def main():
     if args.group is not None:
         output = group_aligned_prototypes(
             aligned_prototypes=aligned,
-            all_protos=all_prototypes,
             file_map=file_map,
             group_level=args.group,
             root_path=args.path
