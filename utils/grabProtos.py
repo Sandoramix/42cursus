@@ -9,22 +9,19 @@ C_CONTROL_KEYWORDS = {
     'if', 'for', 'while', 'switch', 'else', 'case', 'do', 'goto', 'return', 'sizeof'
 }
 
+# -------------------------- File Discovery --------------------------
+
 def is_excluded(path: str, exclude_list: List[str]) -> bool:
-    """Check if path contains any substring from exclude_list."""
     norm_path = os.path.normpath(path)
     for excl in exclude_list:
         norm_excl = os.path.normpath(excl)
-        # If excluded is a directory prefix of path
         if os.path.commonpath([norm_path, norm_excl]) == norm_excl:
             return True
-        # Or exact file match
         if norm_path == norm_excl:
             return True
     return False
 
-
 def find_c_files(root: str, exclude: List[str]) -> List[str]:
-    """Recursively find .c files under root, excluding specified paths."""
     c_files = []
     for dirpath, _, filenames in os.walk(root):
         if is_excluded(dirpath, exclude):
@@ -35,35 +32,27 @@ def find_c_files(root: str, exclude: List[str]) -> List[str]:
                 c_files.append(full_path)
     return c_files
 
+# -------------------------- Content Cleaning --------------------------
 
 def clean_content(content: str) -> str:
-    """Strip comments and preprocessor directives, collapse newlines for parsing."""
-    # Remove block comments (/* ... */)
     content = re.sub(r'/\*.*?\*/', '', content, flags=re.DOTALL)
-    # Remove line comments (// ...)
     content = re.sub(r'//.*', '', content)
-    # Remove preprocessor directives (#...)
     content = re.sub(r'^\s*#.*$', '', content, flags=re.MULTILINE)
-    # Flatten multiline headers by replacing newline + spaces with a single space
     content = re.sub(r'\n\s*', ' ', content)
     return content
 
+# -------------------------- Prototype Extraction --------------------------
 
 def extract_prototypes(content: str, include_static: bool) -> List[Tuple[str, str]]:
-    """
-    Extract function prototypes from C source content.
-
-    Returns list of tuples: (function_name, full_prototype_str).
-    """
     pattern = re.compile(
         r'''
         \s*                          # optional leading whitespace
-        (static)?                      # optional 'static'
+        (static)?                     # optional 'static'
         \s*
-        ([\w\s\*]+?)                      # return type (non-greedy)
-        \s+([\*\w]+)                      # function name (can start with *)
-        \s*\(([^)]*)\)                    # argument list (no nested parentheses)
-        \s*\{                             # opening brace of function body
+        ([\w\s\*]+?)                  # return type (non-greedy)
+        \s+([\*\w]+)                  # function name (can start with *)
+        \s*\(([^)]*)\)                # argument list
+        \s*\{                         # opening brace of function body
         ''',
         re.DOTALL | re.VERBOSE
     )
@@ -71,11 +60,8 @@ def extract_prototypes(content: str, include_static: bool) -> List[Tuple[str, st
     prototypes = []
     for match in pattern.finditer(content):
         static_kw, ret_type, func_name, args = match.groups()
-
-        # Skip control keywords (e.g., 'if', 'for')
         if func_name in C_CONTROL_KEYWORDS or func_name == 'main':
             continue
-        # Skip static functions if not including them
         if static_kw and not include_static:
             continue
 
@@ -86,49 +72,37 @@ def extract_prototypes(content: str, include_static: bool) -> List[Tuple[str, st
 
     return prototypes
 
+# -------------------------- Tab Handling --------------------------
+
 def tabs_to_reach_column(current_len, target_col):
-    """
-    Calculate how many tabs to add to move from current_len to at least target_col.
-    Tabs advance to the next multiple of TAB_SIZE.
-    """
     tabs_needed = 0
     pos = current_len
     while pos < target_col:
         tabs_needed += 1
-        # advance pos to next tab stop
         pos = ((pos // TAB_SIZE) + 1) * TAB_SIZE
     return tabs_needed
 
 def tab_align(text, target_length):
-    """
-    Pad 'text' with tabs only so total length reaches or surpasses target_length,
-    assuming tab stops every TAB_SIZE characters.
-    """
     current_len = len(text)
     tabs_needed = tabs_to_reach_column(current_len, target_length)
     return text + ("\t" * tabs_needed)
 
-def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bool) -> list[str]:
-    """
-    Format prototypes for output.
-    Align by return type unless no_indent is True.
-    """
-    # Deduplicate by function name (keep last occurrence)
+# -------------------------- Prototype Formatting --------------------------
+
+def parse_and_format_prototypes(
+    prototypes: List[Tuple[str, str]],
+    no_indent: bool
+) -> list[str]:
     unique_protos = {name: proto for name, proto in prototypes}
-
-    if no_indent:
-        return [unique_protos[name] for name in sorted(unique_protos)]
-
     entries = []
+
     for name in sorted(unique_protos, key=lambda n: n.lstrip('*')):
         proto = unique_protos[name]
-        # Regex to extract parts from prototype string for alignment
         match = re.match(
             r'\s?(static\s+)?(.+?)(\**)?\s*(\w+)\s*\((.*)\);\s?',
             proto.strip()
         )
         if not match:
-            # If no match, fallback to printing as-is with empty name/args
             entries.append((proto, "", ""))
             continue
 
@@ -137,21 +111,23 @@ def parse_and_format_prototypes(prototypes: List[Tuple[str, str]], no_indent: bo
         full_name = f"{stars or ''}{fname}"
         entries.append((full_ret, full_name, args.strip()))
 
-    # Filter out entries missing function name
-
     filtered = [e for e in entries if e[1]]
-
-
     if not filtered:
         return [e[0] for e in entries]
 
+    # Alignment calculation
     max_len = max(len(ret_type) for ret_type, _, _ in filtered)
     max_tab_col = ((max_len // TAB_SIZE) + 1) * TAB_SIZE
-    lines = [
-        f"{tab_align(ret, max_tab_col)}{name}({args});"
-        for ret, name, args in filtered
-    ]
+
+    lines = []
+
+    for ret, name, args in filtered:
+        first_line = f"{tab_align(ret, max_tab_col)}{name}("
+        lines.append(f"{first_line}{args});")
+
     return lines
+
+# -------------------------- Grouping --------------------------
 
 def group_aligned_prototypes(
     aligned_prototypes: List[str],
@@ -160,12 +136,13 @@ def group_aligned_prototypes(
     root_path: str
 ) -> str:
     """
-    Group aligned prototypes by file path level and return the formatted string.
+    Group aligned prototypes by file path level.
+    Always show full path relative to root_path, even if grouping by last folder.
     """
     grouped = {}
+    root_abs = os.path.abspath(root_path)
 
     for proto in aligned_prototypes:
-        # Extract function name from formatted prototype
         match = re.search(r'(\**\w+)\s*\(', proto)
         if not match:
             continue
@@ -175,14 +152,20 @@ def group_aligned_prototypes(
         if not source_file:
             continue
 
-        rel_path = os.path.relpath(source_file, root_path)
-        parts = rel_path.split(os.sep)
+        # Full relative path from root_path
+        rel_path_from_root = os.path.relpath(source_file, root_abs)
+        dir_parts = os.path.dirname(rel_path_from_root).split(os.sep)
 
         if group_level == 0:
-            group_key = rel_path
+            # Group by file
+            group_key = os.path.join(".", rel_path_from_root)
         else:
-            # remove last N path parts (file counts as 1)
-            group_key = os.sep.join(parts[:max(1, len(parts) - group_level)])
+            # Group by last N folders, but show full relative path
+            take = min(len(dir_parts), group_level)
+            # Last N folders for grouping
+            last_n_parts = dir_parts[-take:] if take > 0 else []
+            # Full relative path to this file's folder
+            group_key = os.path.join(".", *dir_parts)
 
         grouped.setdefault(group_key, []).append(proto)
 
@@ -193,6 +176,7 @@ def group_aligned_prototypes(
 
     return "\n\n".join(output_sections)
 
+# -------------------------- Main --------------------------
 
 def main():
     parser = argparse.ArgumentParser(description="Extract C function prototypes.")
@@ -201,25 +185,22 @@ def main():
     parser.add_argument("-s", "--include-static", default=False, action="store_true", help="Include static functions.")
     parser.add_argument("-o", "--save", metavar="FILE", help="File to save the output.")
     parser.add_argument("-n", "--no-indent", action="store_true", help="Disable indentation of function names.")
-    parser.add_argument("-g", "--group", nargs="?", const=0, type=int, help="Group functions by file or directory level. 0 (Default) means by file, higher values are more generic directory grouping.")
+    parser.add_argument("-g", "--group", nargs="?", const=0, type=int, help="Group functions by file or directory level.")
     args = parser.parse_args()
 
     all_prototypes = []
-    # map function name -> source file
     file_map = {}
     c_files = find_c_files(args.path, args.exclude)
 
     for c_file in c_files:
         with open(c_file, 'r', encoding='utf-8', errors='ignore') as f:
             content = clean_content(f.read())
-            #rel_path = os.path.relpath(c_file, args.path)
             prototypes = extract_prototypes(content, args.include_static)
-
             for name, proto in prototypes:
                 file_map[name] = c_file
                 all_prototypes.append((name, proto))
 
-    aligned = parse_and_format_prototypes(all_prototypes, args.no_indent)
+    aligned = parse_and_format_prototypes(all_prototypes, args.no_indent,)
 
     if args.group is not None:
         output = group_aligned_prototypes(
@@ -235,7 +216,6 @@ def main():
         with open(args.save, 'w', encoding='utf-8') as f:
             f.write(output)
     print(output)
-
 
 if __name__ == "__main__":
     main()
